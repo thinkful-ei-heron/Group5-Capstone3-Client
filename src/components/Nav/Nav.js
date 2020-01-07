@@ -7,12 +7,14 @@ function Nav() {
   return (
     <nav>
       <Link to={'/list'}>List</Link>
-      {' - '}
+      {' / '}
       <Link to={'/login'}>Log In</Link>
       {' - '}
       <Link to={'/signup'}>Sign Up</Link>
-      {' - '}
+      {' / '}
       <Link to={'/dashboard'}>Dashboard</Link>
+      {' - '}
+      <Link to={'/'}>Log Out</Link>
     </nav>
   );
 }

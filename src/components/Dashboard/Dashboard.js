@@ -5,17 +5,17 @@ function Dashboard() {
   return (
     <section>
       <form>
-        <label>Preview Images:</label>
-        <input type='checkbox' name='previewImg' checked />
+        <label for='previewImg'>Preview Images:</label>
+        <input type='checkbox' name='previewImg' id='previewImg' checked />
         <br />
-        <label>Extra Panel:</label>
-        <input type='checkbox' name='extraPanel' checked />
+        <label for='extraPanel'>Extra Panel:</label>
+        <input type='checkbox' name='extraPanel' id='extraPanel' checked />
         <br />
-        <label>Autosave:</label>
-        <input type='checkbox' name='autosave' />
+        <label for='autosave'>Autosave:</label>
+        <input type='checkbox' name='autosave' id='autosave' />
         <br />
-        <label>Interface Color:</label>
-        <input type='color' name='colorUI' value='#ffffff' />
+        <label for='colorUI'>Interface Color:</label>
+        <input type='color' name='colorUI' id='colorUI' value='#ffffff' />
         <br />
         <input type='submit' value='Save Changes' />
       </form>

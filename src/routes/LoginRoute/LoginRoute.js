@@ -6,6 +6,7 @@ import Login from '../../components/Login/Login';
 function LoginRoute() {
   return (
     <div>
+      <h2>Log In</h2>
       <Login />
     </div>
   );
