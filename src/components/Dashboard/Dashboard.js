@@ -7,12 +7,16 @@ function Dashboard() {
       <form>
         <label>Preview Images:</label>
         <input type='checkbox' name='previewImg' checked />
+        <br />
         <label>Extra Panel:</label>
         <input type='checkbox' name='extraPanel' checked />
+        <br />
         <label>Autosave:</label>
         <input type='checkbox' name='autosave' />
+        <br />
         <label>Interface Color:</label>
         <input type='color' name='colorUI' value='#ffffff' />
+        <br />
         <input type='submit' value='Save Changes' />
       </form>
     </section>
