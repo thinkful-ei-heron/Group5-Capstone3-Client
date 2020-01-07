@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, BrowserRouter } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import './App.css';
 
 import LoginRoute from '../../routes/LoginRoute/LoginRoute';
@@ -8,36 +8,41 @@ import ViewRoute from '../../routes/ViewRoute/ViewRoute';
 import DashboardRoute from '../../routes/DashboardRoute/DashboardRoute';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
-import Nav from '../Nav/Nav';
 
 export default class App extends React.Component {
+  state = {
+
+  }
+
   render() {
     return (
       <div className="App">
         <Header />
-        <Nav />
-        <BrowserRouter>
-          <main>
+        <main>
+          <Switch>
             <Route
               exact
               path={'/'}
-              component={SignupRoute}
-            />
-            <Route
-              path={'/login'}
-              component={LoginRoute}
+              component={ViewRoute}
             />
             <Route
               path={'/list'}
               component={ViewRoute}
             />
             <Route
-              exact
+              path={'/login'}
+              component={LoginRoute}
+            />
+            <Route
+              path={'/signup'}
+              component={SignupRoute}
+            />
+            <Route
               path={'/dashboard'}
               component={DashboardRoute}
             />
-          </main>
-        </BrowserRouter>
+          </Switch>
+        </main>
         <Footer />
       </div>
     );
