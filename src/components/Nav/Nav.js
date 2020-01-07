@@ -6,15 +6,11 @@ import { Link } from 'react-router-dom';
 function Nav() {
   return (
     <nav>
-      <Link to={'/list'}>List</Link>
-      {' / '}
-      <Link to={'/login'}>Log In</Link>
-      {' - '}
-      <Link to={'/signup'}>Sign Up</Link>
-      {' / '}
-      <Link to={'/dashboard'}>Dashboard</Link>
-      {' - '}
-      <Link to={'/'}>Log Out</Link>
+      <Link to={'/list'} className={'btn'}>List</Link>
+      <Link to={'/login'} className={'btn'}>Log In</Link>
+      <Link to={'/signup'} className={'btn'}>Sign Up</Link>
+      <Link to={'/dashboard'} className={'btn'}>Dashboard</Link>
+      <Link to={'/'} className={'btn'}>Log Out</Link>
     </nav>
   );
 }

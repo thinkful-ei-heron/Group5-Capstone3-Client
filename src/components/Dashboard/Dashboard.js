@@ -3,7 +3,7 @@ import './Dashboard.css';
 
 function Dashboard() {
   return (
-    <section>
+    <section className='container'>
       <form>
         <label for='previewImg'>Preview Images:</label>
         <input type='checkbox' name='previewImg' id='previewImg' checked />
@@ -17,7 +17,7 @@ function Dashboard() {
         <label for='colorUI'>Interface Color:</label>
         <input type='color' name='colorUI' id='colorUI' value='#ffffff' />
         <br />
-        <input type='submit' value='Save Changes' />
+        <input type='submit' value='Save Changes' className='btn' />
       </form>
     </section>
   );

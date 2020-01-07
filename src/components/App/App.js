@@ -8,7 +8,6 @@ import ViewRoute from '../../routes/ViewRoute/ViewRoute';
 import DashboardRoute from '../../routes/DashboardRoute/DashboardRoute';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
-import Nav from '../Nav/Nav';
 
 export default class App extends React.Component {
   state = {
@@ -19,7 +18,6 @@ export default class App extends React.Component {
     return (
       <div className="App">
         <Header />
-        <Nav />
         <main>
           <Switch>
             <Route
