@@ -4,7 +4,7 @@ import './Header.css';
 function Header() {
   return (
     <header>
-
+      <h1>Bookmark Organizer</h1>
     </header>
   );
 }
