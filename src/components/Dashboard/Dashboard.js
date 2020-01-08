@@ -6,16 +6,31 @@ function Dashboard() {
     <section className='container'>
       <form>
         <label for='previewImg'>Preview Images:</label>
-        <input type='checkbox' name='previewImg' id='previewImg' checked />
+        <input
+          type='checkbox'
+          name='previewImg' id='previewImg'
+          checked
+        />
         <br />
         <label for='extraPanel'>Extra Panel:</label>
-        <input type='checkbox' name='extraPanel' id='extraPanel' checked />
+        <input
+          type='checkbox'
+          name='extraPanel' id='extraPanel'
+          checked
+        />
         <br />
         <label for='autosave'>Autosave:</label>
-        <input type='checkbox' name='autosave' id='autosave' />
+        <input
+          type='checkbox'
+          name='autosave' id='autosave'
+        />
         <br />
         <label for='colorUI'>Interface Color:</label>
-        <input type='color' name='colorUI' id='colorUI' value='#ffffff' />
+        <input
+          type='color'
+          name='colorUI' id='colorUI'
+          value='#ffffff'
+        />
         <br />
         <input type='submit' value='Save Changes' className='btn' />
       </form>

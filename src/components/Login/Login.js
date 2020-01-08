@@ -6,13 +6,23 @@ function Login() {
     <form className='container'>
       <label for='username'>Username:</label>
       <br />
-      <input type='text' name='username' id='username' autoFocus required />
+      <input
+        type='text'
+        name='username' id='username'
+        required
+        autoFocus
+      />
       <br />
       <label for='password'>Password:</label>
       <br />
-      <input type='password' name='password' id='password' required />
+      <input
+        type='password'
+        name='password' id='password'
+        required
+      />
       <br />
       <input type='submit' value='Submit' className='btn' />
+      <input type='reset' value='Reset' className='btn' />
     </form>
   );
 }
