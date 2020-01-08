@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import './ImportBookmarks.css'
-import 'fs'
 import bmParser from '../../helpers/bookmarks-parser'
 
 
