@@ -1,0 +1,16 @@
+.toolbar {
+	padding: 6px;
+	border-bottom: 1px solid black;
+	display: flex;
+	justify-content: space-evenly;
+}
+
+input, select {
+	margin: 6px 0;
+}
+
+@media only screen and (max-width: 500px) {
+	.toolbar {
+		flex-direction: column;
+	}
+}
