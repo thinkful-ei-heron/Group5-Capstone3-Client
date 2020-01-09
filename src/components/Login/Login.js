@@ -4,7 +4,7 @@ import './Login.css';
 function Login() {
   return (
     <form className='container'>
-      <label for='username'>Username:</label>
+      <label htmlFor='username'>Username:</label>
       <br />
       <input
         type='text'
@@ -13,7 +13,7 @@ function Login() {
         autoFocus
       />
       <br />
-      <label for='password'>Password:</label>
+      <label htmlFor='password'>Password:</label>
       <br />
       <input
         type='password'
