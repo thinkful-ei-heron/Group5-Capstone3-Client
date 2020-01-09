@@ -8,7 +8,7 @@ import ViewRoute from '../../routes/ViewRoute/ViewRoute';
 import DashboardRoute from '../../routes/DashboardRoute/DashboardRoute';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
-import {BookmarkContextProvider} from '../contexts/BookmarkContext'
+import {BookmarkContextProvider} from '../../contexts/BookmarkContext'
 
 export default class App extends React.Component {
   state = {

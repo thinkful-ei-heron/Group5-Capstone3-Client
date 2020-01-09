@@ -6,6 +6,8 @@ export class BookmarkContextProvider extends React.Component {
 	state = {
 		bookmarks: null,
 		error: null,
+		selected1: null,
+		selected2: null,
 	}
 
 	setBookmarks = (bm) => {
