@@ -1,9 +1,12 @@
 import React, { Component } from 'react'
 import './ImportBookmarks.css'
 import bmParser from '../../helpers/bookmarks-parser'
+import BookmarkContext from '../contexts/BookmarkContext'
 
 
 export default class ImportBookmarks extends Component {
+
+	static contextType = BookmarkContext
 
   static defaultProps = {
     storeBookmarks: () => { }
@@ -18,7 +21,15 @@ export default class ImportBookmarks extends Component {
     let reader = new FileReader()
     reader.onload = (ev) => {
       bmParser(reader.result, (err, res) => {
-        return this.setState({ bookmarks: res })
+        if (err) {
+          throw new Error(err)
+        }
+        return this.setState({
+          bookmarks: res,
+          imported: true,
+				}, ()=>{
+					this.context.setBookmarks(res)
+				})
       })
     }
     try {
@@ -40,6 +51,9 @@ export default class ImportBookmarks extends Component {
 
           </fieldset>
         </form>
+				<div>
+					{this.context.bookmarks}
+				</div>
       </div>
     )
   }
