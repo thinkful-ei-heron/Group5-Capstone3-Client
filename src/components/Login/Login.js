@@ -5,7 +5,11 @@ import './Login.css';
 import AuthApiService from '../../services/auth-api-service';
 
 export default class Login extends React.Component {
-  static contextType = UserContext;
+  static defaultProps = {
+    onLoginSuccess: () => { }
+  }
+
+  static contextType = UserContext
 
   state = { error: null }
 
@@ -29,8 +33,12 @@ export default class Login extends React.Component {
   }
 
   render() {
+    const { error } = this.state
     return (
-      <form className='container' onSubmit={ev => this.submitHandler(ev)}>
+      <form className='container' onSubmit={this.submitHandler}>
+        <div role='alert'>
+          {error && <p>{error}</p>}
+        </div>
         <label htmlFor='username'>Username:</label>
         <br />
         <input
