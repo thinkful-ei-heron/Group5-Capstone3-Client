@@ -23,10 +23,11 @@ export default class Toolbar extends React.Component {
         <form className='searchBlock' onChange={this.updateSearch}>
           <input
             type='text'
+            className='searchInput toolbarInput'
             name='search'
             placeholder='Type search...'
           />
-          <select onChange={this.updateSearch}>
+          <select className='toolbarInput' onChange={this.updateSearch}>
             <option value='any'>Any</option>
             <option value='name'>Name</option>
             <option value='url'>URL</option>
@@ -34,7 +35,7 @@ export default class Toolbar extends React.Component {
           </select>
         </form>
         <form className='filterBlock' onChange={this.updateFilter}>
-          <select name='filter' id='filter'>
+          <select className='toolbarInput' name='filter' id='filter'>
             <option value='none'>No filter</option>
             <option value='bookmarks'>Only Bookmarks</option>
             <option value='folders'>Only Folders</option>
