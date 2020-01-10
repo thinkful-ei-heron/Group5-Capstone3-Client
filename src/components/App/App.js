@@ -1,10 +1,6 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import './App.css';
-
-import { BookmarkContextProvider } from '../../contexts/BookmarkContext'
-import { UserProvider } from '../../contexts/UserContext';
-
 import LoginRoute from '../../routes/LoginRoute/LoginRoute';
 import SignupRoute from '../../routes/SignupRoute/SignupRoute';
 import ViewRoute from '../../routes/ViewRoute/ViewRoute';
@@ -30,8 +26,6 @@ export default class App extends React.Component {
 
 
 		return (
-			<BookmarkContextProvider>
-				<UserProvider>
 					<div className="App">
 						<Header />
 						<main>
@@ -61,8 +55,6 @@ export default class App extends React.Component {
 						</main>
 						<Footer />
 					</div>
-				</UserProvider>
-			</BookmarkContextProvider>
 		);
 	}
 }

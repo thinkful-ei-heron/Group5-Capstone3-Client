@@ -4,6 +4,10 @@
   flex-direction: column;
 }
 
+.Tree .expand-button {
+  width: fit-content;
+}
+
 .Tree .Tree-icon {
   height: 40px;
   width: 40px;
