@@ -1,16 +1,36 @@
 .toolbar {
-	padding: 6px;
+	padding: 6px 2px;
 	border-bottom: 1px solid black;
 	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+}
+
+.toolbarRow {
+	display: flex;
+	flex-direction: row;
 	justify-content: space-evenly;
 }
 
 input, select {
-	margin: 6px 0;
+	height: 20px;
+	margin: 3px 2px;
 }
 
-@media only screen and (max-width: 500px) {
+input {
+	width: 150px;
+}
+
+.filterBlock {
+	margin: 3px 0 3px 26px;
+}
+
+.searchBlock, .filterBlock {
+	vertical-align: middle;
+}
+
+@media only screen and (min-width: 500px) {
 	.toolbar {
-		flex-direction: column;
+		flex-direction: row;
 	}
 }

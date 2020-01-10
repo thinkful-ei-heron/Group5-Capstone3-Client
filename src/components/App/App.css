@@ -9,15 +9,15 @@
 }
 
 .btn {
-  font-size: 16px;
-  padding: 6px;
-  margin: 0 4px;
+  font-size: 14px;
+  padding: 4px;
+  margin: 0 2px;
   border: 1px solid black;
   border-radius: 3px;
 }
 
 .btn:hover {
-  box-shadow: 3px 3px black;
+  box-shadow: 2px 2px black;
 }
 
 a {
@@ -35,4 +35,12 @@ input {
   margin: 0 auto;
   padding: 10px;
   max-width: 80%;
+}
+
+@media only screen and (min-width: 500px) {
+	.btn {
+		font-size: 16px;
+  	padding: 6px;
+  	margin: 0 4px;
+  }
 }
