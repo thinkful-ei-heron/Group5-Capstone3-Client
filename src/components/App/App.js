@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import './App.css';
 
+import LandingRoute from '../../routes/LandingRoute/LandingRoute';
 import LoginRoute from '../../routes/LoginRoute/LoginRoute';
 import SignupRoute from '../../routes/SignupRoute/SignupRoute';
 import ViewRoute from '../../routes/ViewRoute/ViewRoute';
@@ -25,7 +26,7 @@ export default class App extends React.Component {
 							<Route
 								exact
 								path={'/'}
-								component={ViewRoute}
+								component={LandingRoute}
 							/>
 							<Route
 								path={'/list'}
