@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import './App.css';
 
-import { BookmarkContextProvider } from '../contexts/BookmarkContext'
+import { BookmarkContextProvider } from '../../contexts/BookmarkContext'
 import { UserProvider } from '../../contexts/UserContext';
 
 import LoginRoute from '../../routes/LoginRoute/LoginRoute';
