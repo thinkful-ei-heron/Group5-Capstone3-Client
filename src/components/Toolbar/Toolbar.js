@@ -13,7 +13,7 @@ export default class Toolbar extends React.Component {
   render() {
     return (
       <div className='toolbar'>
-        <div className='btnBlock'>
+        <div className='btnBlock toolbarRow'>
           <button className='btn'>Save</button>
           <button className='btn'>Save as...</button>
           <button className='btn'>Load...</button>
