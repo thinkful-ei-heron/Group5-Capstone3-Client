@@ -1,0 +1,14 @@
+{
+    "version": 2,
+    "alias": "bookmark-organizer",
+    "name": "bookmark-organizer-client",
+    "routes": [
+        {
+          "handle": "filesystem"
+        },
+        {
+          "src": ".*",
+          "dest": "/index.html"
+        }
+    ]
+  }
