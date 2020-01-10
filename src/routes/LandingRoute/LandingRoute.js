@@ -6,7 +6,7 @@ import LandingPage from '../../components/LandingPage/LandingPage';
 function LandingRoute() {
   return (
     <div>
-      <h2>Welcome</h2>
+      <h2 className='heroText'>Powerful tools for arranging each bookmark exactly as you want</h2>
       <LandingPage />
     </div>
   );
