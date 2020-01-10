@@ -1,0 +1,37 @@
+.Tree {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+}
+
+.Tree .Tree-icon {
+  height: 40px;
+  width: 40px;
+}
+
+.Tree .Tree-info {
+  display: flex;
+  /* flex-direction: row; */
+  font-size: 13px;
+  border: 1px solid black;
+  border-radius: 8px;
+  width: 200px;
+  height: 40px;
+  overflow-x: hidden;
+}
+
+.Tree .Tree-detail {
+  display: flex;
+  flex-direction: column;
+}
+
+.Tree .Tree-title {
+  width: 200px;
+  overflow: hidden;
+}
+
+.Tree .Tree-url {
+  width: 100px;
+  overflow: hidden;
+  color: lightblue;
+}
