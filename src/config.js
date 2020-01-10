@@ -1,4 +1,5 @@
 export default {
-  API_ENDPOINT: '',
-  TOKEN_KEY: 'bookmarks-client-auth-token',
-}
+	API_ENDPOINT: 'http://localhost:8000/api',
+	// API_ENDPOINT: 'heroku',
+	TOKEN_KEY: 'placeholder-token',
+  }
