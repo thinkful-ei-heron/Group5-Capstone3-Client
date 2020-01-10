@@ -19,8 +19,7 @@ export class BookmarkContextProvider extends React.Component {
 
 	render() {
 		const value = {
-			bookmarks: this.state.bookmarks,
-			error: this.state.error,
+			...this.state,
 			setBookmarks: this.setBookmarks,
 
 		}

@@ -26,10 +26,11 @@ export default class ImportBookmarks extends Component {
           throw new Error(err)
         }
         return this.setState({
-          bookmarks: res,
+          bookmarks: res.bookmarks,
+          parser: res.parser,
           imported: true,
 				}, ()=>{
-					this.context.setBookmarks(res)
+					this.context.setBookmarks(res.bookmarks)
 				})
       })
     }
@@ -57,8 +58,8 @@ export default class ImportBookmarks extends Component {
 
 				<div>
 
-            {this.state.bookmarks &&
-            this.state.bookmarks.bookmarks.map((bm, i) => {
+            {this.context.bookmarks &&
+            this.context.bookmarks.map((bm, i) => {
               return (
                 <div>
                   <Tree tree={bm} />

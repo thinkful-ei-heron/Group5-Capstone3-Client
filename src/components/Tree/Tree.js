@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import './Tree.css'
 
 export default class Tree extends Component {
+  state = {
+    expanded: true,
+  }
 
   static defaultProps = {
     tree: null,
@@ -15,6 +18,10 @@ export default class Tree extends Component {
   removeChild() {
 
   }
+
+  handleExpand = (e) => {
+    this.setState({expanded: !this.state.expanded})
+  }
   render() {
     const indent = this.props.level * 10
     return (
@@ -23,8 +30,6 @@ export default class Tree extends Component {
         style={{
           position: "relative", left: `${indent}px`
         }}>
-
-
 
         <div className="Tree-info">
           {this.props.tree.icon &&
@@ -43,20 +48,21 @@ export default class Tree extends Component {
 
         </div>
 
-
-        {this.props.tree.last_modified &&
+        {/* {this.props.tree.last_modified &&
           <span className="Tree-modified">
-            Last_modified: {this.props.tree.last_modified}</span>}
+            Last_modified: {this.props.tree.last_modified}</span>} */}
 
+        {(this.props.tree.type === 'folder') ?
+          <button className="expand-button" onClick={this.handleExpand}>
+            {this.state.expanded ? '-' : '+'}
+          </button>
+          : <span>Type: {this.props.tree.type}</span>}
 
-
-        {this.props.tree.type &&
-          <span>Type: {this.props.tree.type}</span>}
-
-        {this.props.tree.children &&
-          this.props.tree.children.map(node =>
+        {this.props.tree.contents &&
+          this.state.expanded &&
+            this.props.tree.contents.map(node =>
               <Tree tree={node} level={this.props.level + 1}></Tree>
-          )}
+            )}
       </div>
     )
   }
