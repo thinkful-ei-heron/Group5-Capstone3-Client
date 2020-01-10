@@ -53,8 +53,8 @@ export default class Tree extends Component {
         {this.props.tree.type &&
           <span>Type: {this.props.tree.type}</span>}
 
-        {this.props.tree.children &&
-          this.props.tree.children.map(node =>
+        {this.props.tree.contents &&
+          this.props.tree.contents.map(node =>
               <Tree tree={node} level={this.props.level + 1}></Tree>
           )}
       </div>

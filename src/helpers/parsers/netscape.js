@@ -94,13 +94,13 @@ export function parse(html, callback) {
     }
 
     function processDir( dir, level ){
-      var children = dir.childNodes,
+      var contents = dir.childNodes,
           menuRoot = null;
 
       var items = [];
 
-      for( var i = 0; i != children.length; i++ ){
-        var child = children[i];
+      for( var i = 0; i != contents.length; i++ ){
+        var child = contents[i];
         if(!child.tagName) {
           continue;
         }
@@ -115,19 +115,19 @@ export function parse(html, callback) {
             if(!menuRoot) {
               menuRoot = {
                 title: "Menu",
-                children: [],
+                contents: [],
                 ns_root: 'menu'
               };
             }
             if( itemData.type == "folder" && itemData.__dir_dl ){
-              itemData.children = processDir( itemData.__dir_dl, level + 1 );
+              itemData.contents = processDir( itemData.__dir_dl, level + 1 );
               delete itemData.__dir_dl;
             }
-            menuRoot.children.push(itemData);
+            menuRoot.contents.push(itemData);
           }
           else {
             if( itemData.type == "folder" && itemData.__dir_dl ){
-              itemData.children = processDir( itemData.__dir_dl, level + 1 );
+              itemData.contents = processDir( itemData.__dir_dl, level + 1 );
               delete itemData.__dir_dl;
             }
             items.push( itemData );

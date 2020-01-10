@@ -25,7 +25,7 @@ export default class Login extends React.Component {
         username.value = ''
         password.value = ''
         this.context.processLogin(res.authToken)
-        this.context.onLoginSuccess()
+        this.props.onLoginSuccess()
       })
       .catch(res => {
         this.setState({ error: res.error })
