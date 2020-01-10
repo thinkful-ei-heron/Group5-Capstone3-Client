@@ -1,0 +1,43 @@
+.toolbar {
+	padding: 6px 2px;
+	border-bottom: 1px solid black;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+}
+
+.toolbarRow {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-evenly;
+}
+
+.toolbarInput {
+	height: 26px;
+	margin: 0 2px;
+	border: 1px solid black;
+}
+
+.searchInput {
+	width: 150px;
+}
+
+.filterBlock {
+	margin: 3px 0 3px 26px;
+}
+
+.searchBlock, .filterBlock {
+	vertical-align: middle;
+}
+
+@media only screen and (min-width: 500px) {
+	.toolbar {
+		flex-direction: row;
+	}
+}
+
+@media only screen and (max-width: 499px) {
+	.searchBlock {
+		margin: 6px 0 3px;
+	}
+}
