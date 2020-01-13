@@ -6,8 +6,7 @@ import Tree from '../Tree/Tree'
 
 
 export default class ImportBookmarks extends Component {
-
-	static contextType = BookmarkContext
+  static contextType = BookmarkContext
 
   static defaultProps = {
     storeBookmarks: () => { }
@@ -29,9 +28,9 @@ export default class ImportBookmarks extends Component {
           bookmarks: res.bookmarks,
           parser: res.parser,
           imported: true,
-				}, ()=>{
-					this.context.setBookmarks(res.bookmarks)
-				})
+        }, () => {
+          this.context.setBookmarks(res.bookmarks)
+        })
       })
     }
     try {
@@ -48,27 +47,26 @@ export default class ImportBookmarks extends Component {
         {!this.state.imported &&
           <form id="importform" className="ImportForm">
             <fieldset>
-              Upload your bookmarks HTML file
-            <label htmlFor="bookmarkfile">Bookmark File</label>
-              <input type="file" name="bookmarkfile" id="bookmarkfile" onChange={this.handleImport} />
-
+              <label htmlFor="bookmarkfile">Upload your bookmarks HTML file:</label>
+              <input
+                type="file"
+                name="bookmarkfile" id="bookmarkfile"
+                onChange={this.handleImport}
+              />
             </fieldset>
           </form>
         }
-
-				<div>
-
-            {this.context.bookmarks &&
+        <div>
+          {this.context.bookmarks &&
             this.context.bookmarks.map((bm, i) => {
               return (
                 <div>
                   <Tree tree={bm} />
                 </div>
-                )
-
-            })}
-
-				</div>
+              )
+            })
+          }
+        </div>
       </div>
     )
   }

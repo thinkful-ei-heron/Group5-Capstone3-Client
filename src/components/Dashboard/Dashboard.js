@@ -5,34 +5,38 @@ function Dashboard() {
   return (
     <section className='container'>
       <form>
-        <label for='previewImg'>Preview Images:</label>
+        <label htmlFor='previewImg'>Preview Images:</label>
         <input
           type='checkbox'
           name='previewImg' id='previewImg'
           checked
         />
         <br />
-        <label for='extraPanel'>Extra Panel:</label>
+        <label htmlFor='extraPanel'>Extra Panel:</label>
         <input
           type='checkbox'
           name='extraPanel' id='extraPanel'
           checked
         />
         <br />
-        <label for='autosave'>Autosave:</label>
+        <label htmlFor='autosave'>Autosave:</label>
         <input
           type='checkbox'
           name='autosave' id='autosave'
         />
         <br />
-        <label for='colorUI'>Interface Color:</label>
+        <label htmlFor='colorUI'>Interface Color:</label>
         <input
           type='color'
           name='colorUI' id='colorUI'
           value='#ffffff'
         />
         <br />
-        <input type='submit' value='Save Changes' className='btn' />
+        <input
+          type='submit'
+          value='Save Changes'
+          className='btn'
+        />
       </form>
     </section>
   );

@@ -1,13 +1,21 @@
 import React from 'react';
+import BookmarkContext from '../../contexts/BookmarkContext';
+import exportHTML from '../../helpers/exportHTML';
 import './Toolbar.css';
 
 export default class Toolbar extends React.Component {
+  static contextType = BookmarkContext;
+
   updateSearch = () => {
 
   }
 
   updateFilter = () => {
 
+  }
+
+  exportHandler = () => {
+    exportHTML(null)
   }
 
   render() {
@@ -18,7 +26,7 @@ export default class Toolbar extends React.Component {
           <button className='btn'>Save as...</button>
           <button className='btn'>Load...</button>
           <button className='btn'>Import...</button>
-          <button className='btn'>Export...</button>
+          <button className='btn' onClick={() => this.exportHandler()}>Export...</button>
         </div>
         <form className='searchBlock' onChange={this.updateSearch}>
           <input

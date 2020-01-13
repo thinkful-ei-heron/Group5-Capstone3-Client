@@ -7,9 +7,8 @@ import Dashboard from '../../components/Dashboard/Dashboard';
 function DashboardRoute() {
   return (
     <div>
-      <ImportBookmarks />
       <h2>Dashboard</h2>
-
+      <ImportBookmarks />
       <Dashboard />
     </div>
   );

@@ -10,7 +10,6 @@ import DashboardRoute from '../../routes/DashboardRoute/DashboardRoute';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 
-
 export default class App extends React.Component {
 	state = {
 		user: null,
@@ -25,8 +24,6 @@ export default class App extends React.Component {
 	}
 
 	render() {
-
-
 		return (
 					<div className="App">
 						<Header />
