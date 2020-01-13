@@ -21,7 +21,6 @@ class Signup extends React.Component {
       password: password.value,
     })
       .then(user => {
-        name.value = ''
         username.value = ''
         password.value = ''
         this.props.onRegistrationSuccess()
@@ -45,7 +44,7 @@ class Signup extends React.Component {
         <div role='alert'>
           {error && <p>{error}</p>}
         </div>
-        <label for='username'>Choose username:</label>
+        <label htmlFor='username'>Choose username:</label>
         <br />
         <input
           ref={this.firstInput}
@@ -55,11 +54,11 @@ class Signup extends React.Component {
           autoFocus
         />
         <br />
-        <label for='email'>Would you like to give an email?</label>
+        <label htmlFor='email'>Would you like to give an email?</label>
         <br />
         <input type='email' name='email' id='email' />
         <br />
-        <label for='password'>Choose password:</label>
+        <label htmlFor='password'>Choose password:</label>
         <br />
         <input
           type='password'
