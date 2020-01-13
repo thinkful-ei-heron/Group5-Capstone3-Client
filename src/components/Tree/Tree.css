@@ -2,15 +2,18 @@
   text-align: left;
   display: flex;
   flex-direction: column;
+  margin: 4px;
 }
 
 .Tree .expand-button {
   width: fit-content;
+  margin: 3px;
 }
 
 .Tree .Tree-icon {
-  height: 40px;
-  width: 40px;
+  height: 16px;
+  width: 16px;
+  margin-top: 12px;
 }
 
 .Tree .Tree-info {
@@ -19,7 +22,7 @@
   font-size: 13px;
   border: 1px solid black;
   border-radius: 8px;
-  width: 200px;
+  width: 240px;
   height: 40px;
   overflow-x: hidden;
 }
@@ -27,15 +30,18 @@
 .Tree .Tree-detail {
   display: flex;
   flex-direction: column;
+  padding: 4px;
 }
 
 .Tree .Tree-title {
-  width: 200px;
+  width: 215px;
+  height: 20px;
   overflow: hidden;
 }
 
 .Tree .Tree-url {
-  width: 100px;
+  width: 215px;
+  height: 20px;
   overflow: hidden;
   color: lightblue;
 }
