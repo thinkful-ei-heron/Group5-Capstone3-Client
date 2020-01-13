@@ -33,30 +33,38 @@ export default class Tree extends Component {
 
         <div className="Tree-info">
           {this.props.tree.icon &&
-            <img className="Tree-icon" src={this.props.tree.icon} alt="icon"></img>}
-
+            <img
+              className="Tree-icon"
+              src={this.props.tree.icon}
+              alt="icon"
+            />
+          }
           <div className="Tree-detail">
             {this.props.tree.title &&
               <span className="Tree-title">
-                {this.props.tree.title}</span>}
-
+                {this.props.tree.title}</span>
+            }
             {this.props.tree.url &&
-              <a className="Tree-url" href={this.props.tree.url}>
+              <a
+                className="Tree-url"
+                href={this.props.tree.url}
+                target="_blank"
+              >
                 {this.props.tree.url}</a>
             }
           </div>
-
         </div>
 
         {/* {this.props.tree.last_modified &&
           <span className="Tree-modified">
             Last_modified: {this.props.tree.last_modified}</span>} */}
 
-        {(this.props.tree.type === 'folder') ?
+        {(this.props.tree.type === 'folder') &&
           <button className="expand-button" onClick={this.handleExpand}>
             {this.state.expanded ? '-' : '+'}
           </button>
-          : <span>Type: {this.props.tree.type}</span>}
+          // : <span>Type: {this.props.tree.type}</span>
+        }
 
         {this.props.tree.contents &&
           this.state.expanded &&
