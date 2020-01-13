@@ -1,13 +1,32 @@
+function generateChrome(data) {
+	let level = 0;
+	let output = `<!DOCTYPE NETSCAPE-Bookmark-file-1>
+<!-- This is an automatically generated file.
+	It will be read and overwritten.
+	DO NOT EDIT! -->
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
+<TITLE>Bookmarks</TITLE>
+<H1>Bookmarks</H1>
+<DL><p>
+	<DT><H3 ADD_DATE="${data[0].add_date}" LAST_MODIFIED="${data[0].last_modified}" PERSONAL_TOOLBAR_FOLDER="true">Bookmarks Bar</H3>`;
+
+
+
+	return output;
+}
+
 export default function exportHTML(data) {
+	if (!data) return; // todo: error msg
+
 	let outputFile = null;
-	const makeDownloadLink = (data) => {
+	const makeDownloadLink = (file) => {
 		if (outputFile !== null) {
 			window.URL.revokeObjectURL(outputFile);
 		}
-		return window.URL.createObjectURL(data);
+		return window.URL.createObjectURL(file);
 	}
 
-	const msg = '<h1>Hello world!</h1>';
+	const msg = generateChrome(data); // todo: refactor into switch statement for selecting browser format
 	const output = new Blob([msg], { type: 'text/html' });
 	const filename = 'test-export';
 

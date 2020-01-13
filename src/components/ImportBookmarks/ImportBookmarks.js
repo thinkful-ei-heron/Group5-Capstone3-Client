@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
-import './ImportBookmarks.css'
 import bmParser from '../../helpers/bookmarks-parser'
+import exportHTML from '../../helpers/exportHTML';
 import BookmarkContext from '../../contexts/BookmarkContext'
-import Tree from '../Tree/Tree'
+import './ImportBookmarks.css'
 
+import Tree from '../Tree/Tree'
 
 export default class ImportBookmarks extends Component {
   static contextType = BookmarkContext
@@ -14,7 +15,7 @@ export default class ImportBookmarks extends Component {
 
   state = {
     imported: false,
-    bookmarks: null,
+    bookmarks: null
   }
 
   handleImport = (e) => {
@@ -27,9 +28,10 @@ export default class ImportBookmarks extends Component {
         return this.setState({
           bookmarks: res.bookmarks,
           parser: res.parser,
-          imported: true,
+          imported: true
         }, () => {
-          this.context.setBookmarks(res.bookmarks)
+          this.context.setBookmarks(res.bookmarks);
+          console.log(this.state.bookmarks);
         })
       })
     }
@@ -39,6 +41,11 @@ export default class ImportBookmarks extends Component {
       this.setState({ error: 'No valid file' })
       return
     }
+  }
+
+  // will get refactored into context
+  exportHandler = () => {
+    exportHTML(this.context.bookmarks)
   }
 
   render() {
@@ -57,6 +64,7 @@ export default class ImportBookmarks extends Component {
           </form>
         }
         <div>
+          <button className='btn' onClick={() => this.exportHandler()}>Export...</button>
           {this.context.bookmarks &&
             this.context.bookmarks.map((bm, i) => {
               return (
