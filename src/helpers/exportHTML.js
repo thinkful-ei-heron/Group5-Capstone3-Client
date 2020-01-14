@@ -41,15 +41,12 @@ function generateHTML(data, browser) {
 <H1>Bookmarks Menu</H1>
 
 <DL><p>
-` + _parseTree(data[2].contents, 1, browser) +
-`	<DT><H3 ADD_DATE="${data[2].add_date}" LAST_MODIFIED="${data[2].last_modified}" PERSONAL_TOOLBAR_FOLDER="true">Bookmarks Toolbar</H3>
+` + _parseTree(data[2].contents, 1, browser) + `	<DT><H3 ADD_DATE="${data[2].add_date}" LAST_MODIFIED="${data[2].last_modified}" PERSONAL_TOOLBAR_FOLDER="true">Bookmarks Toolbar</H3>
 	<DL><p>
-	`+ _parseTree(data[0].contents, 1, browser) +
-`	</DL><p>
+` + _parseTree(data[0].contents, 2, browser) + `	</DL><p>
 	<DT><H3 ADD_DATE="${data[1].add_date}" LAST_MODIFIED="${data[1].last_modified}" UNFILED_BOOKMARKS_FOLDER="true">Other Bookmarks</H3>
 	<DL><p>
-` + _parseTree(data[1].contents, 2, browser) +
-`	</DL><p>
+` + _parseTree(data[1].contents, 2, browser) + `	</DL><p>
 <DL>`;
 			break;
 		default:
@@ -63,16 +60,14 @@ function generateHTML(data, browser) {
 <DL><p>
 	<DT><H3 ADD_DATE="${data[0].add_date}" LAST_MODIFIED="${data[0].last_modified}" PERSONAL_TOOLBAR_FOLDER="true">Bookmarks Bar</H3>
 	<DL><p>
-` + _parseTree(data[0].contents, 2, browser) +
-`	</DL><p>
-` + _parseTree(data[1].contents, 1, browser) +
-`</DL><p>`;
+` + _parseTree(data[0].contents, 2, browser) + `	</DL><p>
+` + _parseTree(data[1].contents, 1, browser) + `</DL><p>`;
 	}
 
 	return output;
 }
 
-export default function exportHTML(data) {
+export default function exportHTML(data, browser) {
 	if (!data) return; // todo: error msg
 
 	let outputFile = null;
@@ -83,7 +78,7 @@ export default function exportHTML(data) {
 		return window.URL.createObjectURL(file);
 	}
 
-	const msg = generateHTML(data, 'chrome');
+	const msg = generateHTML(data, browser);
 	const output = new Blob([msg], { type: 'text/html' });
 	const filename = 'test-export';
 

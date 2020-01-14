@@ -16,7 +16,8 @@ export default class Toolbar extends React.Component {
 
   // will get refactored into context
   exportHandler = () => {
-    exportHTML(this.context.bookmarks)
+    const browser = document.getElementById('browserSelect').value;
+    exportHTML(this.context.bookmarks, browser)
   }
 
   render() {
@@ -27,9 +28,10 @@ export default class Toolbar extends React.Component {
           <button className='btn'>Save as...</button>
           <button className='btn'>Load...</button>
           <button className='btn'>Import...</button>
-          <button className='btn' onClick={() => this.exportHandler()}>Export...</button>
-          <select className='exportFormat'>
+          <button className='btn' onClick={ev => this.exportHandler(ev)}>Export...</button>
+          <select className='exportFormat' id='browserSelect'>
             <option value='chrome'>Chrome</option>
+            <option value='firefox'>Firefox</option>
           </select>
         </div>
         <form className='searchBlock' onChange={this.updateSearch}>

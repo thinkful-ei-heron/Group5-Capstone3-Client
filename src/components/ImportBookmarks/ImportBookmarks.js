@@ -45,7 +45,8 @@ export default class ImportBookmarks extends Component {
 
   // will get refactored into context
   exportHandler = () => {
-    exportHTML(this.context.bookmarks)
+    const browser = document.getElementById('browserSelect').value;
+    exportHTML(this.context.bookmarks, browser)
   }
 
   render() {
@@ -65,6 +66,10 @@ export default class ImportBookmarks extends Component {
         }
         <div>
           <button className='btn dashExport' onClick={() => this.exportHandler()}>Export...</button>
+          <select className='exportFormat' id='browserSelect'>
+            <option value='chrome'>Chrome</option>
+            <option value='firefox'>Firefox</option>
+          </select>
           {this.context.bookmarks &&
             this.context.bookmarks.map((bm, i) => {
               return (
