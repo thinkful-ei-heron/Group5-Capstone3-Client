@@ -12,7 +12,6 @@ const UserService = {
       body: JSON.stringify(settings),
     })
       .then(res =>
-        console.log('inside PatchUserSettings.then()', res)
         (!res.ok)
           ? res.json().then(e => Promise.reject(e))
           : res.json()

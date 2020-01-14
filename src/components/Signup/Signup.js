@@ -64,7 +64,6 @@ class Signup extends React.Component {
         username.value = ''
         email.value = ''
         password.value = ''
-        console.log('before on registration success');
         this.props.onRegistrationSuccess()
       })
       .catch(res => {

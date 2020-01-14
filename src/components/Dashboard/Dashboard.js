@@ -61,16 +61,23 @@ class Dashboard extends React.Component {
   }
 
   componentDidMount() {
+    this._isMounted = true;
     UserService.getUserSettings()
     .then(settings => {
       settings = settings[0];
-      this.setState({
-        preview: settings.preview===true,
-        extra: settings.extra===true,
-        autosave: settings.autosave===true,
-        color: settings.color
-      })
+      if (this._isMounted){
+        this.setState({
+          preview: settings.preview===true,
+          extra: settings.extra===true,
+          autosave: settings.autosave===true,
+          color: settings.color
+        })
+      }
     })
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   componentDidUpdate(){
