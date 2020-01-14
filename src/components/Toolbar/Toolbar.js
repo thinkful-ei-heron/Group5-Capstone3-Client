@@ -12,7 +12,18 @@ export default class Toolbar extends React.Component {
     PersistApiService.submitList(list);
   };
 
-  loadList = () => {};
+  loadList = () => {
+    PersistApiService.getLists().then(lists => {
+      //temporary for testing functionality before designing UI
+      const choice = window.prompt(`Select a list by ID number. 
+      Available lists: ${lists
+        .map(list => `(${list.id}: ${list.name})`)
+        .join(', ')}.`);
+      PersistApiService.getList(Number(choice)).then(list => {
+        this.context.setBookmarks(list.contents);
+      });
+    });
+  };
 
   updateSearch = () => {};
 
