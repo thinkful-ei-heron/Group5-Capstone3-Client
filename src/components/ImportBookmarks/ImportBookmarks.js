@@ -64,7 +64,7 @@ export default class ImportBookmarks extends Component {
           </form>
         }
         <div>
-          <button className='btn' onClick={() => this.exportHandler()}>Export...</button>
+          <button className='btn dashExport' onClick={() => this.exportHandler()}>Export...</button>
           {this.context.bookmarks &&
             this.context.bookmarks.map((bm, i) => {
               return (
