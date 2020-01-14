@@ -49,6 +49,9 @@ function generateHTML(data, browser) {
 ` + _parseTree(data[1].contents, 2, browser) + `	</DL><p>
 <DL>`;
 			break;
+		case 'safari':
+				// output += 
+			break;
 		default:
 			output += `<!DOCTYPE NETSCAPE-Bookmark-file-1>
 <!-- This is an automatically generated file.

@@ -32,6 +32,7 @@ export default class Toolbar extends React.Component {
           <select className='exportFormat' id='browserSelect'>
             <option value='chrome'>Chrome</option>
             <option value='firefox'>Firefox</option>
+            {/* <option value='safari'>Safari</option> */}
           </select>
         </div>
         <form className='searchBlock' onChange={this.updateSearch}>
