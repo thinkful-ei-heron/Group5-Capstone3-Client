@@ -12,8 +12,7 @@ export class BookmarkContextProvider extends React.Component {
 
 	setBookmarks = (bm) => {
 		this.setState({
-			...this.state,
-			bookmarks: bm,
+			bookmarks: bm
 		})
 	}
 
@@ -21,7 +20,6 @@ export class BookmarkContextProvider extends React.Component {
 		const value = {
 			...this.state,
 			setBookmarks: this.setBookmarks,
-
 		}
 		return (
 			<BookmarkContext.Provider value={value}>

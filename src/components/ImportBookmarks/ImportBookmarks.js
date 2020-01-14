@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
-import './ImportBookmarks.css'
 import bmParser from '../../helpers/bookmarks-parser'
+import exportHTML from '../../helpers/exportHTML';
 import BookmarkContext from '../../contexts/BookmarkContext'
+import './ImportBookmarks.css'
+
 import Tree from '../Tree/Tree'
 
-
 export default class ImportBookmarks extends Component {
-
-	static contextType = BookmarkContext
+  static contextType = BookmarkContext
 
   static defaultProps = {
     storeBookmarks: () => { }
@@ -15,7 +15,7 @@ export default class ImportBookmarks extends Component {
 
   state = {
     imported: false,
-    bookmarks: null,
+    bookmarks: null
   }
 
   handleImport = (e) => {
@@ -28,10 +28,11 @@ export default class ImportBookmarks extends Component {
         return this.setState({
           bookmarks: res.bookmarks,
           parser: res.parser,
-          imported: true,
-				}, ()=>{
-					this.context.setBookmarks(res.bookmarks)
-				})
+          imported: true
+        }, () => {
+          this.context.setBookmarks(res.bookmarks);
+          console.log(this.state.bookmarks);
+        })
       })
     }
     try {
@@ -42,33 +43,38 @@ export default class ImportBookmarks extends Component {
     }
   }
 
+  // will get refactored into context
+  exportHandler = () => {
+    exportHTML(this.context.bookmarks)
+  }
+
   render() {
     return (
       <div className="Import">
         {!this.state.imported &&
           <form id="importform" className="ImportForm">
             <fieldset>
-              Upload your bookmarks HTML file
-            <label htmlFor="bookmarkfile">Bookmark File</label>
-              <input type="file" name="bookmarkfile" id="bookmarkfile" onChange={this.handleImport} />
-
+              <label htmlFor="bookmarkfile">Upload your bookmarks HTML file:</label>
+              <input
+                type="file"
+                name="bookmarkfile" id="bookmarkfile"
+                onChange={this.handleImport}
+              />
             </fieldset>
           </form>
         }
-
-				<div>
-
-            {this.context.bookmarks &&
+        <div>
+          <button className='btn dashExport' onClick={() => this.exportHandler()}>Export...</button>
+          {this.context.bookmarks &&
             this.context.bookmarks.map((bm, i) => {
               return (
                 <div>
                   <Tree tree={bm} />
                 </div>
-                )
-
-            })}
-
-				</div>
+              )
+            })
+          }
+        </div>
       </div>
     )
   }
