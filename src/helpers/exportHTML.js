@@ -1,5 +1,19 @@
 function generateChrome(data) {
-	let level = 0;
+	const _parseTree = (data, level) => {
+		const indent = '	'.repeat(level);
+
+		output += data.map(node => {
+			const { add_date, last_modified, title } = node;
+			if (node.type === 'folder') {
+				return `${indent}<DT><H3 ADD_DATE="${add_date}" LAST_MODIFIED="${last_modified}">${title}</H3>
+${indent}<DL><p>
+`;
+			}
+			else return ``;
+		}).join('');
+	}
+
+	const { add_date, last_modified, contents } = data[0];
 	let output = `<!DOCTYPE NETSCAPE-Bookmark-file-1>
 <!-- This is an automatically generated file.
 	It will be read and overwritten.
@@ -8,10 +22,13 @@ function generateChrome(data) {
 <TITLE>Bookmarks</TITLE>
 <H1>Bookmarks</H1>
 <DL><p>
-	<DT><H3 ADD_DATE="${data[0].add_date}" LAST_MODIFIED="${data[0].last_modified}" PERSONAL_TOOLBAR_FOLDER="true">Bookmarks Bar</H3>`;
+	<DT><H3 ADD_DATE="${add_date}" LAST_MODIFIED="${last_modified}" PERSONAL_TOOLBAR_FOLDER="true">Bookmarks Bar</H3>
+	<DL><p>
+`;
 
+	_parseTree(contents, 2);
 
-
+	output += `</DL><p>`;
 	return output;
 }
 
@@ -19,7 +36,7 @@ export default function exportHTML(data) {
 	if (!data) return; // todo: error msg
 
 	let outputFile = null;
-	const makeDownloadLink = (file) => {
+	const _makeDownloadLink = (file) => {
 		if (outputFile !== null) {
 			window.URL.revokeObjectURL(outputFile);
 		}
@@ -32,12 +49,11 @@ export default function exportHTML(data) {
 
 	const download = document.createElement('a');
 	download.download = filename;
-	const link = makeDownloadLink(output);
+	const link = _makeDownloadLink(output);
 
 	if (window.webkitURL != null) download.href = link;
 	else {
 		download.href = link;
-		// download.onClick = document.body.removeChild(event.target)
 		download.style.display = "none";
 		document.body.appendChild(download);
 	}
