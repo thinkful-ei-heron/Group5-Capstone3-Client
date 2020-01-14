@@ -10,6 +10,11 @@ class Dashboard extends React.Component {
 
   state = {
     error: null,
+    preview: false,
+    autosave: false,
+    extra: false,
+    color: '#7F7F7F',
+    submitted: false
   }
 
   handlePreview = ev => {
@@ -36,6 +41,7 @@ class Dashboard extends React.Component {
 
   handleSubmit = ev => {
     ev.preventDefault();
+    this.setState({submitted: true})
     const { previewImg, extraPanel, autosave, colorUI } = ev.target
     UserService.patchUserSettings({
       preview: previewImg.checked,
@@ -44,10 +50,13 @@ class Dashboard extends React.Component {
       color: colorUI.value
     })
       .then(settings => {
+        
         this.props.onPatchSettingsSuccess()
       })
       .catch(res => {
-        this.setState({ error: res.error })
+        this.setState({
+          error: res.error,
+        })
       })
   }
 
@@ -64,7 +73,12 @@ class Dashboard extends React.Component {
     })
   }
 
+  componentDidUpdate(){
+    setTimeout(() => this.setState({submitted: false}), 5000);
+  }
+
   render() {
+    const classes = this.state.submitted ? 'save' : 'save hide'
     return (
       <section className='container'>
         <form onSubmit={this.handleSubmit}>
@@ -72,37 +86,39 @@ class Dashboard extends React.Component {
           <input
             type='checkbox'
             name='previewImg' id='previewImg'
-            onChange={this.handlePreview}
             checked={this.state.preview}
+            onChange={this.handlePreview}
+
           />
           <br />
           <label htmlFor='extraPanel'>Extra Panel:</label>
           <input
             type='checkbox'
             name='extraPanel' id='extraPanel'
-            onChange={this.handleExtra}
             checked={this.state.extra}
+            onChange={this.handleExtra}
           />
           <br />
           <label htmlFor='autosave'>Autosave:</label>
           <input
             type='checkbox'
             name='autosave' id='autosave'
-            onChange={this.handleAutosave}
             checked={this.state.autosave}
+            onChange={this.handleAutosave}
           />
           <br />
           <label htmlFor='colorUI'>Interface Color:</label>
           <input
             type='color'
             name='colorUI' id='colorUI'
-            defaultValue='#ffffff'
-            onChange={this.handleColor}
             value={this.state.color}
+            onChange={this.handleColor}
           />
           <br />
           <input type='submit' value='Save Changes' className='btn' />
         </form>
+        
+        <p className={classes}>Settings saved!</p>
       </section>
     );
   }
