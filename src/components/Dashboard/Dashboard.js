@@ -1,26 +1,49 @@
 import React from 'react';
 import './Dashboard.css';
-import AuthApiService from '../../services/auth-api-service';
+import UserService from '../../services/user-service';
+
 
 class Dashboard extends React.Component {
   static defaultProps = {
     onPatchSettingsSuccess: ()=>{}
   }
 
-  state = {error: null}
+  state = {
+    error: null,
+  }
+
+  handlePreview = ev => {
+    const target = ev.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    this.setState({preview: Boolean(value)})
+  }
+
+  handleExtra = ev => {
+    const target = ev.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    this.setState({extra: Boolean(value)})
+  }
+
+  handleAutosave = ev => {
+    const target = ev.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    this.setState({autosave: Boolean(value)})
+  }
+
+  handleColor = ev => {
+    this.setState({color: ev.target.value})
+  }
 
   handleSubmit = ev => {
     ev.preventDefault();
     const { previewImg, extraPanel, autosave, colorUI } = ev.target
-    console.log(previewImg.checked, extraPanel.checked, autosave.checked, colorUI.value);
-    AuthApiService.patchUserSettings({
+    UserService.patchUserSettings({
       preview: previewImg.checked,
       extra: extraPanel.checked,
       autosave: autosave.checked,
       color: colorUI.value
     })
       .then(settings => {
-        console.log('after authapiservice patch');
         this.props.onPatchSettingsSuccess()
       })
       .catch(res => {
@@ -29,10 +52,19 @@ class Dashboard extends React.Component {
   }
 
   componentDidMount() {
+    UserService.getUserSettings()
+    .then(settings => {
+      settings = settings[0];
+      this.setState({
+        preview: settings.preview===true,
+        extra: settings.extra===true,
+        autosave: settings.autosave===true,
+        color: settings.color
+      })
+    })
   }
 
   render() {
-    const { error } = this.state
     return (
       <section className='container'>
         <form onSubmit={this.handleSubmit}>
@@ -40,20 +72,24 @@ class Dashboard extends React.Component {
           <input
             type='checkbox'
             name='previewImg' id='previewImg'
-            
+            onChange={this.handlePreview}
+            checked={this.state.preview}
           />
           <br />
           <label htmlFor='extraPanel'>Extra Panel:</label>
           <input
             type='checkbox'
             name='extraPanel' id='extraPanel'
-            
+            onChange={this.handleExtra}
+            checked={this.state.extra}
           />
           <br />
           <label htmlFor='autosave'>Autosave:</label>
           <input
             type='checkbox'
             name='autosave' id='autosave'
+            onChange={this.handleAutosave}
+            checked={this.state.autosave}
           />
           <br />
           <label htmlFor='colorUI'>Interface Color:</label>
@@ -61,6 +97,8 @@ class Dashboard extends React.Component {
             type='color'
             name='colorUI' id='colorUI'
             defaultValue='#ffffff'
+            onChange={this.handleColor}
+            value={this.state.color}
           />
           <br />
           <input type='submit' value='Save Changes' className='btn' />
