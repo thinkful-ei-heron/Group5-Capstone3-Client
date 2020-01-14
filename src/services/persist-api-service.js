@@ -21,33 +21,48 @@ const PersistApiService = {
     );
   },
   postList(list) {
+    console.log('postList', list);
+    //TODO the below is a temporary measure:
+    //this outer object should already be in place when list is returned from server
+    //so we should construct it when parsing user input for consistency
+    //but for testing purposes:
+    list = {
+      contents: list,
+      list_id: -1
+    };
+    console.log('contents', list);
     if (list.list_id) {
       return fetch(`${config.API_ENDPOINT}/list/${list.list_id}`, {
         method: 'POST',
         headers: {
-          authorization: `bearer ${TokenService.getAuthToken()}`
+          authorization: `bearer ${TokenService.getAuthToken()}`,
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify(list)
-      }).then(res =>
-        !res.ok
-          ? res.json().then(e => {
-              if (res.status === 404) {
-                //bad list ID, fall back to making a new list
-                delete list.list_id;
-                return this.postList(list);
-              }
-              return Promise.reject(e);
-            })
-          : res.json()
-      );
+      }).then(res => {
+        switch (res.status) {
+          case 404:
+            //bad ID, fall back to making a new list
+            delete list.list_id;
+            return this.postList(list);
+          case 201:
+            return res.headers.location;
+          default:
+            return Promise.reject(res.body ? res.json() : res.status);
+        }
+      });
     } else {
       return fetch(`${config.API_ENDPOINT}/list/`, {
         method: 'POST',
         headers: {
-          authorization: `bearer ${TokenService.getAuthToken()}`
-        }
+          authorization: `bearer ${TokenService.getAuthToken()}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(list)
       }).then(res =>
-        !res.ok ? res.json().then(e => Promise.reject(e)) : res.json()
+        res.status === 201
+          ? res.headers.location
+          : Promise.reject(res.body ? res.json() : res.status)
       );
     }
   },
@@ -73,4 +88,4 @@ const PersistApiService = {
   }
 };
 
-module.exports = PersistApiService;
+export default PersistApiService;
