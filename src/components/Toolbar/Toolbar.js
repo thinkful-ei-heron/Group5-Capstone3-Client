@@ -9,7 +9,7 @@ export default class Toolbar extends React.Component {
   saveList = () => {
     const list = this.context.bookmarks;
     console.log(list);
-    PersistApiService.postList(list);
+    PersistApiService.submitList(list);
   };
 
   loadList = () => {};

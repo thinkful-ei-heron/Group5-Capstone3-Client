@@ -20,7 +20,7 @@ const PersistApiService = {
       !res.ok ? res.json().then(e => Promise.reject(e)) : res.json()
     );
   },
-  postList(list) {
+  submitList(list) {
     console.log('postList', list);
     //TODO the below is a temporary measure:
     //this outer object should already be in place when list is returned from server
@@ -33,7 +33,7 @@ const PersistApiService = {
     console.log('contents', list);
     if (list.list_id) {
       return fetch(`${config.API_ENDPOINT}/list/${list.list_id}`, {
-        method: 'POST',
+        method: 'PUT',
         headers: {
           authorization: `bearer ${TokenService.getAuthToken()}`,
           'Content-Type': 'application/json'
@@ -44,7 +44,7 @@ const PersistApiService = {
           case 404:
             //bad ID, fall back to making a new list
             delete list.list_id;
-            return this.postList(list);
+            return this.submitList(list);
           case 201:
             return res.headers.location;
           default:
