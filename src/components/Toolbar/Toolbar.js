@@ -12,22 +12,13 @@ export default class Toolbar extends Component {
   };
 
   saveList = () => {
-    const list = this.context.bookmarks;
-    console.log(list);
-    PersistApiService.submitList(list);
+    const { bookmarks, listName, listId } = this.context;
+    PersistApiService.submitList(bookmarks, listName, listId).then(res => {
+      this.context.setListId(res.id);
+    });
   };
 
   loadList = () => {
-    // PersistApiService.getLists().then(lists => {
-    //   //temporary for testing functionality before designing UI
-    //   const choice = window.prompt(`Select a list by ID number.
-    //   Available lists: ${lists
-    //     .map(list => `(${list.id}: ${list.name})`)
-    //     .join(', ')}.`);
-    //   PersistApiService.getList(Number(choice)).then(list => {
-    //     this.context.setBookmarks(list.contents);
-    //   });
-    // });
     this.setState({ renderListLoader: true });
   };
 

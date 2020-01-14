@@ -20,19 +20,20 @@ const PersistApiService = {
       !res.ok ? res.json().then(e => Promise.reject(e)) : res.json()
     );
   },
-  submitList(list) {
-    console.log('postList', list);
+  submitList(list, listName = null, listId = null) {
     //TODO the below is a temporary measure:
     //this outer object should already be in place when list is returned from server
     //so we should construct it when parsing user input for consistency
     //but for testing purposes:
-    list = {
-      contents: list,
-      list_id: -1
-    };
-    console.log('contents', list);
-    if (list.list_id) {
-      return fetch(`${config.API_ENDPOINT}/list/${list.list_id}`, {
+    if (Array.isArray(list)) {
+      list = {
+        contents: list,
+        name: listName
+      };
+    }
+    console.log('Submit ', listId);
+    if (listId) {
+      return fetch(`${config.API_ENDPOINT}/list/${listId}`, {
         method: 'PUT',
         headers: {
           authorization: `bearer ${TokenService.getAuthToken()}`,
@@ -43,12 +44,11 @@ const PersistApiService = {
         switch (res.status) {
           case 404:
             //bad ID, fall back to making a new list
-            delete list.list_id;
-            return this.submitList(list);
-          case 201:
-            return res.headers.location;
+            return this.submitList(list, listName);
+          case 204:
+            return { id: listId };
           default:
-            return Promise.reject(res.body ? res.json() : res.status);
+            return res.json().then(e => Promise.reject(e));
         }
       });
     } else {
@@ -61,8 +61,8 @@ const PersistApiService = {
         body: JSON.stringify(list)
       }).then(res =>
         res.status === 201
-          ? res.headers.location
-          : Promise.reject(res.body ? res.json() : res.status)
+          ? res.json()
+          : res.json().then(e => Promise.reject(e))
       );
     }
   },

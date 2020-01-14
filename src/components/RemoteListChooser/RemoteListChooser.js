@@ -28,7 +28,7 @@ export default class RemoteListChooser extends Component {
   }
   getList(id) {
     PersistApiService.getList(id).then(list => {
-      this.context.setBookmarks(list.contents);
+      this.context.setBookmarks(list);
       this.props.done();
     });
   }
