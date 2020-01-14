@@ -1,15 +1,24 @@
-function generateChrome(data) {
+function generateHTML(data, browser) {
 	const _parseTree = (data, level) => {
-		const indent = '	'.repeat(level);
-
 		output += data.map(node => {
-			const { add_date, last_modified, title } = node;
+			console.log(node);
 			if (node.type === 'folder') {
+				const { add_date, last_modified, title, contents } = node;
+				const indent = '	'.repeat(level);
+				const nextNode = _parseTree(contents, level + 1);
+
 				return `${indent}<DT><H3 ADD_DATE="${add_date}" LAST_MODIFIED="${last_modified}">${title}</H3>
 ${indent}<DL><p>
+${nextNode}
+${indent}</DL><p>
 `;
 			}
-			else return ``;
+			else {
+				const { url, add_date, icon, title } = node;
+				const indent = '	'.repeat(level + 1);
+				return `${indent}<DT><A HREF="${url}" ADD_DATE="${add_date}" ICON="${icon}">${title}</A>
+`;
+			}
 		}).join('');
 	}
 
@@ -27,6 +36,7 @@ ${indent}<DL><p>
 `;
 
 	_parseTree(contents, 2);
+	_parseTree(data[1].contents, 0);
 
 	output += `</DL><p>`;
 	return output;
@@ -43,7 +53,7 @@ export default function exportHTML(data) {
 		return window.URL.createObjectURL(file);
 	}
 
-	const msg = generateChrome(data); // todo: refactor into switch statement for selecting browser format
+	const msg = generateHTML(data, 'chrome');
 	const output = new Blob([msg], { type: 'text/html' });
 	const filename = 'test-export';
 
@@ -51,7 +61,7 @@ export default function exportHTML(data) {
 	download.download = filename;
 	const link = _makeDownloadLink(output);
 
-	if (window.webkitURL != null) download.href = link;
+	if (window.webkitURL !== null) download.href = link;
 	else {
 		download.href = link;
 		download.style.display = "none";
