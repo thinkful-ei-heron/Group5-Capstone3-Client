@@ -8,8 +8,9 @@ export default class Tree extends Component {
     this.state = {
       expanded: true,
       uid: (!props.data.uid) ? uuid() : props.data.uid,
-      sortByFunc: null,
-
+      sortByFunc: (props.sortByFunc)? props.sortByFunc: null,
+      path: [...props.path, props.data.title],
+      selected: false,
     }
   }
 
@@ -18,18 +19,15 @@ export default class Tree extends Component {
     // uid: null,
     parentId: null,
     data: null,
+    path: [],
     level: null,
-    onMount: () => { }
+    onMount: () => { },
+    generateTree: () => { }
   }
 
-
-
-  addChild() {
-
-  }
-
-  removeChild() {
-
+  toggleSelect = (e) => {
+    e.preventDefault()
+    this.setState({selected: !this.state.selected})
   }
 
   handleExpand = (e) => {
@@ -43,6 +41,7 @@ export default class Tree extends Component {
     const { parentId, level, order } = this.props
 
     this.props.onMount(uid, parentId, title, url, type, icon, level, order)
+    // this.props.generateTree(this)
   }
   render() {
     const indent = this.props.level * 10
@@ -59,7 +58,7 @@ export default class Tree extends Component {
           position: "relative", left: `${indent}px`
         }}>
 
-        <div className="Tree-info">
+        <div onClick={this.toggleSelect} className={`Tree-info ${this.state.selected && ` selected`}` }>
           {this.props.data.icon &&
             <img
               className="Tree-icon"
@@ -103,7 +102,10 @@ export default class Tree extends Component {
                   level={this.props.level + 1}
                   order={i}
                   parentId={this.state.uid}
+                  path={this.state.path}
                   onMount={this.props.onMount}
+                  sortByFunc={this.props.sortByFunc}
+                  generateTree={this.props.generateTree}
                 />
               )
             }

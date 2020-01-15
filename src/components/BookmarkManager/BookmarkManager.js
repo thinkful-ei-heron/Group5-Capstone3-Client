@@ -21,6 +21,17 @@ export default class BookmarkManager extends Component {
 
   orderedTreeBm = []
 
+  findBm(sourceObj = this.context.bookmarks, path) {
+    if (path.length === 1) {
+      return sourceObj.find(item => item.title === path[0])
+    }
+    if (Array.isArray(sourceObj)) {
+      let nextIdx = sourceObj.indexOf(item => item.title === path[0])
+      path = path.slice(1, -1)
+      this.findBm(sourceObj.contents[nextIdx])
+    }
+  }
+
   onDragStart = (node) => {
     this.setState({selectedNodes: node})
   }
@@ -29,6 +40,7 @@ export default class BookmarkManager extends Component {
     this.setState({moveToNode: node})
     //set contents of parent node to add selectedNodes
   }
+
 
   generateFlat = (uid, parentId, title, url, type, icon, level, order ) => {
     if (uid === null || undefined) {
@@ -42,13 +54,12 @@ export default class BookmarkManager extends Component {
       type,
       icon,
     }
-    this.generateTree(this.hashedFlatBm[uid], level, order)
   }
 
-  generateTree(bookmark, level, order) {
+  generateTree = (node, sourceObj = this.orderedTreeBm) => {
     //re-render tree object from flat
-    for (let i = 0; i < level; i++){
-
+    if (!node.props.parentId && Array.isArray(sourceObj)) {
+      sourceObj.push({...node})
     }
 
 
@@ -68,7 +79,7 @@ export default class BookmarkManager extends Component {
             this.context.bookmarks.map((bm, i) => {
               return (
                 <div>
-                  <Tree data={bm} onMount={this.generateFlat}/>
+                  <Tree data={bm} onMount={this.generateFlat} generateTree={this.generateTree}/>
                 </div>
               )
             })}
