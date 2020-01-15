@@ -48,7 +48,7 @@ export default class ImportBookmarks extends Component {
         {!this.state.imported &&
           <form id="importform" className="ImportForm">
             <fieldset>
-              Upload your bookmarks HTML file
+            <h3>Upload your bookmarks HTML file</h3>
             <label htmlFor="bookmarkfile">Bookmark File</label>
               <input type="file" name="bookmarkfile" id="bookmarkfile" onChange={this.handleImport} />
 
@@ -56,19 +56,6 @@ export default class ImportBookmarks extends Component {
           </form>
         }
 
-				<div>
-
-            {this.context.bookmarks &&
-            this.context.bookmarks.map((bm, i) => {
-              return (
-                <div>
-                  <Tree tree={bm} />
-                </div>
-                )
-
-            })}
-
-				</div>
       </div>
     )
   }

@@ -1,13 +1,13 @@
 import React from 'react';
 import './DashboardRoute.css';
-import ImportBookmarks from '../../components/ImportBookmarks/ImportBookmarks'
+import BookmarkManager from '../../components/BookmarkManager/BookmarkManager'
 
 import Dashboard from '../../components/Dashboard/Dashboard';
 
 function DashboardRoute() {
   return (
     <div>
-      <ImportBookmarks />
+      <BookmarkManager />
       <h2>Dashboard</h2>
 
       <Dashboard />
