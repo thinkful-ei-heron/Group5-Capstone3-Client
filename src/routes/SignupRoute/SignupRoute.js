@@ -10,7 +10,6 @@ class SignupRoute extends React.Component {
   };
 
   handleRegistrationSuccess = () => {
-    console.log('registration success');
     const { history } = this.props
     history.push('/dashboard')
   };

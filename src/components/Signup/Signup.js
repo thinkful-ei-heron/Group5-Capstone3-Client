@@ -7,21 +7,62 @@ class Signup extends React.Component {
     onRegistrationSuccess: ()=>{}
   }
 
-  state = {error: null}
+  state = {
+    error: null,
+    username: {
+      value: '',
+      touched: false
+    },
+    password: {
+      value: '',
+      touched: false
+    },
+    email: {
+      value: '',
+      touched: false
+    },
+  }
+
+  updateUsername(username) {
+    this.setState({username: {value: username, touched: true}})
+  }
+
+  updateEmail(email) {
+    this.setState({email: {value: email, touched: true}})
+  }
+
+  updatePassword(password) {
+    this.setState({password: {value: password, touched: true}})
+  }
+
+  validatePassword() {
+    const password = this.state.password.value.trim();
+    if (password.length === 0) {
+      return 'Password is required.';
+    } else if (password.length < 8 || password.length > 72) {
+      return 'Password must be between 8 and 72 characters long.';
+    } else if (!password.match(/[0-9]/)) {
+      return 'Password must contain at least one number.';
+    } else if (!password.match(/[-!$%^&*()_+|~=`{}\[\]:";'<>?,.\/]/)) {
+      return 'Password must contain at least one symbol.';
+    } else {
+      return 'Password meets length, number, and symbol criteria.'
+    }
+  }
 
   firstInput = React.createRef()
 
   handleSubmit = ev => {
     ev.preventDefault()
-    const { name, username, password, email } = ev.target
+    const { username, password, email } = this.state;
     AuthApiService.postUser({
-      name: name.value,
       username: username.value,
       email: email.value,
       password: password.value,
     })
       .then(user => {
         username.value = ''
+        email.value = ''
         password.value = ''
         this.props.onRegistrationSuccess()
       })
@@ -52,11 +93,12 @@ class Signup extends React.Component {
           name='username' id='username'
           required
           autoFocus
+          onChange={e => this.updateUsername(e.target.value)}
         />
         <br />
         <label htmlFor='email'>Would you like to give an email?</label>
         <br />
-        <input type='email' name='email' id='email' />
+        <input type='email' name='email' id='email' onChange={e => this.updateEmail(e.target.value)}/>
         <br />
         <label htmlFor='password'>Choose password:</label>
         <br />
@@ -64,7 +106,9 @@ class Signup extends React.Component {
           type='password'
           name='password' id='password'
           required
+          onChange={e => this.updatePassword(e.target.value)}
         />
+        {this.state.password.touched && <p>{this.validatePassword()}</p>}
         <br />
         <input type='submit' value='Submit' className='btn' />
         <input type='reset' value='Reset' className='btn' />

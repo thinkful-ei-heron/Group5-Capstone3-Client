@@ -1,29 +1,59 @@
 function _parseTree(data, level, browser) {
-	const indent = (level) => {
-		return '	'.repeat(level);
-	}
+	const indent = '	'.repeat(level);
 
 	return data.map(node => {
 		if (node.type === 'folder') {
 			const { add_date, last_modified, title, contents } = node;
 			const nextNode = _parseTree(contents, level + 1, browser);
 
-			return `${indent(level)}<DT><H3 ADD_DATE="${add_date}" LAST_MODIFIED="${last_modified}">${title}</H3>
-${indent(level)}<DL><p>
-${nextNode}${indent(level)}</DL><p>
+			return `${indent}<DT><H3 ADD_DATE="${add_date}" LAST_MODIFIED="${last_modified}">${title}</H3>
+${indent}<DL><p>
+${nextNode}${indent}</DL><p>
 `;
 		}
 		else {
-			const { url, add_date, icon, title } = node;
-			return `${indent(level)}<DT><A HREF="${url}" ADD_DATE="${add_date}" ICON="${icon}">${title}</A>
-			`;
+			const { url, add_date, icon, title, tags } = node;
+			switch (browser) {
+				case 'firefox':
+					if (tags === undefined) return `${indent}<DT><A HREF="${url}" ADD_DATE="${add_date}" ICON="${icon}">${title}</A>
+`;
+					else return `${indent}<DT><A HREF="${url}" ADD_DATE="${add_date}" ICON="${icon}" TAGS="${tags}">${title}</A>
+`;
+				default:
+					return `${indent}<DT><A HREF="${url}" ADD_DATE="${add_date}" ICON="${icon}">${title}</A>
+`;
+			}
+
 		};
 	}).join('');
 }
 
 function generateHTML(data, browser) {
-	const { add_date, last_modified, contents } = data[0];
-	let output = `<!DOCTYPE NETSCAPE-Bookmark-file-1>
+	let output = '';
+	switch (browser) {
+		case 'firefox':
+			output += `<!DOCTYPE NETSCAPE-Bookmark-file-1>
+<!-- This is an automatically generated file.
+	 It will be read and overwritten.
+	 DO NOT EDIT! -->
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
+<TITLE>Bookmarks</TITLE>
+<H1>Bookmarks Menu</H1>
+
+<DL><p>
+` + _parseTree(data[2].contents, 1, browser) + `	<DT><H3 ADD_DATE="${data[2].add_date}" LAST_MODIFIED="${data[2].last_modified}" PERSONAL_TOOLBAR_FOLDER="true">Bookmarks Toolbar</H3>
+	<DL><p>
+` + _parseTree(data[0].contents, 2, browser) + `	</DL><p>
+	<DT><H3 ADD_DATE="${data[1].add_date}" LAST_MODIFIED="${data[1].last_modified}" UNFILED_BOOKMARKS_FOLDER="true">Other Bookmarks</H3>
+	<DL><p>
+` + _parseTree(data[1].contents, 2, browser) + `	</DL><p>
+<DL>`;
+			break;
+		case 'safari':
+				// output += 
+			break;
+		default:
+			output += `<!DOCTYPE NETSCAPE-Bookmark-file-1>
 <!-- This is an automatically generated file.
 	 It will be read and overwritten.
 	 DO NOT EDIT! -->
@@ -31,20 +61,16 @@ function generateHTML(data, browser) {
 <TITLE>Bookmarks</TITLE>
 <H1>Bookmarks</H1>
 <DL><p>
-	<DT><H3 ADD_DATE="${add_date}" LAST_MODIFIED="${last_modified}" PERSONAL_TOOLBAR_FOLDER="true">Bookmarks Bar</H3>
+	<DT><H3 ADD_DATE="${data[0].add_date}" LAST_MODIFIED="${data[0].last_modified}" PERSONAL_TOOLBAR_FOLDER="true">Bookmarks Bar</H3>
 	<DL><p>
-`;
+` + _parseTree(data[0].contents, 2, browser) + `	</DL><p>
+` + _parseTree(data[1].contents, 1, browser) + `</DL><p>`;
+	}
 
-	output += _parseTree(contents, 2, browser);
-	output += `	</DL><p>
-`;
-	output += _parseTree(data[1].contents, 1, browser);
-
-	output += `</DL><p>`;
 	return output;
 }
 
-export default function exportHTML(data) {
+export default function exportHTML(data, browser) {
 	if (!data) return; // todo: error msg
 
 	let outputFile = null;
@@ -55,7 +81,7 @@ export default function exportHTML(data) {
 		return window.URL.createObjectURL(file);
 	}
 
-	const msg = generateHTML(data, 'chrome');
+	const msg = generateHTML(data, browser);
 	const output = new Blob([msg], { type: 'text/html' });
 	const filename = 'test-export';
 

@@ -64,6 +64,11 @@ export default class Toolbar extends Component {
               <option value="chrome">Chrome</option>
             </select>
           </div>
+          <select className="exportFormat" id="browserSelect">
+            <option value="chrome">Chrome</option>
+            <option value="firefox">Firefox</option>
+            {/* <option value='safari'>Safari</option> */}
+          </select>
           <form className="searchBlock" onChange={this.updateSearch}>
             <input
               type="text"
