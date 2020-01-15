@@ -15,8 +15,8 @@ export default class Login extends React.Component {
 
   submitHandler = ev => {
     ev.preventDefault();
-    const { username, password } = ev.target
-
+    this.setState({ error: null })
+    const { username, email, password } = ev.target
     AuthApiService.postLogin({
       username: username.value,
       password: password.value,

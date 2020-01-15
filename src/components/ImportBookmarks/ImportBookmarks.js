@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
-import './ImportBookmarks.css'
 import bmParser from '../../helpers/bookmarks-parser'
+import exportHTML from '../../helpers/exportHTML';
 import BookmarkContext from '../../contexts/BookmarkContext'
+import './ImportBookmarks.css'
+
 import Tree from '../Tree/Tree'
 
-
 export default class ImportBookmarks extends Component {
-
-	static contextType = BookmarkContext
+  static contextType = BookmarkContext
 
   static defaultProps = {
     storeBookmarks: () => { }
@@ -15,7 +15,7 @@ export default class ImportBookmarks extends Component {
 
   state = {
     imported: false,
-    bookmarks: null,
+    bookmarks: null
   }
 
   handleImport = (e) => {
@@ -28,10 +28,11 @@ export default class ImportBookmarks extends Component {
         return this.setState({
           bookmarks: res.bookmarks,
           parser: res.parser,
-          imported: true,
-				}, ()=>{
-					this.context.setBookmarks(res.bookmarks)
-				})
+          imported: true
+        }, () => {
+          this.context.setBookmarks(res.bookmarks);
+          console.log(this.state.bookmarks);
+        })
       })
     }
     try {
@@ -42,20 +43,44 @@ export default class ImportBookmarks extends Component {
     }
   }
 
+  // will get refactored into context
+  exportHandler = () => {
+    const browser = document.getElementById('browserSelect').value;
+    exportHTML(this.context.bookmarks, browser)
+  }
+
   render() {
     return (
       <div className="Import">
         {!this.state.imported &&
           <form id="importform" className="ImportForm">
             <fieldset>
-            <h3>Upload your bookmarks HTML file</h3>
-            <label htmlFor="bookmarkfile">Bookmark File</label>
-              <input type="file" name="bookmarkfile" id="bookmarkfile" onChange={this.handleImport} />
-
+              <label htmlFor="bookmarkfile">Upload your bookmarks HTML file:</label>
+              <input
+                type="file"
+                name="bookmarkfile" id="bookmarkfile"
+                onChange={this.handleImport}
+              />
             </fieldset>
           </form>
         }
-
+        <div>
+          <button className='btn dashExport' onClick={() => this.exportHandler()}>Export...</button>
+          <select className='exportFormat' id='browserSelect'>
+            <option value='chrome'>Chrome</option>
+            <option value='firefox'>Firefox</option>
+            {/* <option value='safari'>Safari</option> */}
+          </select>
+          {this.context.bookmarks &&
+            this.context.bookmarks.map((bm, i) => {
+              return (
+                <div>
+                  <Tree tree={bm} />
+                </div>
+              )
+            })
+          }
+        </div>
       </div>
     )
   }
