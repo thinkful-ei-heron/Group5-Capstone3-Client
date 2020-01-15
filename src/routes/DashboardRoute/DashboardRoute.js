@@ -11,7 +11,6 @@ class DashboardRoute extends React.Component {
   };
 
   handlePatchSettingsSuccess = () => {
-    console.log('patch settings success');
     const { history } = this.props
     history.push('/list')
   };
