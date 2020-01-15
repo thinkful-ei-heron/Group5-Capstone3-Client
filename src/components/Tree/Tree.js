@@ -15,7 +15,7 @@ export default class Tree extends Component {
 
 
   static defaultProps = {
-    uid: null,
+    // uid: null,
     parentId: null,
     data: null,
     level: null,
