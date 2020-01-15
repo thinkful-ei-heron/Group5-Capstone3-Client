@@ -7,6 +7,7 @@ class Dashboard extends React.Component {
   static defaultProps = {
     onPatchSettingsSuccess: ()=>{}
   }
+  _isMounted = false;
 
   state = {
     error: null,
