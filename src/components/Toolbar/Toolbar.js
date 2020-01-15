@@ -1,62 +1,97 @@
-import React from 'react';
+import React, { Component } from 'react';
 import BookmarkContext from '../../contexts/BookmarkContext';
 import exportHTML from '../../helpers/exportHTML';
 import './Toolbar.css';
-
-export default class Toolbar extends React.Component {
+import PersistApiService from '../../services/persist-api-service';
+import RemoteListChooser from '../RemoteListChooser/RemoteListChooser';
+export default class Toolbar extends Component {
   static contextType = BookmarkContext;
 
-  updateSearch = () => {
+  state = {
+    renderListLoader: false
+  };
 
-  }
+  saveList = () => {
+    const { bookmarks, listName, listId } = this.context;
+    PersistApiService.submitList(bookmarks, listName, listId).then(res => {
+      this.context.setListId(res.id);
+    });
+  };
 
-  updateFilter = () => {
+  loadList = () => {
+    this.setState({ renderListLoader: true });
+  };
 
-  }
+  doneLoading = () => {
+    this.setState({ renderListLoader: false });
+  };
+
+  updateSearch = () => {};
+
+  updateFilter = () => {};
 
   // will get refactored into context
   exportHandler = () => {
-    const browser = document.getElementById('browserSelect').value;
-    exportHTML(this.context.bookmarks, browser)
-  }
+    exportHTML(this.context.bookmarks);
+  };
 
   render() {
-    return (
-      <div className='toolbar'>
-        <div className='btnBlock toolbarRow'>
-          <button className='btn'>Save</button>
-          <button className='btn'>Save as...</button>
-          <button className='btn'>Load...</button>
-          <button className='btn'>Import...</button>
-          <button className='btn' onClick={ev => this.exportHandler(ev)}>Export...</button>
-          <select className='exportFormat' id='browserSelect'>
-            <option value='chrome'>Chrome</option>
-            <option value='firefox'>Firefox</option>
+    if (this.state.renderListLoader) {
+      return (
+        <div className="toolbar">
+          <RemoteListChooser done={this.doneLoading} />
+          <button className="btn cancel" onClick={this.doneLoading}>
+            Cancel
+          </button>
+        </div>
+      );
+    } else {
+      return (
+        <div className="toolbar">
+          <div className="btnBlock toolbarRow">
+            <button className="btn" onClick={this.saveList}>
+              Save
+            </button>
+            <button className="btn">Save as...</button>
+            <button className="btn" onClick={this.loadList}>
+              Load...
+            </button>
+            <button className="btn">Import...</button>
+            <button className="btn" onClick={() => this.exportHandler()}>
+              Export...
+            </button>
+            <select className="exportFormat">
+              <option value="chrome">Chrome</option>
+            </select>
+          </div>
+          <select className="exportFormat" id="browserSelect">
+            <option value="chrome">Chrome</option>
+            <option value="firefox">Firefox</option>
             {/* <option value='safari'>Safari</option> */}
           </select>
+          <form className="searchBlock" onChange={this.updateSearch}>
+            <input
+              type="text"
+              className="searchInput toolbarInput"
+              name="search"
+              placeholder="Type search..."
+            />
+            <select className="toolbarInput" onChange={this.updateSearch}>
+              <option value="any">Any</option>
+              <option value="name">Name</option>
+              <option value="url">URL</option>
+              <option value="tag">Tag</option>
+            </select>
+          </form>
+          <form className="filterBlock" onChange={this.updateFilter}>
+            <select className="toolbarInput" name="filter" id="filter">
+              <option value="none">No filter</option>
+              <option value="bookmarks">Only Bookmarks</option>
+              <option value="folders">Only Folders</option>
+            </select>
+          </form>
         </div>
-        <form className='searchBlock' onChange={this.updateSearch}>
-          <input
-            type='text'
-            className='searchInput toolbarInput'
-            name='search'
-            placeholder='Type search...'
-          />
-          <select className='toolbarInput' onChange={this.updateSearch}>
-            <option value='any'>Any</option>
-            <option value='name'>Name</option>
-            <option value='url'>URL</option>
-            <option value='tag'>Tag</option>
-          </select>
-        </form>
-        <form className='filterBlock' onChange={this.updateFilter}>
-          <select className='toolbarInput' name='filter' id='filter'>
-            <option value='none'>No filter</option>
-            <option value='bookmarks'>Only Bookmarks</option>
-            <option value='folders'>Only Folders</option>
-          </select>
-        </form>
-      </div>
-    );
+      );
+    }
   }
 }
