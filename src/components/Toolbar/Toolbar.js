@@ -1,13 +1,23 @@
 import React from 'react';
+import BookmarkContext from '../../contexts/BookmarkContext';
+import exportHTML from '../../helpers/exportHTML';
 import './Toolbar.css';
 
 export default class Toolbar extends React.Component {
+  static contextType = BookmarkContext;
+
   updateSearch = () => {
 
   }
 
   updateFilter = () => {
 
+  }
+
+  // will get refactored into context
+  exportHandler = () => {
+    const browser = document.getElementById('browserSelect').value;
+    exportHTML(this.context.bookmarks, browser)
   }
 
   render() {
@@ -18,7 +28,12 @@ export default class Toolbar extends React.Component {
           <button className='btn'>Save as...</button>
           <button className='btn'>Load...</button>
           <button className='btn'>Import...</button>
-          <button className='btn'>Export...</button>
+          <button className='btn' onClick={ev => this.exportHandler(ev)}>Export...</button>
+          <select className='exportFormat' id='browserSelect'>
+            <option value='chrome'>Chrome</option>
+            <option value='firefox'>Firefox</option>
+            {/* <option value='safari'>Safari</option> */}
+          </select>
         </div>
         <form className='searchBlock' onChange={this.updateSearch}>
           <input
