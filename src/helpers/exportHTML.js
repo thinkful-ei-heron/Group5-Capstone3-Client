@@ -19,9 +19,11 @@ ${nextNode}${indent}</DL><p>
 `;
 					else return `${indent}<DT><A HREF="${url}" ADD_DATE="${add_date}" ICON="${icon}" TAGS="${tags}">${title}</A>
 `;
-				default:
+				case 'chrome':
 					return `${indent}<DT><A HREF="${url}" ADD_DATE="${add_date}" ICON="${icon}">${title}</A>
 `;
+				default:
+					return 'Something went wrong!';
 			}
 
 		};
@@ -29,42 +31,56 @@ ${nextNode}${indent}</DL><p>
 }
 
 function generateHTML(data, browser) {
-	let output = '';
+	let output = `<!DOCTYPE NETSCAPE-Bookmark-file-1>
+`;
 	switch (browser) {
+		case 'chrome':
 		case 'firefox':
-			output += `<!DOCTYPE NETSCAPE-Bookmark-file-1>
-<!-- This is an automatically generated file.
+			output += `<!-- This is an automatically generated file.
 	 It will be read and overwritten.
 	 DO NOT EDIT! -->
 <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
 <TITLE>Bookmarks</TITLE>
-<H1>Bookmarks Menu</H1>
+`;
+			if (browser === 'firefox') {
+				output += `<H1>Bookmarks Menu</H1>
 
-<DL><p>
-` + _parseTree(data[2].contents, 1, browser) + `	<DT><H3 ADD_DATE="${data[2].add_date}" LAST_MODIFIED="${data[2].last_modified}" PERSONAL_TOOLBAR_FOLDER="true">Bookmarks Toolbar</H3>
+`;
+			}
+			else {
+				output += `<H1>Bookmarks</H1>
+`;
+			}
+
+			output += `<DL><p>
+` + data.map(node => {
+				let parseOutput = '';
+				if (node.ns_root === 'toolbar') {
+					parseOutput += `	<DT><H3 ADD_DATE="${node.add_date}" LAST_MODIFIED="${node.last_modified}" PERSONAL_TOOLBAR_FOLDER="true">Bookmarks Toolbar</H3>
 	<DL><p>
-` + _parseTree(data[0].contents, 2, browser) + `	</DL><p>
-	<DT><H3 ADD_DATE="${data[1].add_date}" LAST_MODIFIED="${data[1].last_modified}" UNFILED_BOOKMARKS_FOLDER="true">Other Bookmarks</H3>
+` + _parseTree(node.contents, 2, browser) + `	</DL><p>
+`;
+				}
+				else if (node.ns_root === 'unsorted') {
+					parseOutput += `	<DT><H3 ADD_DATE="${node.add_date}" LAST_MODIFIED="${node.last_modified}" UNFILED_BOOKMARKS_FOLDER="true">Other Bookmarks</H3>
 	<DL><p>
-` + _parseTree(data[1].contents, 2, browser) + `	</DL><p>
-<DL>`;
+` + _parseTree(node.contents, 2, browser) + `	</DL><p>
+`;
+				}
+				else parseOutput += _parseTree(node.contents, 1, browser);
+
+				return parseOutput;
+			}).join('');
+			output += `<DL>`;
+			if (browser === 'chrome') output += `<p>`;
 			break;
-		case 'safari':
-				// output += 
-			break;
+
+		// case 'safari':
+
+		// 	break;
+
 		default:
-			output += `<!DOCTYPE NETSCAPE-Bookmark-file-1>
-<!-- This is an automatically generated file.
-	 It will be read and overwritten.
-	 DO NOT EDIT! -->
-<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
-<TITLE>Bookmarks</TITLE>
-<H1>Bookmarks</H1>
-<DL><p>
-	<DT><H3 ADD_DATE="${data[0].add_date}" LAST_MODIFIED="${data[0].last_modified}" PERSONAL_TOOLBAR_FOLDER="true">Bookmarks Bar</H3>
-	<DL><p>
-` + _parseTree(data[0].contents, 2, browser) + `	</DL><p>
-` + _parseTree(data[1].contents, 1, browser) + `</DL><p>`;
+			output = 'Something went wrong!';
 	}
 
 	return output;

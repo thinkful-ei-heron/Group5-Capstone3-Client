@@ -26,9 +26,9 @@ export default class Toolbar extends Component {
     this.setState({ renderListLoader: false });
   };
 
-  updateSearch = () => {};
+  updateSearch = () => { };
 
-  updateFilter = () => {};
+  updateFilter = () => { };
 
   // will get refactored into context
   exportHandler = () => {
@@ -60,15 +60,12 @@ export default class Toolbar extends Component {
             <button className="btn" onClick={() => this.exportHandler()}>
               Export...
             </button>
-            <select className="exportFormat">
+            <select className="exportFormat" id="browserSelect">
               <option value="chrome">Chrome</option>
+              <option value="firefox">Firefox</option>
+              {/* <option value='safari'>Safari</option> */}
             </select>
           </div>
-          <select className="exportFormat" id="browserSelect">
-            <option value="chrome">Chrome</option>
-            <option value="firefox">Firefox</option>
-            {/* <option value='safari'>Safari</option> */}
-          </select>
           <form className="searchBlock" onChange={this.updateSearch}>
             <input
               type="text"
