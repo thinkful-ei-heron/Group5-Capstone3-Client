@@ -1,4 +1,5 @@
 import { JSDOM } from 'jsdom';
+import uuid from 'uuid'
 
 export const name = "netscape";
 
@@ -31,7 +32,9 @@ export function parse(html, callback) {
     // node is a DT element
     function _getNodeData( node ){
 
-      var data = {};
+      var data = {
+        uid: uuid()
+      };
 
       for( var i = 0; i != node.childNodes.length; i++ ){
         if( node.childNodes[i].tagName == "A" ){
