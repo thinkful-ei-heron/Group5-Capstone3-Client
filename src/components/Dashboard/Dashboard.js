@@ -46,20 +46,20 @@ export default class Dashboard extends React.Component {
     this._isMounted = false;
   }
 
-  handleLoad() {
+  handleLoad = () => {
 
   }
 
-  handleDelete() {
+  handleDelete = () => {
     this.setState({ deleting: true })
   }
 
-  confirmDelete() {
-
+  confirmDelete = () => {
+    this.setState({ deleting: false })
   }
 
-  cancelDelete() {
-
+  cancelDelete = () => {
+    this.setState({ deleting: false })
   }
 
   handlePreview = ev => {
@@ -113,7 +113,7 @@ export default class Dashboard extends React.Component {
       <section className='container'>
         <div className='listManager'>
           <p>Currently loaded list: {list}</p>
-          {this.state.deleting
+          {!this.state.deleting
             ? <div>
               <label htmlFor='userLists'>Your saved lists:</label><br />
               <select id='userLists'>
@@ -121,13 +121,13 @@ export default class Dashboard extends React.Component {
                 <option>List 2</option>
                 <option>List 3</option>
               </select>
-              <button className='btn' onClick={this.handleLoad()}>Load</button>
-              <button className='btn' onClick={this.handleDelete()}>Delete</button><br />
+              <button className='btn' onClick={this.handleLoad}>Load</button>
+              <button className='btn' onClick={this.handleDelete}>Delete</button><br />
             </div>
             : <div className='deleteConfirm'>
               <p>Are you sure you want to delete {list}?</p>
-              <button className='btn' onClick={this.confirmDelete()}>Load</button>
-              <button className='btn' onClick={this.cancelDelete()}>Delete</button><br />
+              <button className='btn' onClick={this.confirmDelete}>Delete</button>
+              <button className='btn' onClick={this.cancelDelete}>Cancel</button><br />
             </div>
           }
         </div>
