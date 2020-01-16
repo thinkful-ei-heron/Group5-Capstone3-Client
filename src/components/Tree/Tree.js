@@ -22,7 +22,11 @@ export default class Tree extends Component {
     path: [],
     level: null,
     registerNode: () => { },
-    generateTree: () => { }
+    generateTree: () => { },
+  }
+
+  removeSelf = () => {
+
   }
 
   addContents = (contentsList) => {
@@ -104,7 +108,7 @@ export default class Tree extends Component {
           <span className="Tree-modified">
             Last_modified: {this.props.tree.last_modified}</span>} */}
 
-        {(this.props.data.type === 'folder') &&
+        {(this.props.data.type === 'folder' || this.props.data.contents) &&
           <button className="expand-button" onClick={this.handleExpand}>
             {this.state.expanded ? '-' : '+'}
           </button>

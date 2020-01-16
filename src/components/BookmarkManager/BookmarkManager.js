@@ -68,8 +68,6 @@ export default class BookmarkManager extends Component {
         last_modified: node.props.data.last_modified,
       })
     }
-
-
   }
 
   componentDidMount() {
