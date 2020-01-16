@@ -86,7 +86,7 @@ export default class ImportBookmarks extends Component {
             this.context.bookmarks.map((bm, i) => {
               return (
                 <div>
-                  <Tree tree={bm} />
+                  <Tree data={bm} key={bm.id} />
                 </div>
               );
             })}
