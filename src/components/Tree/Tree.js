@@ -7,22 +7,42 @@ export default class Tree extends Component {
     super(props)
     this.state = {
       expanded: true,
-      uid: (!props.data.uid) ? uuid() : props.data.uid,
+      data: props.data,
+      parentId: props.parentId,
+      uid: (props.data.uid) ? props.data.uid : uuid(),
       sortByFunc: (props.sortByFunc)? props.sortByFunc: null,
       path: [...props.path, props.data.title],
       selected: false,
     }
   }
 
-
   static defaultProps = {
-    // uid: null,
     parentId: null,
     data: null,
     path: [],
     level: null,
-    onMount: () => { },
+    registerNode: () => { },
     generateTree: () => { }
+  }
+
+  addContents = (contentsList) => {
+    this.setState({
+      ...this.state,
+      data: {
+        ...this.state.data,
+        contents: this.state.contents.concat(contentsList)
+      }
+    })
+  }
+
+  setContents = (contentsList) => {
+    this.setState({
+      ...this.state,
+      data: {
+        ...this.state.data,
+        contents: contentsList
+      }
+    })
   }
 
   toggleSelect = (e) => {
@@ -35,17 +55,15 @@ export default class Tree extends Component {
   }
 
   componentDidMount() {
+    this.props.registerNode(this)
+  }
 
-    const { title, url, type, icon, contents } = this.props.data
-    const { uid, expanded } = this.state
-    const { parentId, level, order } = this.props
-
-    this.props.onMount(uid, parentId, title, url, type, icon, level, order)
-    // this.props.generateTree(this)
+  componentDidUpdate(prevProps, prevState) {
+    this.props.registerNode(this)
   }
   render() {
-    const indent = this.props.level * 10
-    let contents = this.props.data.contents
+    let indent = this.props.level * 10
+    let contents = this.state.data.contents
 
     if (this.state.sortBy) {
       contents = this.state.sortByFunc(contents)
@@ -90,7 +108,6 @@ export default class Tree extends Component {
           <button className="expand-button" onClick={this.handleExpand}>
             {this.state.expanded ? '-' : '+'}
           </button>
-          // : <span>Type: {this.props.tree.type}</span>
         }
 
         {contents &&
@@ -103,9 +120,8 @@ export default class Tree extends Component {
                   order={i}
                   parentId={this.state.uid}
                   path={this.state.path}
-                  onMount={this.props.onMount}
+                  registerNode={this.props.registerNode}
                   sortByFunc={this.props.sortByFunc}
-                  generateTree={this.props.generateTree}
                 />
               )
             }

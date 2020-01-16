@@ -42,24 +42,31 @@ export default class BookmarkManager extends Component {
   }
 
 
-  generateFlat = (uid, parentId, title, url, type, icon, level, order ) => {
-    if (uid === null || undefined) {
-      uid = uuid()
+  generateFlat = (node) => {
+    if (node.uid === null || undefined) {
+      node.state.uid = uuid()
     }
-    this.hashedFlatBm[uid] = {
-      uid,
-      parentId,
-      title,
-      url,
-      type,
-      icon,
+    this.hashedFlatBm[node.state.uid] = {
+      node: node,
+      uid: node.state.uid,
+      parentId: node.state.parentId,
+      data: node.state.data,
+      path: node.state.path,
     }
   }
 
   generateTree = (node, sourceObj = this.orderedTreeBm) => {
     //re-render tree object from flat
     if (!node.props.parentId && Array.isArray(sourceObj)) {
-      sourceObj.push({...node})
+      sourceObj.push({
+        uid: node.state.uid,
+        parentId: node.state.parentId,
+        title: node.props.data.title,
+        contents: node.props.data.contents,
+        type: node.props.data.type,
+        add_date: node.props.data.add_date,
+        last_modified: node.props.data.last_modified,
+      })
     }
 
 
@@ -79,7 +86,7 @@ export default class BookmarkManager extends Component {
             this.context.bookmarks.map((bm, i) => {
               return (
                 <div>
-                  <Tree data={bm} onMount={this.generateFlat} generateTree={this.generateTree}/>
+                  <Tree data={bm} registerNode={this.generateFlat} generateTree={this.generateTree}/>
                 </div>
               )
             })}
