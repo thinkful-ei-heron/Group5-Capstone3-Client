@@ -1,15 +1,37 @@
 import React, { Component } from 'react';
 import BookmarksContext from '../../contexts/BookmarkContext';
+import NodeAdder from '../NodeAdder/NodeAdder';
 
 export class NodeManager extends Component {
   static contextType = BookmarksContext;
   state = {
-    edit: false
+    add: false,
+    edit: false,
+    url: null
+  };
+
+  constructor(props) {
+    super(props);
+    this.state.url = props.node.url;
+  }
+  addChild = newNode => {
+    const nodes = [...this.context.bookmarks];
+    const folder = this.recursiveFind(this.idPredicate, nodes);
+    if (!folder) {
+      throw new Error('Could not find matching node');
+    }
+    folder.contents.push(newNode);
+    this.context.setBookmarks(nodes);
+    this.toggleEdit();
   };
 
   toggleEdit = () => {
     const edit = !this.state.edit;
     this.setState({ edit });
+  };
+
+  toggleAdd = () => {
+    this.setState({ add: !this.state.add });
   };
 
   handleDelete = () => {
@@ -89,6 +111,19 @@ export class NodeManager extends Component {
             <button type="button" onClick={this.handleDelete}>
               Delete
             </button>
+            {this.props.node.contents && !this.state.add && (
+              <button type="button" onClick={this.toggleAdd}>
+                +
+              </button>
+            )}
+            {this.state.add && (
+              <NodeAdder
+                parent={this.props.node}
+                done={newNode => {
+                  this.addChild(newNode);
+                }}
+              />
+            )}
           </>
         )}
       </div>
