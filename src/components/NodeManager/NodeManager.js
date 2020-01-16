@@ -22,7 +22,7 @@ export class NodeManager extends Component {
     }
     folder.contents.push(newNode);
     this.context.setBookmarks(nodes);
-    this.toggleEdit();
+    this.toggleAdd();
   };
 
   toggleEdit = () => {
