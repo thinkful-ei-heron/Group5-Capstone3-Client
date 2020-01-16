@@ -1,3 +1,5 @@
+const currTime = Date.now();
+
 function _parseTree(data, level, browser) {
 	const indent = '	'.repeat(level);
 
@@ -56,7 +58,7 @@ function generateHTML(data, browser) {
 `;
 			if (browser === 'firefox') {
 				output += `<H1>Bookmarks Menu</H1>
-
+<DT><H3 ADD_DATE="${currTime}" LAST_MODIFIED="${currTime}">Imported</H3>
 `;
 			}
 			else {
@@ -78,6 +80,8 @@ function generateHTML(data, browser) {
 				else return _parseTree(node.contents, 1, browser);
 			}).join('') + `<DL>`;
 			if (browser === 'chrome') output += `<p>`;
+			else if (browser === 'firefox') output += `
+</DL><p>`;
 			break;
 
 		case 'safari':
