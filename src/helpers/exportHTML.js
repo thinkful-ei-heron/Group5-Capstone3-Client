@@ -2,30 +2,43 @@ function _parseTree(data, level, browser) {
 	const indent = '	'.repeat(level);
 
 	return data.map(node => {
-		if (node.type === 'folder') {
+		if (node.hasOwnProperty('contents')) {
 			const { add_date, last_modified, title, contents } = node;
 			const nextNode = _parseTree(contents, level + 1, browser);
 
-			return `${indent}<DT><H3 ADD_DATE="${add_date}" LAST_MODIFIED="${last_modified}">${title}</H3>
+			switch (browser) {
+				case 'chrome':
+				case 'firefox':
+					return `${indent}<DT><H3 ADD_DATE="${add_date}" LAST_MODIFIED="${last_modified}">${title}</H3>
 ${indent}<DL><p>
 ${nextNode}${indent}</DL><p>
 `;
+				case 'safari':
+					return `${indent}<DT><H3 FOLDED>${title}</H3>
+${indent}<DL><p>
+${nextNode}${indent}</DL><p>
+`;
+				default:
+					return 'Something went wrong!'
+			}
+
 		}
 		else {
 			const { url, add_date, icon, title, tags } = node;
 			switch (browser) {
 				case 'firefox':
-					if (tags === undefined) return `${indent}<DT><A HREF="${url}" ADD_DATE="${add_date}" ICON="${icon}">${title}</A>
-`;
-					else return `${indent}<DT><A HREF="${url}" ADD_DATE="${add_date}" ICON="${icon}" TAGS="${tags}">${title}</A>
+					const tagInsert = tags === undefined ? '' : ` TAGS="${tags}"`;
+					return `${indent}<DT><A HREF="${url}" ADD_DATE="${add_date}" ICON="${icon}"${tagInsert}>${title}</A>
 `;
 				case 'chrome':
 					return `${indent}<DT><A HREF="${url}" ADD_DATE="${add_date}" ICON="${icon}">${title}</A>
 `;
+				case 'safari':
+					return `${indent}<DT><A HREF="${url}">${title}</A>
+`;
 				default:
 					return 'Something went wrong!';
 			}
-
 		};
 	}).join('');
 }
@@ -70,14 +83,19 @@ function generateHTML(data, browser) {
 				else parseOutput += _parseTree(node.contents, 1, browser);
 
 				return parseOutput;
-			}).join('');
-			output += `<DL>`;
+			}).join('') + `<DL>`;
 			if (browser === 'chrome') output += `<p>`;
 			break;
 
-		// case 'safari':
-
-		// 	break;
+		case 'safari':
+			output += `	<HTML>
+	<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
+	<Title>Bookmarks</Title>
+	<H1>Bookmarks</H1>
+` + data.map(node => {
+				return _parseTree(node.contents, 1, browser);
+			}).join('') + `</HTML>`;
+			break;
 
 		default:
 			output = 'Something went wrong!';

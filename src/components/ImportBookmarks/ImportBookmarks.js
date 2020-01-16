@@ -69,7 +69,7 @@ export default class ImportBookmarks extends Component {
           <select className='exportFormat' id='browserSelect'>
             <option value='chrome'>Chrome</option>
             <option value='firefox'>Firefox</option>
-            {/* <option value='safari'>Safari</option> */}
+            <option value='safari'>Safari</option>
           </select>
           {this.context.bookmarks &&
             this.context.bookmarks.map((bm, i) => {
