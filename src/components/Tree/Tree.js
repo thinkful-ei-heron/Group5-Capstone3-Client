@@ -23,6 +23,7 @@ export default class Tree extends Component {
     level: null,
     registerNode: () => { },
     generateTree: () => { },
+    toggleSelect: () => { },
   }
 
   removeSelf = () => {
@@ -49,10 +50,7 @@ export default class Tree extends Component {
     })
   }
 
-  toggleSelect = (e) => {
-    e.preventDefault()
-    this.setState({selected: !this.state.selected})
-  }
+
 
   handleExpand = (e) => {
     this.setState({expanded: !this.state.expanded})
@@ -65,6 +63,12 @@ export default class Tree extends Component {
   componentDidUpdate(prevProps, prevState) {
     this.props.registerNode(this)
   }
+
+  handleSelect = () => {
+    this.setState({ selected: true })
+    this.props.toggleSelect(this)
+  }
+
   render() {
     let indent = this.props.level * 10
     let contents = this.state.data.contents
@@ -80,7 +84,7 @@ export default class Tree extends Component {
           position: "relative", left: `${indent}px`
         }}>
 
-        <div onClick={this.toggleSelect} className={`Tree-info ${this.state.selected && ` selected`}` }>
+        <div onClick={this.handleSelect} className={`Tree-info ${this.state.selected && ` selected`}` }>
           {this.props.data.icon &&
             <img
               className="Tree-icon"
@@ -119,6 +123,8 @@ export default class Tree extends Component {
             contents.map((data, i) => {
               return (
                 <Tree
+                  hidden={(!this.state.expanded)? 'hidden': ''}
+                  key={`${this.props.parentId}-${i}`}
                   data={data}
                   level={this.props.level + 1}
                   order={i}
@@ -126,6 +132,7 @@ export default class Tree extends Component {
                   path={this.state.path}
                   registerNode={this.props.registerNode}
                   sortByFunc={this.props.sortByFunc}
+                  toggleSelect={this.props.toggleSelect}
                 />
               )
             }

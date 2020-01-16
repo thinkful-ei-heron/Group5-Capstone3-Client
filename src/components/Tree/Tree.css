@@ -5,6 +5,10 @@
   margin: 4px;
 }
 
+.Tree .hide {
+  display: none;
+}
+
 .Tree .selected {
   background-color: blue;
 }

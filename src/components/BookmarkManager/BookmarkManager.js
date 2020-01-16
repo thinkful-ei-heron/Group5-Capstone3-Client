@@ -9,10 +9,10 @@ export default class BookmarkManager extends Component {
   state = {
     error: null,
     levels: null,
-    flat: {},
+    flat: null,
     selectedNodes: [],
     moveToNode: null,
-
+    moving: false,
   }
 
 
@@ -20,6 +20,11 @@ export default class BookmarkManager extends Component {
   hashedFlatBm = {}
 
   orderedTreeBm = []
+
+  toggleSelect = (node) => {
+    console.log(node)
+    this.setState({ selectedNodes: this.state.selectedNodes.concat(node) })
+  }
 
   findBm(path, sourceObj = this.context.bookmarks) {
     if (path.length === 1) {
@@ -41,8 +46,26 @@ export default class BookmarkManager extends Component {
     //set contents of parent node to add selectedNodes
   }
 
+  handleMoving = () => {
+    if (this.state.selectedNodes.length) {
+      this.setState({moving: true})
+    }
+  }
 
-  generateFlat = (node) => {
+  moveNodesToFolder = (nodes, newParentNode) => {
+    let contents = []
+    nodes.forEach(node => {
+      contents.push(node.data)
+    })
+    newParentNode.setContents(contents)
+    this.setState({
+      moving: false,
+      selected: [],
+    })
+  }
+
+
+  registerNode = (node) => {
     if (node.uid === null || undefined) {
       node.state.uid = uuid()
     }
@@ -52,6 +75,7 @@ export default class BookmarkManager extends Component {
       parentId: node.state.parentId,
       data: node.state.data,
       path: node.state.path,
+      selected: node.state.selected,
     }
   }
 
@@ -80,12 +104,23 @@ export default class BookmarkManager extends Component {
         <ImportBookmarks />
 
         <div className="BookmarkView">
+          {this.state.selectedNodes.length &&
+            <button onClick={this.handleMoving}>Move To...</button>
+          }
+          {this.state.moving &&
+            `Click a folder to move selected nodes`
+          }
+
           {this.context.bookmarks &&
             this.context.bookmarks.map((bm, i) => {
               return (
-                <div>
-                  <Tree data={bm} registerNode={this.generateFlat} generateTree={this.generateTree}/>
-                </div>
+                <Tree
+                  key={i}
+                  data={bm}
+                  registerNode={this.registerNode}
+                  generateTree={this.generateTree}
+                  toggleSelect={this.toggleSelect}
+                />
               )
             })}
         </div>
