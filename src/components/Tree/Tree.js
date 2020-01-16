@@ -64,9 +64,12 @@ export default class Tree extends Component {
     this.props.registerNode(this)
   }
 
-  handleSelect = () => {
-    this.setState({ selected: true })
-    this.props.toggleSelect(this)
+  toggleSelect = () => {
+    this.setState({ selected: !this.state.selected }, () => {
+
+        this.props.handleSelect(this)
+
+    })
   }
 
   render() {
@@ -84,7 +87,7 @@ export default class Tree extends Component {
           position: "relative", left: `${indent}px`
         }}>
 
-        <div onClick={this.handleSelect} className={`Tree-info ${this.state.selected && ` selected`}` }>
+        <div onClick={this.toggleSelect} className={`Tree-info ${this.state.selected && ` selected`}` }>
           {this.props.data.icon &&
             <img
               className="Tree-icon"
@@ -132,7 +135,7 @@ export default class Tree extends Component {
                   path={this.state.path}
                   registerNode={this.props.registerNode}
                   sortByFunc={this.props.sortByFunc}
-                  toggleSelect={this.props.toggleSelect}
+                  handleSelect={this.props.handleSelect}
                 />
               )
             }
