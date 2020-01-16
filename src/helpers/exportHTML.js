@@ -25,13 +25,12 @@ ${nextNode}${indent}</DL><p>
 		}
 		else {
 			const { url, add_date, icon, title, tags } = node;
+			const iconInsert = icon === undefined ? '' : ` ICON="${icon}"`;
+			const tagInsert = tags === undefined ? '' : ` TAGS="${tags}"`;
 			switch (browser) {
-				case 'firefox':
-					const tagInsert = tags === undefined ? '' : ` TAGS="${tags}"`;
-					return `${indent}<DT><A HREF="${url}" ADD_DATE="${add_date}" ICON="${icon}"${tagInsert}>${title}</A>
-`;
 				case 'chrome':
-					return `${indent}<DT><A HREF="${url}" ADD_DATE="${add_date}" ICON="${icon}">${title}</A>
+				case 'firefox':
+					return `${indent}<DT><A HREF="${url}" ADD_DATE="${add_date}"${iconInsert}${tagInsert}>${title}</A>
 `;
 				case 'safari':
 					return `${indent}<DT><A HREF="${url}">${title}</A>
@@ -67,22 +66,16 @@ function generateHTML(data, browser) {
 
 			output += `<DL><p>
 ` + data.map(node => {
-				let parseOutput = '';
-				if (node.ns_root === 'toolbar') {
-					parseOutput += `	<DT><H3 ADD_DATE="${node.add_date}" LAST_MODIFIED="${node.last_modified}" PERSONAL_TOOLBAR_FOLDER="true">Bookmarks Toolbar</H3>
+				if (node.ns_root === 'toolbar' || node.ns_root === 'unsorted') {
+					const folderType = node.ns_root === 'toolbar'
+						? `PERSONAL_TOOLBAR_FOLDER="true">Bookmarks Toolbar`
+						: `UNFILED_BOOKMARKS_FOLDER="true">Other Bookmarks`
+					return `	<DT><H3 ADD_DATE="${node.add_date}" LAST_MODIFIED="${node.last_modified}" ${folderType}</H3>
 	<DL><p>
 ` + _parseTree(node.contents, 2, browser) + `	</DL><p>
 `;
 				}
-				else if (node.ns_root === 'unsorted') {
-					parseOutput += `	<DT><H3 ADD_DATE="${node.add_date}" LAST_MODIFIED="${node.last_modified}" UNFILED_BOOKMARKS_FOLDER="true">Other Bookmarks</H3>
-	<DL><p>
-` + _parseTree(node.contents, 2, browser) + `	</DL><p>
-`;
-				}
-				else parseOutput += _parseTree(node.contents, 1, browser);
-
-				return parseOutput;
+				else return _parseTree(node.contents, 1, browser);
 			}).join('') + `<DL>`;
 			if (browser === 'chrome') output += `<p>`;
 			break;
