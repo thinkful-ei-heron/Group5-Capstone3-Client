@@ -1,15 +1,28 @@
 import React, { Component } from 'react'
 import './Tree.css'
+import uuid from 'uuid'
 
 export default class Tree extends Component {
-  state = {
-    expanded: true,
+  constructor(props) {
+    super(props)
+    this.state = {
+      expanded: true,
+      uid: (!props.data.uid) ? uuid() : props.data.uid,
+      sortByFunc: null,
+
+    }
   }
 
+
   static defaultProps = {
-    tree: null,
+    // uid: null,
+    parentId: null,
+    data: null,
     level: null,
+    onMount: () => { }
   }
+
+
 
   addChild() {
 
@@ -22,8 +35,23 @@ export default class Tree extends Component {
   handleExpand = (e) => {
     this.setState({expanded: !this.state.expanded})
   }
+
+  componentDidMount() {
+
+    const { title, url, type, icon, contents } = this.props.data
+    const { uid, expanded } = this.state
+    const { parentId, level, order } = this.props
+
+    this.props.onMount(uid, parentId, title, url, type, icon, level, order)
+  }
   render() {
     const indent = this.props.level * 10
+    let contents = this.props.data.contents
+
+    if (this.state.sortBy) {
+      contents = this.state.sortByFunc(contents)
+    }
+
     return (
       <div
         className="Tree"
@@ -32,25 +60,25 @@ export default class Tree extends Component {
         }}>
 
         <div className="Tree-info">
-          {this.props.tree.icon &&
+          {this.props.data.icon &&
             <img
               className="Tree-icon"
-              src={this.props.tree.icon}
+              src={this.props.data.icon}
               alt="icon"
             />
           }
           <div className="Tree-detail">
-            {this.props.tree.title &&
+            {this.props.data.title &&
               <span className="Tree-title">
-                {this.props.tree.title}</span>
+                {this.props.data.title}</span>
             }
-            {this.props.tree.url &&
+            {this.props.data.url &&
               <a
                 className="Tree-url"
-                href={this.props.tree.url}
+                href={this.props.data.url}
                 target="_blank"
               >
-                {this.props.tree.url}</a>
+                {this.props.data.url}</a>
             }
           </div>
         </div>
@@ -59,18 +87,27 @@ export default class Tree extends Component {
           <span className="Tree-modified">
             Last_modified: {this.props.tree.last_modified}</span>} */}
 
-        {(this.props.tree.type === 'folder') &&
+        {(this.props.data.type === 'folder') &&
           <button className="expand-button" onClick={this.handleExpand}>
             {this.state.expanded ? '-' : '+'}
           </button>
           // : <span>Type: {this.props.tree.type}</span>
         }
 
-        {this.props.tree.contents &&
+        {contents &&
           this.state.expanded &&
-            this.props.tree.contents.map(node =>
-              <Tree tree={node} level={this.props.level + 1}></Tree>
-            )}
+            contents.map((data, i) => {
+              return (
+                <Tree
+                  data={data}
+                  level={this.props.level + 1}
+                  order={i}
+                  parentId={this.state.uid}
+                  onMount={this.props.onMount}
+                />
+              )
+            }
+        )}
       </div>
     )
   }
