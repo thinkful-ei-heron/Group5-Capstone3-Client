@@ -5,7 +5,6 @@ import BookmarkContext from '../../contexts/BookmarkContext';
 import './ImportBookmarks.css';
 
 import Tree from '../Tree/Tree';
-import Search from '../Search/Search';
 
 export default class ImportBookmarks extends Component {
   static contextType = BookmarkContext;
@@ -81,17 +80,8 @@ export default class ImportBookmarks extends Component {
           <select className="exportFormat" id="browserSelect">
             <option value="chrome">Chrome</option>
             <option value="firefox">Firefox</option>
-            {/* <option value='safari'>Safari</option> */}
+            <option value="safari">Safari</option>
           </select>
-          <Search />
-          {this.context.bookmarks &&
-            this.context.bookmarks.map((bm, i) => {
-              return (
-                <div>
-                  <Tree tree={bm} />
-                </div>
-              );
-            })}
         </div>
       </div>
     );

@@ -5,6 +5,10 @@
   margin: 4px;
 }
 
+.Tree .selected {
+  background-color: blue;
+}
+
 .Tree .expand-button {
   width: fit-content;
   margin: 3px;
@@ -23,7 +27,7 @@
   border: 1px solid black;
   border-radius: 8px;
   width: 240px;
-  height: 40px;
+  height: fit-content;
   overflow-x: hidden;
 }
 

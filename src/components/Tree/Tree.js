@@ -1,25 +1,59 @@
 import React, { Component } from 'react';
 import './Tree.css';
+import uuid from 'uuid';
+import NodeManager from '../NodeManager/NodeManager';
 
 export default class Tree extends Component {
-  state = {
-    expanded: true
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      expanded: true,
+      selected: false,
+      parentId: props.parentId,
+      data: props.data,
+      uid: props.data.uid
+    };
+  }
 
   static defaultProps = {
-    tree: null,
-    level: null
+    uid: null,
+    parentId: null,
+    data: null,
+    path: [],
+    level: null,
+    order: null,
+    registerNode: () => {},
+    generateTree: () => {},
+    handleSelect: () => {},
+    sortByFunc: null
   };
-
-  addChild() {}
-
-  removeChild() {}
 
   handleExpand = e => {
     this.setState({ expanded: !this.state.expanded });
   };
+
+  toggleSelect = () => {
+    this.setState({ selected: !this.state.selected }, () => {
+      this.props.handleSelect(this);
+    });
+  };
+
+  componentDidMount() {
+    this.props.registerNode(this);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    this.props.registerNode(this);
+  }
+
   render() {
     const indent = this.props.level * 10;
+    let contents = this.props.data.contents;
+
+    if (this.props.sortByFunc) {
+      contents = this.props.sortByFunc(contents);
+    }
+
     return (
       <div
         className="Tree"
@@ -28,22 +62,25 @@ export default class Tree extends Component {
           left: `${indent}px`
         }}
       >
-        <div className="Tree-info">
-          {this.props.tree.icon && (
-            <img className="Tree-icon" src={this.props.tree.icon} alt="icon" />
+        <div
+          onClick={this.toggleSelect}
+          className={`Tree-info ${this.state.selected && ` selected`}`}
+        >
+          {this.props.data.icon && (
+            <img className="Tree-icon" src={this.props.data.icon} alt="icon" />
           )}
           <div className="Tree-detail">
-            {this.props.tree.title && (
-              <span className="Tree-title">{this.props.tree.title}</span>
+            <NodeManager node={this.props.data} />
+            {this.props.data.title && (
+              <span className="Tree-title">{this.props.data.title}</span>
             )}
-            {this.props.tree.url && (
+            {this.props.data.url && (
               <a
                 className="Tree-url"
-                href={this.props.tree.url}
-                rel="noopener noreferrer" //security
+                href={this.props.data.url}
                 target="_blank"
               >
-                {this.props.tree.url}
+                {this.props.data.url}
               </a>
             )}
           </div>
@@ -53,19 +90,30 @@ export default class Tree extends Component {
           <span className="Tree-modified">
             Last_modified: {this.props.tree.last_modified}</span>} */}
 
-        {this.props.tree.type === 'folder' && (
+        {(this.props.data.type === 'folder' || this.props.data.contents) && (
           <button className="expand-button" onClick={this.handleExpand}>
             {this.state.expanded ? '-' : '+'}
           </button>
-        )
-        // : <span>Type: {this.props.tree.type}</span>
-        }
+        )}
 
-        {this.props.tree.contents &&
+        {contents &&
           this.state.expanded &&
-          this.props.tree.contents.map(node => (
-            <Tree tree={node} level={this.props.level + 1}></Tree>
-          ))}
+          contents.map((data, i) => {
+            return (
+              <Tree
+                uid={data.uid}
+                parentId={this.props.data.uid}
+                key={data.uid}
+                data={data}
+                level={this.props.level + 1}
+                order={i}
+                path={this.props.path}
+                registerNode={this.props.registerNode}
+                sortByFunc={this.props.sortByFunc}
+                handleSelect={this.props.handleSelect}
+              />
+            );
+          })}
       </div>
     );
   }

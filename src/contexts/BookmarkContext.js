@@ -4,7 +4,8 @@ const BookmarkContext = React.createContext();
 export default BookmarkContext;
 export class BookmarkContextProvider extends React.Component {
   state = {
-    bookmarks: null,
+		bookmarks: null,
+		flat: null,
     error: null,
     selected1: null,
     selected2: null,
@@ -13,7 +14,7 @@ export class BookmarkContextProvider extends React.Component {
   };
 
   setBookmarks = bm => {
-    let { bookmarks } = this.state;
+    let bookmarks;
     if (Array.isArray(bm)) {
       bookmarks = bm;
     } else {
@@ -24,7 +25,11 @@ export class BookmarkContextProvider extends React.Component {
     this.setState({
       bookmarks
     });
-  };
+	};
+
+	setFlat = flat => {
+		this.setState({ flat });
+	};
 
   setListId = listId => {
     this.setState({ listId });
@@ -39,7 +44,8 @@ export class BookmarkContextProvider extends React.Component {
       ...this.state,
       setBookmarks: this.setBookmarks,
       setListId: this.setListId,
-      setListName: this.setListName
+			setListName: this.setListName,
+			setFlat: this.setFlat,
     };
     return (
       <BookmarkContext.Provider value={value}>
