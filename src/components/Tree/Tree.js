@@ -1,59 +1,39 @@
 import React, { Component } from 'react'
 import './Tree.css'
-import uuid from 'uuid'
 
 export default class Tree extends Component {
   constructor(props) {
     super(props)
     this.state = {
       expanded: true,
-      data: props.data,
-      parentId: props.parentId,
-      uid: (props.data.uid) ? props.data.uid : uuid(),
-      sortByFunc: (props.sortByFunc)? props.sortByFunc: null,
-      path: [...props.path, props.data.title],
       selected: false,
+      parentId: props.parentId,
+      data: props.data,
+      uid: props.data.uid
     }
   }
 
   static defaultProps = {
+    uid: null,
     parentId: null,
     data: null,
     path: [],
     level: null,
+    order: null,
     registerNode: () => { },
     generateTree: () => { },
     toggleSelect: () => { },
+    sortByFunc: () => { },
   }
-
-  removeSelf = () => {
-
-  }
-
-  addContents = (contentsList) => {
-    this.setState({
-      ...this.state,
-      data: {
-        ...this.state.data,
-        contents: this.state.contents.concat(contentsList)
-      }
-    })
-  }
-
-  setContents = (contentsList) => {
-    this.setState({
-      ...this.state,
-      data: {
-        ...this.state.data,
-        contents: contentsList
-      }
-    })
-  }
-
-
 
   handleExpand = (e) => {
     this.setState({expanded: !this.state.expanded})
+  }
+
+  toggleSelect = () => {
+    this.setState({ selected: !this.state.selected }, () => {
+      this.props.handleSelect(this)
+    })
   }
 
   componentDidMount() {
@@ -64,20 +44,12 @@ export default class Tree extends Component {
     this.props.registerNode(this)
   }
 
-  toggleSelect = () => {
-    this.setState({ selected: !this.state.selected }, () => {
-
-        this.props.handleSelect(this)
-
-    })
-  }
-
   render() {
     let indent = this.props.level * 10
-    let contents = this.state.data.contents
+    let contents = this.props.data.contents
 
-    if (this.state.sortBy) {
-      contents = this.state.sortByFunc(contents)
+    if (this.props.sortBy) {
+      contents = this.props.sortByFunc(contents)
     }
 
     return (
@@ -126,13 +98,13 @@ export default class Tree extends Component {
             contents.map((data, i) => {
               return (
                 <Tree
-                  hidden={(!this.state.expanded)? 'hidden': ''}
-                  key={`${this.props.parentId}-${i}`}
+                  uid={data.uid}
+                  parentId={this.props.data.uid}
+                  key={data.uid}
                   data={data}
                   level={this.props.level + 1}
                   order={i}
-                  parentId={this.state.uid}
-                  path={this.state.path}
+                  path={this.props.path}
                   registerNode={this.props.registerNode}
                   sortByFunc={this.props.sortByFunc}
                   handleSelect={this.props.handleSelect}
