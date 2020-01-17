@@ -21,6 +21,22 @@ export default class Info extends Component {
         }
     }
 
+    // componentDidMount() {
+    //     let data = {key: '5e222a5e8a656155dd30defc13bf436cfbb1b274b6ed2', q: this.state.url.value}
+    //     if (this.state.url.value.length > 0){
+    //         fetch('https://api.linkpreview.net', {
+    //             method: 'POST',
+    //             mode: 'cors',
+    //             body: JSON.stringify(data),
+    //         })
+    //         .then(res => res.json())
+    //         .then(response => {
+    //             console.log(response)
+    //             this.setState({thumbnail: response.image})
+    //         })
+    //     }
+    // }
+
     updateTitle(title) {
         this.setState({title: {
             value: title,
@@ -89,6 +105,7 @@ export default class Info extends Component {
                     <input type='submit' value='Save' className='btn' />
                 </form>
                 <img src={`https://image.thum.io/get/auth/7215-bookmarks/crop/600/${this.state.url.value}`} alt={`${this.state.title.value} preview`}/>
+                {/* <img src={this.state.thumbnail} alt={`${this.state.title.value} preview`} width='600' height='200'/> */}
             </>
         );
     }
