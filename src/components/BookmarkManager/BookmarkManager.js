@@ -9,17 +9,82 @@ export default class BookmarkManager extends Component {
   state = {
     error: null,
     levels: null,
-    flat: {},
+    flat: null,
     selectedNodes: [],
     moveToNode: null,
-
+    moving: false,
   }
-
-
 
   hashedFlatBm = {}
 
   orderedTreeBm = []
+
+  handleSelect = (node, moving = this.state.moving) => {
+    //Check if selecting items or selecting folder to move items
+    if (moving &&
+      (node.props.data.type === 'folder' || node.props.data.contents)) {
+      node.setState({selected: false})
+      this.setState({ moveToNode: node }, () => {
+        this.moveNodesToFolder(this.state.selectedNodes, this.state.moveToNode)
+      })
+    } else {
+      if (this.state.selectedNodes.includes(node)) {
+        let idx = this.state.selectedNodes.findIndex(item => item === node)
+        this.state.selectedNodes.splice(idx, 1)
+        this.setState({selectedNodes: this.state.selectedNodes})
+      } else {
+        this.setState({ selectedNodes: [...this.state.selectedNodes, node] })
+      }
+    }
+  }
+
+  handleMoving = () => {
+    if (this.state.selectedNodes.length) {
+      this.setState({ moving: true })
+    }
+  }
+
+  moveNodesToFolder = (moveNodes, newParentNode) => {
+    this.setState({
+      moving: false,
+      moveToNode: null,
+      selectedNodes: [],
+    }, () => {
+        let nodes = [...this.context.bookmarks]
+        moveNodes.forEach(node => {
+          try {
+            node.setState({ selected: false })
+            let parent = this.recursiveFind(node.props.parentId, nodes)
+            if (parent) {
+              let childIdx = parent.contents.findIndex(item => item.uid === node.props.uid)
+              parent.contents.splice(childIdx, 1)
+
+              let newParent = this.recursiveFind(newParentNode.props.uid, nodes)
+              newParent.contents = [node.props.data, ...newParent.contents]
+            } else {
+              let idx = nodes.findIndex(item => item.uid === node.props.uid)
+              nodes.splice(idx, 1)
+              nodes = [node.props.data, ...nodes]
+            }
+          } catch {
+            this.setState({error: 'Invalid move'})
+          }
+        })
+        this.context.setBookmarks(nodes)
+    })
+  }
+
+  recursiveFind(uid, nodes) {
+    for (const node of nodes) {
+      if (node.uid === uid) {
+        return node;
+      }
+      if (node.contents) {
+        const foo = this.recursiveFind(uid, node.contents);
+        if (foo) return foo;
+      }
+    }
+  }
 
   onDragStart = (node) => {
     this.setState({selectedNodes: node})
@@ -30,28 +95,33 @@ export default class BookmarkManager extends Component {
     //set contents of parent node to add selectedNodes
   }
 
-  generateFlat = (uid, parentId, title, url, type, icon, level, order ) => {
-    if (uid === null || undefined) {
-      uid = uuid()
+  registerNode = (node) => {
+    if (node.uid === null || undefined) {
+      node.props.uid = uuid()
     }
-    this.hashedFlatBm[uid] = {
-      uid,
-      parentId,
-      title,
-      url,
-      type,
-      icon,
+    this.hashedFlatBm[node.state.uid] = {
+      node: node,
+      uid: node.props.uid,
+      parentId: node.props.parentId,
+      data: node.props.data,
+      path: node.props.path,
+      selected: node.state.selected,
     }
-    this.generateTree(this.hashedFlatBm[uid], level, order)
   }
 
-  generateTree(bookmark, level, order) {
+  generateTree = (node, sourceObj = this.orderedTreeBm) => {
     //re-render tree object from flat
-    for (let i = 0; i < level; i++){
-
+    if (!node.props.parentId && Array.isArray(sourceObj)) {
+      sourceObj.push({
+        uid: node.props.uid,
+        parentId: node.props.parentId,
+        title: node.props.data.title,
+        contents: node.props.data.contents,
+        type: node.props.data.type,
+        add_date: node.props.data.add_date,
+        last_modified: node.props.data.last_modified,
+      })
     }
-
-
   }
 
   componentDidMount() {
@@ -64,12 +134,24 @@ export default class BookmarkManager extends Component {
         <ImportBookmarks />
 
         <div className="BookmarkView">
+          {this.state.selectedNodes.length &&
+            <button onClick={this.handleMoving}>Move To...</button>
+          }
+          {this.state.moving &&
+            `Click a folder to move selected items`
+          }
+
           {this.context.bookmarks &&
             this.context.bookmarks.map((bm, i) => {
               return (
-                <div>
-                  <Tree data={bm} onMount={this.generateFlat}/>
-                </div>
+                <Tree
+                  uid={bm.uid}
+                  key={bm.title}
+                  data={bm}
+                  registerNode={this.registerNode}
+                  generateTree={this.generateTree}
+                  handleSelect={this.handleSelect}
+                />
               )
             })}
         </div>

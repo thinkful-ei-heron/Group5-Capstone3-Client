@@ -8,40 +8,50 @@ export default class Tree extends Component {
     super(props);
     this.state = {
       expanded: true,
-      uid: !props.data.uid ? uuid() : props.data.uid,
-      sortByFunc: null
-    };
+      selected: false,
+      parentId: props.parentId,
+      data: props.data,
+      uid: props.data.uid
+    }
   }
 
   static defaultProps = {
-    // uid: null,
+    uid: null,
     parentId: null,
     data: null,
+    path: [],
     level: null,
-    onMount: () => {}
-  };
-
-  addChild() {}
-
-  removeChild() {}
+    order: null,
+    registerNode: () => { },
+    generateTree: () => { },
+    handleSelect: () => { },
+    sortByFunc: null,
+  }
 
   handleExpand = e => {
     this.setState({ expanded: !this.state.expanded });
   };
 
-  componentDidMount() {
-    const { title, url, type, icon, contents } = this.props.data;
-    const { uid, expanded } = this.state;
-    const { parentId, level, order } = this.props;
-
-    this.props.onMount(uid, parentId, title, url, type, icon, level, order);
+  toggleSelect = () => {
+    this.setState({ selected: !this.state.selected }, () => {
+      this.props.handleSelect(this)
+    })
   }
+
+  componentDidMount() {
+    this.props.registerNode(this)
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    this.props.registerNode(this)
+  }
+
   render() {
     const indent = this.props.level * 10;
     let contents = this.props.data.contents;
 
-    if (this.state.sortBy) {
-      contents = this.state.sortByFunc(contents);
+    if (this.props.sortByFunc) {
+      contents = this.props.sortByFunc(contents);
     }
 
     return (
@@ -52,7 +62,9 @@ export default class Tree extends Component {
           left: `${indent}px`
         }}
       >
-        <div className="Tree-info">
+        <div
+          onClick={this.toggleSelect}
+          className={ `Tree-info ${this.state.selected && ` selected`}` }>
           {this.props.data.icon && (
             <img className="Tree-icon" src={this.props.data.icon} alt="icon" />
           )}
@@ -77,29 +89,31 @@ export default class Tree extends Component {
           <span className="Tree-modified">
             Last_modified: {this.props.tree.last_modified}</span>} */}
 
-        {this.props.data.type !== 'bookmark' && (
+        {(this.props.data.type === 'folder' || this.props.data.contents) &&
           <button className="expand-button" onClick={this.handleExpand}>
             {this.state.expanded ? '-' : '+'}
           </button>
-        )
-
-        // : <span>Type: {this.props.tree.type}</span>
         }
 
         {contents &&
           this.state.expanded &&
-          contents.map((data, i) => {
-            return (
-              <Tree
-                data={data}
-                level={this.props.level + 1}
-                order={i}
-                parentId={this.state.uid}
-                onMount={this.props.onMount}
-                key={data.id}
-              />
-            );
-          })}
+            contents.map((data, i) => {
+              return (
+                <Tree
+                  uid={data.uid}
+                  parentId={this.props.data.uid}
+                  key={data.uid}
+                  data={data}
+                  level={this.props.level + 1}
+                  order={i}
+                  path={this.props.path}
+                  registerNode={this.props.registerNode}
+                  sortByFunc={this.props.sortByFunc}
+                  handleSelect={this.props.handleSelect}
+                />
+              )
+            }
+        )}
       </div>
     );
   }

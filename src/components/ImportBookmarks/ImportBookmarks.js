@@ -82,14 +82,6 @@ export default class ImportBookmarks extends Component {
             <option value="firefox">Firefox</option>
             <option value="safari">Safari</option>
           </select>
-          {this.context.bookmarks &&
-            this.context.bookmarks.map((bm, i) => {
-              return (
-                <div>
-                  <Tree data={bm} key={bm.id} />
-                </div>
-              );
-            })}
         </div>
       </div>
     );

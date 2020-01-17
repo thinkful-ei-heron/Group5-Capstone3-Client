@@ -64,7 +64,7 @@ export class NodeManager extends Component {
     return node.contents && node.contents.some(this.idPredicate);
   };
 
-  idPredicate = node => node.id === this.props.node.id;
+  idPredicate = node => node.uid === this.props.node.uid;
 
   handleEdit = () => {
     const nodes = [...this.context.bookmarks];
@@ -124,10 +124,12 @@ export class NodeManager extends Component {
             <button type="button" onClick={this.handleDelete}>
               Delete
             </button>
+
             <form onSubmit={this.handleAddTag}>
               <input type="text" name="tags" id="tags"></input>
               <button>Add Tags</button>
             </form>
+
             {this.props.node.contents && !this.state.add && (
               <button type="button" onClick={this.toggleAdd}>
                 +

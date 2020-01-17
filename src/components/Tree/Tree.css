@@ -5,6 +5,10 @@
   margin: 4px;
 }
 
+.Tree .selected {
+  background-color: blue;
+}
+
 .Tree .expand-button {
   width: fit-content;
   margin: 3px;
