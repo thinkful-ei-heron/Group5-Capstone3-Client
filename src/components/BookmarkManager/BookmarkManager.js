@@ -15,25 +15,74 @@ export default class BookmarkManager extends Component {
     moving: false,
   }
 
-
-
   hashedFlatBm = {}
 
   orderedTreeBm = []
 
-  toggleSelect = (node) => {
-    console.log(node)
-    this.setState({ selectedNodes: this.state.selectedNodes.concat(node) })
+  handleSelect = (node, moving = this.state.moving) => {
+    //Check if selecting items or selecting folder to move items
+    if (moving &&
+      (node.props.data.type === 'folder' || node.props.data.contents)) {
+      node.setState({selected: false})
+      this.setState({ moveToNode: node }, () => {
+        this.moveNodesToFolder(this.state.selectedNodes, this.state.moveToNode)
+      })
+    } else {
+      if (this.state.selectedNodes.includes(node)) {
+        let idx = this.state.selectedNodes.findIndex(item => item === node)
+        this.state.selectedNodes.splice(idx, 1)
+        this.setState({selectedNodes: this.state.selectedNodes})
+      } else {
+        this.setState({ selectedNodes: [...this.state.selectedNodes, node] })
+      }
+    }
   }
 
-  findBm(path, sourceObj = this.context.bookmarks) {
-    if (path.length === 1) {
-      return sourceObj.find(item => item.uid === path[0])
+  handleMoving = () => {
+    if (this.state.selectedNodes.length) {
+      this.setState({ moving: true })
     }
-    if (Array.isArray(sourceObj)) {
-      let nextIdx = sourceObj.indexOf(item => item.uid === path[0])
-      path = path.slice(1, -1)
-      this.findBm(path, sourceObj.contents[nextIdx])
+  }
+
+  moveNodesToFolder = (moveNodes, newParentNode) => {
+    this.setState({
+      moving: false,
+      moveToNode: null,
+      selectedNodes: [],
+    }, () => {
+        let nodes = [...this.context.bookmarks]
+        moveNodes.forEach(node => {
+          try {
+            node.setState({ selected: false })
+            let parent = this.recursiveFind(node.props.parentId, nodes)
+            if (parent) {
+              let childIdx = parent.contents.findIndex(item => item.uid === node.props.uid)
+              parent.contents.splice(childIdx, 1)
+
+              let newParent = this.recursiveFind(newParentNode.props.uid, nodes)
+              newParent.contents = [node.props.data, ...newParent.contents]
+            } else {
+              let idx = nodes.findIndex(item => item.uid === node.props.uid)
+              nodes.splice(idx, 1)
+              nodes = [node.props.data, ...nodes]
+            }
+          } catch {
+            this.setState({error: 'Invalid move'})
+          }
+        })
+        this.context.setBookmarks(nodes)
+    })
+  }
+
+  recursiveFind(uid, nodes) {
+    for (const node of nodes) {
+      if (node.uid === uid) {
+        return node;
+      }
+      if (node.contents) {
+        const foo = this.recursiveFind(uid, node.contents);
+        if (foo) return foo;
+      }
     }
   }
 
@@ -46,35 +95,16 @@ export default class BookmarkManager extends Component {
     //set contents of parent node to add selectedNodes
   }
 
-  handleMoving = () => {
-    if (this.state.selectedNodes.length) {
-      this.setState({moving: true})
-    }
-  }
-
-  moveNodesToFolder = (nodes, newParentNode) => {
-    let contents = []
-    nodes.forEach(node => {
-      contents.push(node.data)
-    })
-    newParentNode.setContents(contents)
-    this.setState({
-      moving: false,
-      selected: [],
-    })
-  }
-
-
   registerNode = (node) => {
     if (node.uid === null || undefined) {
-      node.state.uid = uuid()
+      node.props.uid = uuid()
     }
     this.hashedFlatBm[node.state.uid] = {
       node: node,
-      uid: node.state.uid,
-      parentId: node.state.parentId,
-      data: node.state.data,
-      path: node.state.path,
+      uid: node.props.uid,
+      parentId: node.props.parentId,
+      data: node.props.data,
+      path: node.props.path,
       selected: node.state.selected,
     }
   }
@@ -83,8 +113,8 @@ export default class BookmarkManager extends Component {
     //re-render tree object from flat
     if (!node.props.parentId && Array.isArray(sourceObj)) {
       sourceObj.push({
-        uid: node.state.uid,
-        parentId: node.state.parentId,
+        uid: node.props.uid,
+        parentId: node.props.parentId,
         title: node.props.data.title,
         contents: node.props.data.contents,
         type: node.props.data.type,
@@ -108,18 +138,19 @@ export default class BookmarkManager extends Component {
             <button onClick={this.handleMoving}>Move To...</button>
           }
           {this.state.moving &&
-            `Click a folder to move selected nodes`
+            `Click a folder to move selected items`
           }
 
           {this.context.bookmarks &&
             this.context.bookmarks.map((bm, i) => {
               return (
                 <Tree
-                  key={i}
+                  uid={bm.uid}
+                  key={bm.title}
                   data={bm}
                   registerNode={this.registerNode}
                   generateTree={this.generateTree}
-                  toggleSelect={this.toggleSelect}
+                  handleSelect={this.handleSelect}
                 />
               )
             })}

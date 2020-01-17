@@ -5,10 +5,6 @@
   margin: 4px;
 }
 
-.Tree .hide {
-  display: none;
-}
-
 .Tree .selected {
   background-color: blue;
 }
@@ -31,7 +27,7 @@
   border: 1px solid black;
   border-radius: 8px;
   width: 240px;
-  height: 40px;
+  height: fit-content;
   overflow-x: hidden;
 }
 

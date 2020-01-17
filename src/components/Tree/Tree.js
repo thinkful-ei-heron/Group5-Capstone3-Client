@@ -1,59 +1,41 @@
-import React, { Component } from 'react'
-import './Tree.css'
-import uuid from 'uuid'
+import React, { Component } from 'react';
+import './Tree.css';
+import uuid from 'uuid';
+import NodeManager from '../NodeManager/NodeManager';
 
 export default class Tree extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       expanded: true,
-      data: props.data,
-      parentId: props.parentId,
-      uid: (props.data.uid) ? props.data.uid : uuid(),
-      sortByFunc: (props.sortByFunc)? props.sortByFunc: null,
-      path: [...props.path, props.data.title],
       selected: false,
+      parentId: props.parentId,
+      data: props.data,
+      uid: props.data.uid
     }
   }
 
   static defaultProps = {
+    uid: null,
     parentId: null,
     data: null,
     path: [],
     level: null,
+    order: null,
     registerNode: () => { },
     generateTree: () => { },
-    toggleSelect: () => { },
+    handleSelect: () => { },
+    sortByFunc: null,
   }
 
-  removeSelf = () => {
+  handleExpand = e => {
+    this.setState({ expanded: !this.state.expanded });
+  };
 
-  }
-
-  addContents = (contentsList) => {
-    this.setState({
-      ...this.state,
-      data: {
-        ...this.state.data,
-        contents: this.state.contents.concat(contentsList)
-      }
+  toggleSelect = () => {
+    this.setState({ selected: !this.state.selected }, () => {
+      this.props.handleSelect(this)
     })
-  }
-
-  setContents = (contentsList) => {
-    this.setState({
-      ...this.state,
-      data: {
-        ...this.state.data,
-        contents: contentsList
-      }
-    })
-  }
-
-
-
-  handleExpand = (e) => {
-    this.setState({expanded: !this.state.expanded})
   }
 
   componentDidMount() {
@@ -64,47 +46,42 @@ export default class Tree extends Component {
     this.props.registerNode(this)
   }
 
-  handleSelect = () => {
-    this.setState({ selected: true })
-    this.props.toggleSelect(this)
-  }
-
   render() {
-    let indent = this.props.level * 10
-    let contents = this.state.data.contents
+    const indent = this.props.level * 10;
+    let contents = this.props.data.contents;
 
-    if (this.state.sortBy) {
-      contents = this.state.sortByFunc(contents)
+    if (this.props.sortByFunc) {
+      contents = this.props.sortByFunc(contents);
     }
 
     return (
       <div
         className="Tree"
         style={{
-          position: "relative", left: `${indent}px`
-        }}>
-
-        <div onClick={this.handleSelect} className={`Tree-info ${this.state.selected && ` selected`}` }>
-          {this.props.data.icon &&
-            <img
-              className="Tree-icon"
-              src={this.props.data.icon}
-              alt="icon"
-            />
-          }
+          position: 'relative',
+          left: `${indent}px`
+        }}
+      >
+        <div
+          onClick={this.toggleSelect}
+          className={ `Tree-info ${this.state.selected && ` selected`}` }>
+          {this.props.data.icon && (
+            <img className="Tree-icon" src={this.props.data.icon} alt="icon" />
+          )}
           <div className="Tree-detail">
-            {this.props.data.title &&
-              <span className="Tree-title">
-                {this.props.data.title}</span>
-            }
-            {this.props.data.url &&
+            <NodeManager node={this.props.data} />
+            {this.props.data.title && (
+              <span className="Tree-title">{this.props.data.title}</span>
+            )}
+            {this.props.data.url && (
               <a
                 className="Tree-url"
                 href={this.props.data.url}
                 target="_blank"
               >
-                {this.props.data.url}</a>
-            }
+                {this.props.data.url}
+              </a>
+            )}
           </div>
         </div>
 
@@ -123,21 +100,21 @@ export default class Tree extends Component {
             contents.map((data, i) => {
               return (
                 <Tree
-                  hidden={(!this.state.expanded)? 'hidden': ''}
-                  key={`${this.props.parentId}-${i}`}
+                  uid={data.uid}
+                  parentId={this.props.data.uid}
+                  key={data.uid}
                   data={data}
                   level={this.props.level + 1}
                   order={i}
-                  parentId={this.state.uid}
-                  path={this.state.path}
+                  path={this.props.path}
                   registerNode={this.props.registerNode}
                   sortByFunc={this.props.sortByFunc}
-                  toggleSelect={this.props.toggleSelect}
+                  handleSelect={this.props.handleSelect}
                 />
               )
             }
         )}
       </div>
-    )
+    );
   }
 }

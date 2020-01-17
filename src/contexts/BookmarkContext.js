@@ -14,7 +14,7 @@ export class BookmarkContextProvider extends React.Component {
   };
 
   setBookmarks = bm => {
-    let { bookmarks } = this.state;
+    let bookmarks;
     if (Array.isArray(bm)) {
       bookmarks = bm;
     } else {

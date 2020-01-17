@@ -119,7 +119,8 @@ export function parse(html, callback) {
               menuRoot = {
                 title: "Menu",
                 contents: [],
-                ns_root: 'menu'
+                ns_root: 'menu',
+                uid: uuid(),
               };
             }
             if( itemData.type == "folder" && itemData.__dir_dl ){
