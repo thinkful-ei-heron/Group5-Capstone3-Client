@@ -74,7 +74,9 @@ export default class Info extends Component {
     handleSubmit = ev => {
         ev.preventDefault()
         let { title, url, tags } = this.state;
-        if (tags.length > 0) tags.value = tags.value.split(',').map(tag => tag.trim());
+        if (tags.length > 0){
+            tags.value = tags.value.split(',').map(tag => tag.trim());
+        }
         const nodes = [...this.context.bookmarks];
         const bm = this.recursiveFind(this.state.selectedNode.uid, nodes);
         if (!bm) {
@@ -82,7 +84,11 @@ export default class Info extends Component {
         }
         bm.title = title.value;
         bm.url = url.value;
-        bm.tags = tags.value.split(', ')
+        if (tags.length > 0){
+            bm.tags = tags.value.split(', ')
+        } else {
+            bm.tags = [tags.value]
+        }
         this.context.setBookmarks(nodes);
     }
 
