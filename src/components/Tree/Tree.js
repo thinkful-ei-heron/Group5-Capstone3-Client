@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './Tree.css';
 import uuid from 'uuid';
-import NodeManager from '../NodeManager/NodeManager';
+// import NodeManager from '../NodeManager/NodeManager';
 
 export default class Tree extends Component {
   constructor(props) {
@@ -69,7 +69,7 @@ export default class Tree extends Component {
             <img className="Tree-icon" src={this.props.data.icon} alt="icon" />
           )}
           <div className="Tree-detail">
-            <NodeManager node={this.props.data} />
+            {/* <NodeManager node={this.props.data} /> */}
             {this.props.data.title && (
               <span className="Tree-title">{this.props.data.title}</span>
             )}

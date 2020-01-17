@@ -54,6 +54,7 @@ export class NodeManager extends Component {
 
     if (confirmRemoveChildren) {
       parent.contents.splice(idx, 1); //in place update
+      this.props.clearSelect();
       this.context.setBookmarks(root.contents);
     }
   };

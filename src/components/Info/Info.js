@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import BookmarkContext from '../../contexts/BookmarkContext'
+import NodeManager from '../NodeManager/NodeManager';
 
 import './Info.css';
 
@@ -96,6 +97,7 @@ export default class Info extends Component {
         return (
             <>
                 <h2>Details</h2>
+                <NodeManager clearSelect={this.props.clearSelect} node={this.props.selectedNode} />
                 <form onSubmit={this.handleSubmit}>
                     <label htmlFor="title">Title:</label>
                     <input type="text" name="title" defaultValue={this.state.selectedNode.title} onChange={e => this.updateTitle(e.target.value)}></input>

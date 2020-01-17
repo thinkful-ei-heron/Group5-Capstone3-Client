@@ -20,6 +20,10 @@ export default class BookmarkManager extends Component {
 
   orderedTreeBm = []
 
+  clearSelect = () => {
+    this.setState({selectedNodes: []})
+  }
+
   handleSelect = (node, moving = this.state.moving) => {
     //Check if selecting items or selecting folder to move items
     if (moving &&
@@ -135,7 +139,7 @@ export default class BookmarkManager extends Component {
     return (
       <div className="BookmarkManager">
         <ImportBookmarks />
-        {selectedNode && <Info selectedNode={selectedNode}/>}
+        {selectedNode && <Info selectedNode={selectedNode} clearSelect={this.clearSelect}/>}
         <div className="BookmarkView">
           {this.state.selectedNodes.length &&
             <button onClick={this.handleMoving}>Move To...</button>
@@ -154,6 +158,7 @@ export default class BookmarkManager extends Component {
                   registerNode={this.registerNode}
                   generateTree={this.generateTree}
                   handleSelect={this.handleSelect}
+                  
                 />
               )
             })}
