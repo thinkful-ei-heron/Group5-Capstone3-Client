@@ -99,7 +99,11 @@ export class NodeManager extends Component {
     }
     const tags = ev.target.tags.value.split(',').map(tag => tag.trim());
     ev.target.tags.value = '';
-    bm.tags = tags;
+    if (bm.tags === undefined){
+      bm.tags = tags;
+    } else {
+      bm.tags.push(tags);
+    }
     this.context.setBookmarks(nodes);
   }
 

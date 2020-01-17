@@ -1,0 +1,88 @@
+import React, { Component } from 'react'
+import BookmarkContext from '../../contexts/BookmarkContext'
+import './Info.css';
+
+export default class Info extends Component {
+    static contextType = BookmarkContext
+    state = {
+        selectedNode: this.props.selectedNode,
+        title: {
+            value: this.props.selectedNode.title,
+            touched: false
+        },
+        url: {
+            value: this.props.selectedNode.url,
+            touched: false
+        },
+        tags: {
+            value: this.props.selectedNode.tags,
+            touched: false
+        }
+    }
+
+    updateTitle(title) {
+        this.setState({title: {
+            value: title,
+            touched: true
+        }})
+    }
+
+    updateURL(url) {
+        this.setState({url: {
+            value: url,
+            touched: true
+        }})
+    }
+
+    updateTags(tags) {
+        this.setState({tags: {
+            value: tags,
+            touched: true
+        }})
+    }
+
+    recursiveFind(uid, nodes) {
+        for (const node of nodes) {
+          if (node.uid === uid) {
+            return node;
+          }
+          if (node.contents) {
+            const foo = this.recursiveFind(uid, node.contents);
+            if (foo) return foo;
+          }
+        }
+      }
+     
+
+    handleSubmit = ev => {
+        ev.preventDefault()
+        let { title, url, tags } = this.state;
+        if (tags.length > 0) tags = tags.value.split(',').map(tag => tag.trim());
+        const nodes = [...this.context.bookmarks];
+        const bm = this.recursiveFind(this.state.selectedNode.uid, nodes);
+        if (!bm) {
+          throw new Error('Could not find matching node');
+        }
+        bm.title = title.value;
+        bm.url = url.value;
+        bm.tags = tags;
+        this.context.setBookmarks(nodes);
+    }
+
+    render() {
+        return (
+            <>
+                <h2>Details</h2>
+                <form onSubmit={this.handleSubmit}>
+                    <label htmlFor="title">Title:</label>
+                    <input type="text" name="title" defaultValue={this.state.selectedNode.title} onChange={e => this.updateTitle(e.target.value)}></input>
+                    <label htmlFor="url" className={this.state.selectedNode.type === 'folder' ? 'hidden' : ''}>URL:</label>
+                    <input type="text" className={this.state.selectedNode.type === 'folder' ? 'hidden' : ''} name="url" defaultValue={this.state.selectedNode.url} onChange={e => this.updateURL(e.target.value)}></input>
+                    <label htmlFor="tags">Tags:</label>
+                    <input type="text" name="tags" defaultValue={this.state.selectedNode.tags} onChange={e => this.updateTags(e.target.value)}></input>
+                    <input type='submit' value='Save' className='btn' />
+                </form>
+            </>
+        );
+    }
+}

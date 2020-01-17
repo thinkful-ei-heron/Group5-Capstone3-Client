@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Tree from '../Tree/Tree'
 import BookmarkContext from '../../contexts/BookmarkContext'
 import ImportBookmarks from '../ImportBookmarks/ImportBookmarks'
+import Info from '../Info/Info'
 import uuid from 'uuid'
 
 export default class BookmarkManager extends Component {
@@ -129,10 +130,12 @@ export default class BookmarkManager extends Component {
   }
 
   render() {
+    const selectedNode = this.state.selectedNodes.length === 1 ? this.state.selectedNodes[0].state.data : null;
+    console.log(selectedNode);
     return (
       <div className="BookmarkManager">
         <ImportBookmarks />
-
+        {selectedNode && <Info selectedNode={selectedNode}/>}
         <div className="BookmarkView">
           {this.state.selectedNodes.length &&
             <button onClick={this.handleMoving}>Move To...</button>
