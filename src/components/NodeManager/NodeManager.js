@@ -90,6 +90,19 @@ export class NodeManager extends Component {
     return null;
   }
 
+  handleAddTag = ev => {
+    ev.preventDefault();
+    const nodes = [...this.context.bookmarks];
+    const bm = this.recursiveFind(this.idPredicate, nodes);
+    if (!bm) {
+      throw new Error('Could not find matching node');
+    }
+    const tags = ev.target.tags.value.split(',').map(tag => tag.trim());
+    ev.target.tags.value = '';
+    bm.tags = tags;
+    this.context.setBookmarks(nodes);
+  }
+
   render() {
     return (
       <div>
@@ -111,6 +124,12 @@ export class NodeManager extends Component {
             <button type="button" onClick={this.handleDelete}>
               Delete
             </button>
+
+            <form onSubmit={this.handleAddTag}>
+              <input type="text" name="tags" id="tags"></input>
+              <button>Add Tags</button>
+            </form>
+
             {this.props.node.contents && !this.state.add && (
               <button type="button" onClick={this.toggleAdd}>
                 +
