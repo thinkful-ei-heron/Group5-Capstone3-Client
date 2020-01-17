@@ -3,10 +3,11 @@ import UserService from '../../services/user-service';
 import './Dashboard.css';
 
 export default class Dashboard extends React.Component {
+  _isMounted = false;
+
   static defaultProps = {
     onPatchSettingsSuccess: () => { }
   }
-  _isMounted = false;
 
   state = {
     error: null,
@@ -39,7 +40,7 @@ export default class Dashboard extends React.Component {
   }
 
   componentDidUpdate() {
-    setTimeout(() => this.setState({ submitted: false }), 5000);
+    setTimeout(() => this._isMounted && this.setState({ submitted: false }), 5000);
   }
 
   componentWillUnmount() {
@@ -86,7 +87,9 @@ export default class Dashboard extends React.Component {
 
   handleSubmit = ev => {
     ev.preventDefault();
-    this.setState({ submitted: true })
+    if (this._isMounted){
+      this.setState({ submitted: true })
+    }
     const { previewImg, extraPanel, autosave, colorUI } = ev.target
     UserService.patchUserSettings({
       preview: previewImg.checked,

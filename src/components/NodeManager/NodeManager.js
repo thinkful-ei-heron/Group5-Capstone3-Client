@@ -126,7 +126,7 @@ export class NodeManager extends Component {
             </button>
 
             <form onSubmit={this.handleAddTag}>
-              <input type="text" name="tags" id="tags"></input>
+              <input type="text" name="tags"></input>
               <button>Add Tags</button>
             </form>
 
