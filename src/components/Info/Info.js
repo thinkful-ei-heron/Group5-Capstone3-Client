@@ -57,7 +57,7 @@ export default class Info extends Component {
     handleSubmit = ev => {
         ev.preventDefault()
         let { title, url, tags } = this.state;
-        if (tags.length > 0) tags = tags.value.split(',').map(tag => tag.trim());
+        if (tags.length > 0) tags.value = tags.value.split(',').map(tag => tag.trim());
         const nodes = [...this.context.bookmarks];
         const bm = this.recursiveFind(this.state.selectedNode.uid, nodes);
         if (!bm) {
@@ -65,7 +65,7 @@ export default class Info extends Component {
         }
         bm.title = title.value;
         bm.url = url.value;
-        bm.tags = tags;
+        bm.tags = tags.value.split(', ')
         this.context.setBookmarks(nodes);
     }
 
@@ -76,10 +76,15 @@ export default class Info extends Component {
                 <form onSubmit={this.handleSubmit}>
                     <label htmlFor="title">Title:</label>
                     <input type="text" name="title" defaultValue={this.state.selectedNode.title} onChange={e => this.updateTitle(e.target.value)}></input>
-                    <label htmlFor="url" className={this.state.selectedNode.type === 'folder' ? 'hidden' : ''}>URL:</label>
-                    <input type="text" className={this.state.selectedNode.type === 'folder' ? 'hidden' : ''} name="url" defaultValue={this.state.selectedNode.url} onChange={e => this.updateURL(e.target.value)}></input>
+                    <br></br>
+                    <div className={this.state.selectedNode.type === 'folder' ? 'hidden' : ''}>
+                        <label htmlFor="url" >URL:</label>
+                        <input type="text" name="url" defaultValue={this.state.selectedNode.url} onChange={e => this.updateURL(e.target.value)}></input>
+                        <br></br>
+                    </div>
                     <label htmlFor="tags">Tags:</label>
                     <input type="text" name="tags" defaultValue={this.state.selectedNode.tags} onChange={e => this.updateTags(e.target.value)}></input>
+                    <br></br>
                     <input type='submit' value='Save' className='btn' />
                 </form>
             </>
