@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import BookmarkContext from '../../contexts/BookmarkContext'
+
 import './Info.css';
 
 export default class Info extends Component {
@@ -87,6 +88,7 @@ export default class Info extends Component {
                     <br></br>
                     <input type='submit' value='Save' className='btn' />
                 </form>
+                <img src={`https://image.thum.io/get/auth/7215-bookmarks/crop/600/${this.state.url.value}`} alt={`${this.state.title.value} preview`}/>
             </>
         );
     }
