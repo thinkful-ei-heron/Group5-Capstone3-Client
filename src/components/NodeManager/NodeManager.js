@@ -129,10 +129,10 @@ export class NodeManager extends Component {
               Delete
             </button>
 
-            <form onSubmit={this.handleAddTag}>
+            {/* <form onSubmit={this.handleAddTag}>
               <input type="text" name="tags"></input>
               <button>Add Tags</button>
-            </form>
+            </form> */}
 
             {this.props.node.contents && !this.state.add && (
               <button type="button" onClick={this.toggleAdd}>
