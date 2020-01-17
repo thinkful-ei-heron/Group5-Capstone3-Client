@@ -1,70 +1,101 @@
+const currTime = Date.now();
+
 function _parseTree(data, level, browser) {
 	const indent = '	'.repeat(level);
 
 	return data.map(node => {
-		if (node.type === 'folder') {
+		if (node.hasOwnProperty('contents')) {
 			const { add_date, last_modified, title, contents } = node;
 			const nextNode = _parseTree(contents, level + 1, browser);
 
-			return `${indent}<DT><H3 ADD_DATE="${add_date}" LAST_MODIFIED="${last_modified}">${title}</H3>
+			switch (browser) {
+				case 'chrome':
+				case 'firefox':
+					return `${indent}<DT><H3 ADD_DATE="${add_date}" LAST_MODIFIED="${last_modified}">${title}</H3>
 ${indent}<DL><p>
 ${nextNode}${indent}</DL><p>
 `;
+				case 'safari':
+					return `${indent}<DT><H3 FOLDED>${title}</H3>
+${indent}<DL><p>
+${nextNode}${indent}</DL><p>
+`;
+				default:
+					return 'Something went wrong!'
+			}
+
 		}
 		else {
 			const { url, add_date, icon, title, tags } = node;
+			const iconInsert = icon === undefined ? '' : ` ICON="${icon}"`;
+			const tagInsert = tags === undefined ? '' : ` TAGS="${tags}"`;
 			switch (browser) {
+				case 'chrome':
 				case 'firefox':
-					if (tags === undefined) return `${indent}<DT><A HREF="${url}" ADD_DATE="${add_date}" ICON="${icon}">${title}</A>
+					return `${indent}<DT><A HREF="${url}" ADD_DATE="${add_date}"${iconInsert}${tagInsert}>${title}</A>
 `;
-					else return `${indent}<DT><A HREF="${url}" ADD_DATE="${add_date}" ICON="${icon}" TAGS="${tags}">${title}</A>
+				case 'safari':
+					return `${indent}<DT><A HREF="${url}">${title}</A>
 `;
 				default:
-					return `${indent}<DT><A HREF="${url}" ADD_DATE="${add_date}" ICON="${icon}">${title}</A>
-`;
+					return 'Something went wrong!';
 			}
-
 		};
 	}).join('');
 }
 
 function generateHTML(data, browser) {
-	let output = '';
+	let output = `<!DOCTYPE NETSCAPE-Bookmark-file-1>
+`;
 	switch (browser) {
+		case 'chrome':
 		case 'firefox':
-			output += `<!DOCTYPE NETSCAPE-Bookmark-file-1>
-<!-- This is an automatically generated file.
+			output += `<!-- This is an automatically generated file.
 	 It will be read and overwritten.
 	 DO NOT EDIT! -->
 <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
 <TITLE>Bookmarks</TITLE>
-<H1>Bookmarks Menu</H1>
+`;
+			if (browser === 'firefox') {
+				output += `<H1>Bookmarks Menu</H1>
+<DT><H3 ADD_DATE="${currTime}" LAST_MODIFIED="${currTime}">Imported</H3>
+`;
+			}
+			else {
+				output += `<H1>Bookmarks</H1>
+`;
+			}
 
-<DL><p>
-` + _parseTree(data[2].contents, 1, browser) + `	<DT><H3 ADD_DATE="${data[2].add_date}" LAST_MODIFIED="${data[2].last_modified}" PERSONAL_TOOLBAR_FOLDER="true">Bookmarks Toolbar</H3>
+			output += `<DL><p>
+` + data.map(node => {
+				if (node.ns_root === 'toolbar' || node.ns_root === 'unsorted') {
+					const folderType = node.ns_root === 'toolbar'
+						? `PERSONAL_TOOLBAR_FOLDER="true">Bookmarks Toolbar`
+						: `UNFILED_BOOKMARKS_FOLDER="true">Other Bookmarks`
+					return `	<DT><H3 ADD_DATE="${node.add_date}" LAST_MODIFIED="${node.last_modified}" ${folderType}</H3>
 	<DL><p>
-` + _parseTree(data[0].contents, 2, browser) + `	</DL><p>
-	<DT><H3 ADD_DATE="${data[1].add_date}" LAST_MODIFIED="${data[1].last_modified}" UNFILED_BOOKMARKS_FOLDER="true">Other Bookmarks</H3>
-	<DL><p>
-` + _parseTree(data[1].contents, 2, browser) + `	</DL><p>
-<DL>`;
+` + _parseTree(node.contents, 2, browser) + `	</DL><p>
+`;
+				}
+				else return _parseTree(node.contents, 1, browser);
+			}).join('') + `<DL>`;
+			if (browser === 'chrome') output += `<p>`;
+			else if (browser === 'firefox') output += `
+</DL><p>`;
 			break;
+
 		case 'safari':
-				// output += 
+			output += `	<HTML>
+	<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
+	<Title>Bookmarks</Title>
+	<H1>Bookmarks</H1>
+` + data.map(node => {
+				return _parseTree(node.contents, 1, browser);
+			}).join('') + `</HTML>`;
 			break;
+
 		default:
-			output += `<!DOCTYPE NETSCAPE-Bookmark-file-1>
-<!-- This is an automatically generated file.
-	 It will be read and overwritten.
-	 DO NOT EDIT! -->
-<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
-<TITLE>Bookmarks</TITLE>
-<H1>Bookmarks</H1>
-<DL><p>
-	<DT><H3 ADD_DATE="${data[0].add_date}" LAST_MODIFIED="${data[0].last_modified}" PERSONAL_TOOLBAR_FOLDER="true">Bookmarks Bar</H3>
-	<DL><p>
-` + _parseTree(data[0].contents, 2, browser) + `	</DL><p>
-` + _parseTree(data[1].contents, 1, browser) + `</DL><p>`;
+			output = 'Something went wrong!';
 	}
 
 	return output;

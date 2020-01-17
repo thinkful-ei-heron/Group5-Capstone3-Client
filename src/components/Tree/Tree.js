@@ -1,9 +1,11 @@
-import React, { Component } from 'react'
-import './Tree.css'
+import React, { Component } from 'react';
+import './Tree.css';
+import uuid from 'uuid';
+import NodeManager from '../NodeManager/NodeManager';
 
 export default class Tree extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       expanded: true,
       selected: false,
@@ -26,9 +28,9 @@ export default class Tree extends Component {
     sortByFunc: () => { },
   }
 
-  handleExpand = (e) => {
-    this.setState({expanded: !this.state.expanded})
-  }
+  handleExpand = e => {
+    this.setState({ expanded: !this.state.expanded });
+  };
 
   toggleSelect = () => {
     this.setState({ selected: !this.state.selected }, () => {
@@ -45,41 +47,39 @@ export default class Tree extends Component {
   }
 
   render() {
-    let indent = this.props.level * 10
-    let contents = this.props.data.contents
+    const indent = this.props.level * 10;
+    let contents = this.props.data.contents;
 
-    if (this.props.sortBy) {
-      contents = this.props.sortByFunc(contents)
+    if (this.state.sortBy) {
+      contents = this.state.sortByFunc(contents);
     }
 
     return (
       <div
         className="Tree"
         style={{
-          position: "relative", left: `${indent}px`
-        }}>
-
-        <div onClick={this.toggleSelect} className={`Tree-info ${this.state.selected && ` selected`}` }>
-          {this.props.data.icon &&
-            <img
-              className="Tree-icon"
-              src={this.props.data.icon}
-              alt="icon"
-            />
-          }
+          position: 'relative',
+          left: `${indent}px`
+        }}
+      >
+        <div className="Tree-info">
+          {this.props.data.icon && (
+            <img className="Tree-icon" src={this.props.data.icon} alt="icon" />
+          )}
           <div className="Tree-detail">
-            {this.props.data.title &&
-              <span className="Tree-title">
-                {this.props.data.title}</span>
-            }
-            {this.props.data.url &&
+            <NodeManager node={this.props.data} />
+            {this.props.data.title && (
+              <span className="Tree-title">{this.props.data.title}</span>
+            )}
+            {this.props.data.url && (
               <a
                 className="Tree-url"
                 href={this.props.data.url}
                 target="_blank"
               >
-                {this.props.data.url}</a>
-            }
+                {this.props.data.url}
+              </a>
+            )}
           </div>
         </div>
 
@@ -113,6 +113,6 @@ export default class Tree extends Component {
             }
         )}
       </div>
-    )
+    );
   }
 }

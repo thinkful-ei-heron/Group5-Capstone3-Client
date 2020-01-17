@@ -31,7 +31,7 @@
   border: 1px solid black;
   border-radius: 8px;
   width: 240px;
-  height: 40px;
+  height: fit-content;
   overflow-x: hidden;
 }
 
