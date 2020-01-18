@@ -40,12 +40,6 @@ export default class BookmarkManager extends Component {
     }
   }
 
-  // handleMoving = () => {
-  //   if (this.state.selectedNodes.length) {
-  //     this.setState({ moving: true })
-  //   }
-  // }
-
   moveNodesToFolder = (moveNodes, newParentNode) => {
     this.setState({
       moving: false,
@@ -91,10 +85,6 @@ export default class BookmarkManager extends Component {
   onDragStart = (e) => {
     this.setState({moving: true})
   }
-
-  // onDrop = (e) => {
-  //   this.handleSelect(e.target)
-  // }
 
   onDrag = (e) => {
     e.preventDefault()
@@ -167,7 +157,6 @@ export default class BookmarkManager extends Component {
                   uid={bm.uid}
                   key={bm.title}
                   data={bm}
-                  // registerNode={this.registerNode}
                   generateTree={this.generateTree}
                   handleSelect={this.handleSelect}
                 />

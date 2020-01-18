@@ -47,7 +47,7 @@ export default class DragDrop extends Component {
         style={{
           position: this.props.moving ? 'fixed' : 'fixed',
           zIndex: this.props.moving ? '1' : '2',
-          transparency: this.props.moving ? '100' : '50',
+          opacity: this.props.moving ? 20 : 70,
           right: '100px',
           bottom: '10px',
         }}
@@ -55,9 +55,8 @@ export default class DragDrop extends Component {
         <div className="top">
 
         </div>
-        <div className="selected-list">
-            Drag Me
-          <ul>
+        <div>
+          <ul className="selected-list">
             {this.props.selectedItems &&
               this.props.selectedItems.map(item => {
                 return (
