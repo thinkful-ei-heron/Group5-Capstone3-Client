@@ -123,9 +123,9 @@ export class NodeManager extends Component {
           </form>
         ) : (
           <>
-            <button type="button" onClick={this.toggleEdit}>
+            {/* <button type="button" onClick={this.toggleEdit}>
               Edit
-            </button>
+            </button> */}
             <button type="button" onClick={this.handleDelete}>
               Delete
             </button>

@@ -112,7 +112,9 @@ export default class Info extends Component {
                     <br></br>
                     <input type='submit' value='Save' className='btn' />
                 </form>
-                <img src={`https://image.thum.io/get/auth/7215-bookmarks/crop/600/${this.state.url.value}`} alt={`${this.state.title.value} preview`}/>
+                <div className={this.state.selectedNode.type === 'folder' ? 'hidden' : ''}>
+                    <img src={`https://image.thum.io/get/auth/7215-bookmarks/crop/600/${this.state.url.value}`} alt={`${this.state.title.value} preview`}/>
+                </div>
                 {/* <img src={this.state.thumbnail} alt={`${this.state.title.value} preview`} width='600' height='200'/> */}
             </>
         );

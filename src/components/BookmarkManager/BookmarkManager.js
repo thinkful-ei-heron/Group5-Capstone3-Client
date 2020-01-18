@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Tree from '../Tree/Tree'
 import BookmarkContext from '../../contexts/BookmarkContext'
 import ImportBookmarks from '../ImportBookmarks/ImportBookmarks'
+import Toolbar from '../Toolbar/Toolbar'
 import Info from '../Info/Info'
 import uuid from 'uuid'
 
@@ -14,11 +15,26 @@ export default class BookmarkManager extends Component {
     selectedNodes: [],
     moveToNode: null,
     moving: false,
+    filter: '',
+    searchFilter: '',
+    search: ''
   }
 
   hashedFlatBm = {}
 
   orderedTreeBm = []
+
+  updateSearchFilter = (searchFilter) => {
+    this.setState({searchFilter})
+  };
+
+  updateFilter = (filter) => {
+    this.setState({filter})
+  };
+
+  updateSearch = (search) => {
+    this.setState({search})
+  };
 
   clearSelect = () => {
     this.setState({selectedNodes: []})
@@ -147,20 +163,34 @@ export default class BookmarkManager extends Component {
           {this.state.moving &&
             `Click a folder to move selected items`
           }
-
+          <Toolbar updateSearch={this.updateSearch} updateFilter={this.updateFilter} updateSearchFilter={this.updateSearchFilter}/>
           {this.context.bookmarks &&
             this.context.bookmarks.map((bm, i) => {
-              return (
-                <Tree
-                  uid={bm.uid}
-                  key={bm.title}
-                  data={bm}
-                  registerNode={this.registerNode}
-                  generateTree={this.generateTree}
-                  handleSelect={this.handleSelect}
-                  
-                />
-              )
+              console.log(bm);
+              if (this.state.filter !== '' && bm.type === this.state.filter){
+                console.log('this.state.filter ===', this.state.filter)
+                return (
+                  <Tree
+                    uid={bm.uid}
+                    key={bm.title}
+                    data={bm}
+                    registerNode={this.registerNode}
+                    generateTree={this.generateTree}
+                    handleSelect={this.handleSelect}
+                  />
+                )
+              } else if(this.state.filter === ''){
+                return (
+                  <Tree
+                    uid={bm.uid}
+                    key={bm.title}
+                    data={bm}
+                    registerNode={this.registerNode}
+                    generateTree={this.generateTree}
+                    handleSelect={this.handleSelect}
+                  />
+                )
+              }
             })}
         </div>
       </div>
