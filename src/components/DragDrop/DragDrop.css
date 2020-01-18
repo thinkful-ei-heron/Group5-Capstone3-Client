@@ -1,0 +1,8 @@
+.DragDrop {
+  transition: all 0.2;
+  background-color: aliceblue;
+  transform: translate(50%, 0);
+  width: 120px;
+  height: 100px;
+  z-index: 2;
+}

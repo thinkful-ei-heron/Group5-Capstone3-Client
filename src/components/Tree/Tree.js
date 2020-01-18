@@ -64,6 +64,8 @@ export default class Tree extends Component {
       >
         <div
           onClick={this.toggleSelect}
+          onDrop={this.toggleSelect}
+          onDragOver={(e)=>{e.preventDefault()}}
           className={ `Tree-info ${this.state.selected && ` selected`}` }>
           {this.props.data.icon && (
             <img className="Tree-icon" src={this.props.data.icon} alt="icon" />

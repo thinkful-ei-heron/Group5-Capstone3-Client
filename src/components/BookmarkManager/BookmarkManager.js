@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Tree from '../Tree/Tree'
 import BookmarkContext from '../../contexts/BookmarkContext'
 import ImportBookmarks from '../ImportBookmarks/ImportBookmarks'
+import DragDrop from '../DragDrop/DragDrop'
 import uuid from 'uuid'
 
 export default class BookmarkManager extends Component {
@@ -21,6 +22,7 @@ export default class BookmarkManager extends Component {
 
   handleSelect = (node, moving = this.state.moving) => {
     //Check if selecting items or selecting folder to move items
+    console.log(node)
     if (moving &&
       (node.props.data.type === 'folder' || node.props.data.contents)) {
       node.setState({selected: false})
@@ -38,11 +40,11 @@ export default class BookmarkManager extends Component {
     }
   }
 
-  handleMoving = () => {
-    if (this.state.selectedNodes.length) {
-      this.setState({ moving: true })
-    }
-  }
+  // handleMoving = () => {
+  //   if (this.state.selectedNodes.length) {
+  //     this.setState({ moving: true })
+  //   }
+  // }
 
   moveNodesToFolder = (moveNodes, newParentNode) => {
     this.setState({
@@ -86,13 +88,20 @@ export default class BookmarkManager extends Component {
     }
   }
 
-  onDragStart = (node) => {
-    this.setState({selectedNodes: node})
+  onDragStart = (e) => {
+    this.setState({moving: true})
   }
 
-  onDragEnd = (node) => {
-    this.setState({moveToNode: node})
-    //set contents of parent node to add selectedNodes
+  // onDrop = (e) => {
+  //   this.handleSelect(e.target)
+  // }
+
+  onDrag = (e) => {
+    e.preventDefault()
+  }
+
+  onDragEnd = (e) => {
+    this.setState({moving: false})
   }
 
   registerNode = (node) => {
@@ -135,7 +144,17 @@ export default class BookmarkManager extends Component {
 
         <div className="BookmarkView">
           {this.state.selectedNodes.length &&
-            <button onClick={this.handleMoving}>Move To...</button>
+            <div
+            draggable
+            onDragStart={this.onDragStart}
+            onDrag={this.onDrag}
+            onDragEnd={this.onDragEnd}>
+            <DragDrop
+              selectedItems={this.state.selectedNodes}
+              moving={this.state.moving}
+            />
+            </div>
+
           }
           {this.state.moving &&
             `Click a folder to move selected items`
@@ -148,7 +167,7 @@ export default class BookmarkManager extends Component {
                   uid={bm.uid}
                   key={bm.title}
                   data={bm}
-                  registerNode={this.registerNode}
+                  // registerNode={this.registerNode}
                   generateTree={this.generateTree}
                   handleSelect={this.handleSelect}
                 />
