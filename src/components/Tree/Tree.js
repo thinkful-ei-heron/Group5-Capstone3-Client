@@ -12,7 +12,7 @@ export default class Tree extends Component {
       parentId: props.parentId,
       data: props.data,
       uid: props.data.uid
-    }
+    };
   }
 
   static defaultProps = {
@@ -22,11 +22,11 @@ export default class Tree extends Component {
     path: [],
     level: null,
     order: null,
-    registerNode: () => { },
-    generateTree: () => { },
-    handleSelect: () => { },
-    sortByFunc: null,
-  }
+    registerNode: () => {},
+    generateTree: () => {},
+    handleSelect: () => {},
+    sortByFunc: null
+  };
 
   handleExpand = e => {
     this.setState({ expanded: !this.state.expanded });
@@ -34,16 +34,16 @@ export default class Tree extends Component {
 
   toggleSelect = () => {
     this.setState({ selected: !this.state.selected }, () => {
-      this.props.handleSelect(this)
-    })
-  }
+      this.props.handleSelect(this);
+    });
+  };
 
   componentDidMount() {
-    this.props.registerNode(this)
+    this.props.registerNode(this);
   }
 
   componentDidUpdate(prevProps, prevState) {
-    this.props.registerNode(this)
+    this.props.registerNode(this);
   }
 
   render() {
@@ -64,7 +64,8 @@ export default class Tree extends Component {
       >
         <div
           onClick={this.toggleSelect}
-          className={ `Tree-info ${this.state.selected && ` selected`}` }>
+          className={`Tree-info ${this.state.selected && ` selected`}`}
+        >
           {this.props.data.icon && (
             <img className="Tree-icon" src={this.props.data.icon} alt="icon" />
           )}
@@ -89,31 +90,30 @@ export default class Tree extends Component {
           <span className="Tree-modified">
             Last_modified: {this.props.tree.last_modified}</span>} */}
 
-        {(this.props.data.type === 'folder' || this.props.data.contents) &&
+        {(this.props.data.type === 'folder' || this.props.data.contents) && (
           <button className="expand-button" onClick={this.handleExpand}>
             {this.state.expanded ? '-' : '+'}
           </button>
-        }
+        )}
 
         {contents &&
           this.state.expanded &&
-            contents.map((data, i) => {
-              return (
-                <Tree
-                  uid={data.uid}
-                  parentId={this.props.data.uid}
-                  key={data.uid}
-                  data={data}
-                  level={this.props.level + 1}
-                  order={i}
-                  path={this.props.path}
-                  registerNode={this.props.registerNode}
-                  sortByFunc={this.props.sortByFunc}
-                  handleSelect={this.props.handleSelect}
-                />
-              )
-            }
-        )}
+          contents.map((data, i) => {
+            return (
+              <Tree
+                uid={data.uid}
+                parentId={this.props.data.uid}
+                key={data.uid}
+                data={data}
+                level={this.props.level + 1}
+                order={i}
+                path={this.props.path}
+                registerNode={this.props.registerNode}
+                sortByFunc={this.props.sortByFunc}
+                handleSelect={this.props.handleSelect}
+              />
+            );
+          })}
       </div>
     );
   }
