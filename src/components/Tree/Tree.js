@@ -63,6 +63,10 @@ export default class Tree extends Component {
         }}
       >
         <div
+          draggable
+          onDragStart={this.props.onDragStart}
+          onDrag={this.props.onDrag}
+          onDragEnd={this.props.onDragEnd}
           onClick={this.toggleSelect}
           onDrop={this.toggleSelect}
           onDragOver={(e)=>{e.preventDefault()}}
@@ -112,6 +116,10 @@ export default class Tree extends Component {
                   registerNode={this.props.registerNode}
                   sortByFunc={this.props.sortByFunc}
                   handleSelect={this.props.handleSelect}
+                  onDrop={this.props.onDrop}
+                  onDragStart={this.props.onDragStart}
+                  onDrag={this.props.onDrag}
+                  onDragEnd={this.props.onDragEnd}
                 />
               )
             }

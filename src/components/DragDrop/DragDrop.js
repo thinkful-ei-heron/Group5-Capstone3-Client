@@ -43,6 +43,10 @@ export default class DragDrop extends Component {
   render() {
     return (
       <div
+        draggable
+        onDragStart={this.props.onDragStart}
+        onDrag={this.props.onDrag}
+        onDragEnd={this.props.onDragEnd}
         className="DragDrop"
         style={{
           position: this.props.moving ? 'fixed' : 'fixed',
