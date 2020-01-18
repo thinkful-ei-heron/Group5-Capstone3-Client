@@ -101,7 +101,7 @@ export class NodeManager extends Component {
     ev.target.tags.value = '';
     bm.tags = tags;
     this.context.setBookmarks(nodes);
-  }
+  };
 
   render() {
     return (
