@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import './Tree.css';
-import uuid from 'uuid';
-// import NodeManager from '../NodeManager/NodeManager';
 
 export default class Tree extends Component {
   constructor(props) {
@@ -102,7 +100,7 @@ export default class Tree extends Component {
                 <Tree
                   uid={data.uid}
                   parentId={this.props.data.uid}
-                  key={data.uid}
+                  key={data.title}
                   data={data}
                   level={this.props.level + 1}
                   order={i}

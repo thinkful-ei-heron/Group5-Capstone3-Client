@@ -71,8 +71,8 @@ export default class Toolbar extends Component {
               onChange={e => this.props.updateSearch(e.target.value)}
             />
             <select className="toolbarInput" onChange={e => this.props.updateSearchFilter(e.target.value)}>
-              <option value="">Any</option>
-              <option value="name">Name</option>
+              <option value="any">Any</option>
+              <option value="title">Name</option>
               <option value="url">URL</option>
               <option value="tag">Tag</option>
             </select>

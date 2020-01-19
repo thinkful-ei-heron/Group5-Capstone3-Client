@@ -4,6 +4,8 @@ import BookmarkContext from '../../contexts/BookmarkContext'
 import ImportBookmarks from '../ImportBookmarks/ImportBookmarks'
 import Toolbar from '../Toolbar/Toolbar'
 import Info from '../Info/Info'
+import MultiInfo from '../MultiInfo/MultiInfo'
+import Search from '../Search/Search'
 import uuid from 'uuid'
 
 export default class BookmarkManager extends Component {
@@ -16,7 +18,7 @@ export default class BookmarkManager extends Component {
     moveToNode: null,
     moving: false,
     filter: '',
-    searchFilter: '',
+    searchFilter: 'any',
     search: ''
   }
 
@@ -151,22 +153,23 @@ export default class BookmarkManager extends Component {
 
   render() {
     const selectedNode = this.state.selectedNodes.length === 1 ? this.state.selectedNodes[0].state.data : null;
-    console.log(selectedNode);
     return (
       <div className="BookmarkManager">
         <ImportBookmarks />
-        {selectedNode && <Info selectedNode={selectedNode} clearSelect={this.clearSelect}/>}
+        {this.state.search !== '' && <Search flat={this.state.flat} search={this.state.search} searchFilter={this.state.searchFilter} hashedFlatBm={this.hashedFlatBm} registerNode={this.registerNode} generateTree={this.generateTree} handleSelect={this.handleSelect}/>}
+        {selectedNode && <Info selectedNode={selectedNode} selectedNodes={this.state.selectedNodes}clearSelect={this.clearSelect}/>}
+        {this.state.selectedNodes.length > 1 && <MultiInfo selectedNodes={this.state.selectedNodes}clearSelect={this.clearSelect}/>}
+
         <div className="BookmarkView">
-          {this.state.selectedNodes.length &&
+          {this.state.selectedNodes.length > 0 &&
             <button onClick={this.handleMoving}>Move To...</button>
           }
           {this.state.moving &&
             `Click a folder to move selected items`
           }
           <Toolbar updateSearch={this.updateSearch} updateFilter={this.updateFilter} updateSearchFilter={this.updateSearchFilter}/>
-          {this.context.bookmarks &&
+          {this.context.bookmarks && (
             this.context.bookmarks.map((bm, i) => {
-              console.log(bm);
               if (this.state.filter !== '' && bm.type === this.state.filter){
                 console.log('this.state.filter ===', this.state.filter)
                 return (
@@ -191,7 +194,8 @@ export default class BookmarkManager extends Component {
                   />
                 )
               }
-            })}
+            })
+          )}
         </div>
       </div>
     )
