@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './Tree.css';
 import uuid from 'uuid';
 import NodeManager from '../NodeManager/NodeManager';
+import Archive from '../Archive/Archive';
 
 export default class Tree extends Component {
   constructor(props) {
@@ -95,7 +96,9 @@ export default class Tree extends Component {
             {this.state.expanded ? '-' : '+'}
           </button>
         )}
-
+        {this.props.data.type === 'bookmark' && this.state.selected && (
+          <Archive node={this.props.data} />
+        )}
         {contents &&
           this.state.expanded &&
           contents.map((data, i) => {
