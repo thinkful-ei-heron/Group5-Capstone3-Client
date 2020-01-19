@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import BookmarkContext from '../../contexts/BookmarkContext'
-import NodeManager from '../NodeManager/NodeManager';
 
 export default class MultiInfo extends Component {
     static contextType = BookmarkContext

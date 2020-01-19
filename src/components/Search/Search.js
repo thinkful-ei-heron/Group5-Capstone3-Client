@@ -13,19 +13,27 @@ export default class Search extends Component {
 
   orderedTreeBm = [];
 
-  // componentDidMount() {
+  // componentDidUpdate() {
+  //   this.props.searchFilter==='any' && console.log(this.arrHashedFlatBm.filter(bm => ( (bm.data.tags !== undefined && bm.data.tags.join(', ').toLowerCase().indexOf(this.props.search) !== -1) || (bm.data.url !== undefined && bm.data.url.toLowerCase().indexOf(this.props.search) !== -1) || (bm.data.title.toLowerCase().indexOf(this.props.search) !== -1) )));
   //   this.props.searchFilter==='any' && this.setState({count: this.arrHashedFlatBm.filter(bm => ( (bm.data.tags !== undefined && bm.data.tags.join(', ').toLowerCase().indexOf(this.props.search) !== -1) || (bm.data.url !== undefined && bm.data.url.toLowerCase().indexOf(this.props.search) !== -1) || (bm.data.title.toLowerCase().indexOf(this.props.search) !== -1) )).length});
-  //   this.props.searchFilter==='tags' && this.setState({count: this.arrHashedFlatBm.filter(bm => bm.data.tags !== undefined && bm.data.tags.join(', ').toLowerCase().indexOf(this.props.search) !== -1).length});
-  //   (this.props.searchFilter==='url' || this.props.searchFilter==='title') && this.setState({count: this.arrHashedFlatBm.filter(bm => bm.data[this.props.searchFilter] !== undefined && bm.data[this.props.searchFilter].toLowerCase().indexOf(this.props.search) !== -1).length});
   // }
+
+  componentDidUpdate () {
+    this.props.searchFilter==='any' && console.log('results count: ', this.arrHashedFlatBm.filter(bm => ( (bm.data.tags !== undefined && bm.data.tags.join(', ').toLowerCase().indexOf(this.props.search) !== -1) || (bm.data.url !== undefined && bm.data.url.toLowerCase().indexOf(this.props.search) !== -1) || (bm.data.title.toLowerCase().indexOf(this.props.search) !== -1) )).length);
+    // this.props.searchFilter==='any' && this.setState({count: (this.arrHashedFlatBm.filter(bm => ( (bm.data.tags !== undefined && bm.data.tags.join(', ').toLowerCase().indexOf(this.props.search) !== -1) || (bm.data.url !== undefined && bm.data.url.toLowerCase().indexOf(this.props.search) !== -1) || (bm.data.title.toLowerCase().indexOf(this.props.search) !== -1) )).length)});
+    
+    this.props.searchFilter==='tags' && console.log('results count: ', this.arrHashedFlatBm.filter(bm => bm.data.tags !== undefined && bm.data.tags.join(', ').toLowerCase().indexOf(this.props.search) !== -1).length)
+    // this.props.searchFilter==='tags' && this.setState({count: this.arrHashedFlatBm.filter(bm => bm.data.tags !== undefined && bm.data.tags.join(', ').toLowerCase().indexOf(this.props.search) !== -1).length});
+    
+    (this.props.searchFilter==='url' || this.props.searchFilter==='title') && console.log('results count: ', this.arrHashedFlatBm.filter(bm => bm.data[this.props.searchFilter] !== undefined && bm.data[this.props.searchFilter].toLowerCase().indexOf(this.props.search) !== -1).length);
+    // (this.props.searchFilter==='url' || this.props.searchFilter==='title') && this.setState({count: this.arrHashedFlatBm.filter(bm => bm.data[this.props.searchFilter] !== undefined && bm.data[this.props.searchFilter].toLowerCase().indexOf(this.props.search) !== -1).length});
+  }
 
   render() {
     return (
       <>
-        <p>Search Results</p>
         {(this.arrHashedFlatBm && this.props.searchFilter==='title') &&
           this.arrHashedFlatBm.filter(bm => bm.data.title.toLowerCase().indexOf(this.props.search) !== -1).map(bm => {
-            console.log(bm);
             return (
               <Tree
                 uid={bm.data.uid}
@@ -40,7 +48,6 @@ export default class Search extends Component {
           })}
         {(this.arrHashedFlatBm && this.props.searchFilter==='url') &&
           this.arrHashedFlatBm.filter(bm => (bm.data.url !== undefined && bm.data.url.toLowerCase().indexOf(this.props.search) !== -1)).map(bm => {
-            console.log(bm);
             return (
               <Tree
                 uid={bm.data.uid}
@@ -55,7 +62,6 @@ export default class Search extends Component {
           })}
         {(this.arrHashedFlatBm && this.props.searchFilter==='tag') &&
           this.arrHashedFlatBm.filter(bm => (bm.data.tags !== undefined && bm.data.tags.join(', ').toLowerCase().indexOf(this.props.search) !== -1)).map(bm => {
-            console.log(bm);
             return (
               <Tree
                 uid={bm.data.uid}
@@ -70,7 +76,6 @@ export default class Search extends Component {
           })}
         {(this.arrHashedFlatBm && this.props.searchFilter==='any') &&
           this.arrHashedFlatBm.filter(bm => ( (bm.data.tags !== undefined && bm.data.tags.join(', ').toLowerCase().indexOf(this.props.search) !== -1) || (bm.data.url !== undefined && bm.data.url.toLowerCase().indexOf(this.props.search) !== -1)) || (bm.data.title.toLowerCase().indexOf(this.props.search) !== -1)).map(bm => {
-            console.log(bm);
             return (
               <Tree
                 uid={bm.data.uid}
