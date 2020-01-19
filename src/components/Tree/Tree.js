@@ -99,7 +99,6 @@ export default class Tree extends Component {
         {this.props.data.type === 'bookmark' && this.state.selected && (
           <Archive node={this.props.data} />
         )}
-
         {contents &&
           this.state.expanded &&
           contents.map((data, i) => {
