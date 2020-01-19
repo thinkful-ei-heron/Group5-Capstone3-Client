@@ -34,6 +34,7 @@ export default class Search extends Component {
                 registerNode={this.props.registerNode}
                 generateTree={this.props.generateTree}
                 handleSelect={this.props.handleSelect}
+                expanded={false}
               />
             )
           })}
@@ -48,6 +49,7 @@ export default class Search extends Component {
                 registerNode={this.props.registerNode}
                 generateTree={this.props.generateTree}
                 handleSelect={this.props.handleSelect}
+                expanded={false}
               />
             )
           })}
@@ -62,6 +64,7 @@ export default class Search extends Component {
                 registerNode={this.props.registerNode}
                 generateTree={this.props.generateTree}
                 handleSelect={this.props.handleSelect}
+                expanded={false}
               />
             )
           })}
@@ -76,6 +79,7 @@ export default class Search extends Component {
                 registerNode={this.props.registerNode}
                 generateTree={this.props.generateTree}
                 handleSelect={this.props.handleSelect}
+                expanded={false}
               />
             )
           })}

@@ -180,6 +180,7 @@ export default class BookmarkManager extends Component {
                     registerNode={this.registerNode}
                     generateTree={this.generateTree}
                     handleSelect={this.handleSelect}
+                    expanded={true}
                   />
                 )
               } else if(this.state.filter === ''){
@@ -191,6 +192,7 @@ export default class BookmarkManager extends Component {
                     registerNode={this.registerNode}
                     generateTree={this.generateTree}
                     handleSelect={this.handleSelect}
+                    expanded={true}
                   />
                 )
               }

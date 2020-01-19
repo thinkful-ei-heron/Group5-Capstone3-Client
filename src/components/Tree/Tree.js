@@ -5,7 +5,7 @@ export default class Tree extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      expanded: true,
+      expanded: this.props.expanded,
       selected: false,
       parentId: props.parentId,
       data: props.data,
@@ -108,6 +108,7 @@ export default class Tree extends Component {
                   registerNode={this.props.registerNode}
                   sortByFunc={this.props.sortByFunc}
                   handleSelect={this.props.handleSelect}
+                  expanded={true}
                 />
               )
             }
