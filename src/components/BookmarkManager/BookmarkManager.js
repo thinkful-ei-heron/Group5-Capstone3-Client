@@ -27,17 +27,17 @@ export default class BookmarkManager extends Component {
 
   orderedTreeBm = []
 
-  updateSearchFilter = (searchFilter) => {
-    this.setState({searchFilter})
-  };
+  // updateSearchFilter = (searchFilter) => {
+  //   this.setState({searchFilter})
+  // };
 
-  updateFilter = (filter) => {
-    this.setState({filter})
-  };
+  // updateFilter = (filter) => {
+  //   this.setState({filter})
+  // };
 
-  updateSearch = (search) => {
-    this.setState({search})
-  };
+  // updateSearch = (search) => {
+  //   this.setState({search})
+  // };
 
   clearSelect = () => {
     this.setState({selectedNodes: []})
@@ -148,9 +148,13 @@ export default class BookmarkManager extends Component {
     }
   }
 
-  updateFinalSearch = ev => {
+  updateFinalSearch = (ev, search, searchFilter, filter)=> {
     ev.preventDefault();
-    this.setState({finalSearch: this.state.search})
+    this.setState({
+      search,
+      searchFilter,
+      filter
+    })
   }
 
   componentDidMount() {
@@ -162,7 +166,7 @@ export default class BookmarkManager extends Component {
     return (
       <div className="BookmarkManager">
         <ImportBookmarks />
-        {this.state.finalSearch !== '' && <Search flat={this.state.flat} search={this.state.finalSearch} searchFilter={this.state.searchFilter} hashedFlatBm={this.hashedFlatBm} registerNode={this.registerNode} generateTree={this.generateTree} handleSelect={this.handleSelect}/>}
+        {this.state.search !== '' && <Search flat={this.state.flat} search={this.state.search} searchFilter={this.state.searchFilter} hashedFlatBm={this.hashedFlatBm} registerNode={this.registerNode} generateTree={this.generateTree} handleSelect={this.handleSelect}/>}
         {selectedNode && <Info selectedNode={selectedNode} selectedNodes={this.state.selectedNodes}clearSelect={this.clearSelect}/>}
         {this.state.selectedNodes.length > 1 && <MultiInfo selectedNodes={this.state.selectedNodes}clearSelect={this.clearSelect}/>}
 
@@ -173,7 +177,7 @@ export default class BookmarkManager extends Component {
           {this.state.moving &&
             `Click a folder to move selected items`
           }
-          <Toolbar updateFinalSearch={this.updateFinalSearch} updateSearch={this.updateSearch} updateFilter={this.updateFilter} updateSearchFilter={this.updateSearchFilter}/>
+          <Toolbar updateFinalSearch={this.updateFinalSearch}/>
           {this.context.bookmarks && (
             this.context.bookmarks.map((bm, i) => {
               if (this.state.filter !== '' && bm.type === this.state.filter){
