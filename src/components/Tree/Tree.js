@@ -100,7 +100,7 @@ export default class Tree extends Component {
                 <Tree
                   uid={data.uid}
                   parentId={this.props.data.uid}
-                  key={data.title}
+                  key={data.uid}
                   data={data}
                   level={this.props.level + 1}
                   order={i}

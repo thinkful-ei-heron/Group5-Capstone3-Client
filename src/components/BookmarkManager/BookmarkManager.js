@@ -19,7 +19,8 @@ export default class BookmarkManager extends Component {
     moving: false,
     filter: '',
     searchFilter: 'any',
-    search: ''
+    search: '',
+    finalSearch: ''
   }
 
   hashedFlatBm = {}
@@ -147,6 +148,11 @@ export default class BookmarkManager extends Component {
     }
   }
 
+  updateFinalSearch = ev => {
+    ev.preventDefault();
+    this.setState({finalSearch: this.state.search})
+  }
+
   componentDidMount() {
     this.setState({flat: this.hashedFlatBm})
   }
@@ -156,7 +162,7 @@ export default class BookmarkManager extends Component {
     return (
       <div className="BookmarkManager">
         <ImportBookmarks />
-        {this.state.search !== '' && <Search flat={this.state.flat} search={this.state.search} searchFilter={this.state.searchFilter} hashedFlatBm={this.hashedFlatBm} registerNode={this.registerNode} generateTree={this.generateTree} handleSelect={this.handleSelect}/>}
+        {this.state.finalSearch !== '' && <Search flat={this.state.flat} search={this.state.finalSearch} searchFilter={this.state.searchFilter} hashedFlatBm={this.hashedFlatBm} registerNode={this.registerNode} generateTree={this.generateTree} handleSelect={this.handleSelect}/>}
         {selectedNode && <Info selectedNode={selectedNode} selectedNodes={this.state.selectedNodes}clearSelect={this.clearSelect}/>}
         {this.state.selectedNodes.length > 1 && <MultiInfo selectedNodes={this.state.selectedNodes}clearSelect={this.clearSelect}/>}
 
@@ -167,7 +173,7 @@ export default class BookmarkManager extends Component {
           {this.state.moving &&
             `Click a folder to move selected items`
           }
-          <Toolbar updateSearch={this.updateSearch} updateFilter={this.updateFilter} updateSearchFilter={this.updateSearchFilter}/>
+          <Toolbar updateFinalSearch={this.updateFinalSearch} updateSearch={this.updateSearch} updateFilter={this.updateFilter} updateSearchFilter={this.updateSearchFilter}/>
           {this.context.bookmarks && (
             this.context.bookmarks.map((bm, i) => {
               if (this.state.filter !== '' && bm.type === this.state.filter){

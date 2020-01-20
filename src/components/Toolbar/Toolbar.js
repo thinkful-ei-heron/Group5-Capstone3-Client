@@ -62,7 +62,7 @@ export default class Toolbar extends Component {
               <option value='safari'>Safari</option>
             </select>
           </div>
-          <form className="searchBlock">
+          <form className="searchBlock" onSubmit={this.props.updateFinalSearch}>
             <input
               type="text"
               className="searchInput toolbarInput"
@@ -70,6 +70,9 @@ export default class Toolbar extends Component {
               placeholder="Type search..."
               onChange={e => this.props.updateSearch(e.target.value)}
             />
+            <input type="submit" value="Search"></input>
+          </form>
+          <form>
             <select className="toolbarInput" onChange={e => this.props.updateSearchFilter(e.target.value)}>
               <option value="any">Any</option>
               <option value="title">Name</option>

@@ -37,7 +37,7 @@ export default class Search extends Component {
             return (
               <Tree
                 uid={bm.data.uid}
-                key={bm.data.title}
+                key={bm.data.uid}
                 data={bm.data}
                 registerNode={this.props.registerNode}
                 generateTree={this.props.generateTree}
@@ -51,7 +51,7 @@ export default class Search extends Component {
             return (
               <Tree
                 uid={bm.data.uid}
-                key={bm.data.title}
+                key={bm.data.uid}
                 data={bm.data}
                 registerNode={this.props.registerNode}
                 generateTree={this.props.generateTree}
@@ -65,7 +65,7 @@ export default class Search extends Component {
             return (
               <Tree
                 uid={bm.data.uid}
-                key={bm.data.title}
+                key={bm.data.uid}
                 data={bm.data}
                 registerNode={this.props.registerNode}
                 generateTree={this.props.generateTree}
@@ -79,7 +79,7 @@ export default class Search extends Component {
             return (
               <Tree
                 uid={bm.data.uid}
-                key={bm.data.title}
+                key={bm.data.uid}
                 data={bm.data}
                 registerNode={this.props.registerNode}
                 generateTree={this.props.generateTree}
