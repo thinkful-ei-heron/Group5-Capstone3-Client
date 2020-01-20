@@ -1,14 +1,20 @@
 import React from 'react';
-import './Nav.css';
+import { withRouter } from 'react-router-dom';
+import TokenService from '../../services/token-service.js';
 import UserContext from '../../contexts/UserContext';
-import { Link } from 'react-router-dom';
-import TokenService from '../../services/token-service.js'
+import './Nav.css';
 
-export default class Nav extends React.Component {
+import { Link } from 'react-router-dom';
+
+export default withRouter(class Nav extends React.Component {
   static contextType = UserContext
 
   handleLogoutClick = () => {
     this.context.processLogout();
+  }
+
+  updateActive = () => {
+    console.log(window.location.pathname)
   }
 
   renderLoggedInLinks() {
@@ -16,13 +22,16 @@ export default class Nav extends React.Component {
       <>
         <Link
           to={'/dashboard'}
-          className={'tab'}
+          className={this.props.location.pathname === '/dashboard' ? 'tab activeTab' : 'tab'}
+          id={'tab-dash'}
+          onClick={this.updateActive}
         >
           Dashboard
         </Link>
         <Link
           to={'/'}
           className={'tab'}
+          id={'tab-logout'}
           onClick={this.handleLogoutClick}
         >
           Log Out
@@ -34,8 +43,22 @@ export default class Nav extends React.Component {
   renderLoggedOutLinks() {
     return (
       <>
-        <Link to={'/login'} className={'tab'}>Log In</Link>
-        <Link to={'/signup'} className={'tab'}>Sign Up</Link>
+        <Link
+          to={'/login'}
+          className={this.props.location.pathname === '/login' ? 'tab activeTab' : 'tab'}
+          id={'tab-login'}
+          onClick={this.updateActive}
+        >
+          Log In
+        </Link>
+        <Link
+          to={'/signup'}
+          className={this.props.location.pathname === '/signup' ? 'tab activeTab' : 'tab'}
+          id={'tab-signup'}
+          onClick={this.updateActive}
+        >
+          Sign Up
+        </Link>
       </>
     )
   }
@@ -43,9 +66,16 @@ export default class Nav extends React.Component {
   render() {
     return (
       <nav>
-        <Link to={'/list'} className={'tab'}>List</Link>
+        <Link
+          to={'/list'}
+          className={this.props.location.pathname === '/list' ? 'tab activeTab' : 'tab'}
+          id={'tab-list'}
+          onClick={this.updateActive}
+        >
+          List
+        </Link>
         {TokenService.hasAuthToken() ? this.renderLoggedInLinks() : this.renderLoggedOutLinks()}
       </nav>
     );
   }
-}
+})
