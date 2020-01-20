@@ -119,7 +119,7 @@ export default class Info extends Component {
                     <input type='submit' value='Save' className='btn' />
                 </form>
                 <div className={this.state.selectedNode.type === 'folder' ? 'hidden' : ''}>
-                    {this.state.selectedNode.type === 'bookmark' && <img src={`https://image.thum.io/get/auth/7215-bookmarks/crop/600/${this.state.url.value}`} alt={`${this.state.title.value} preview`}/>}
+                    {this.state.selectedNode.type === 'bookmark' && <img src={`https://image.thum.io/get/auth/7215-bookmarks/crop/200/${this.state.url.value}`} alt={`${this.state.title.value} preview`}/>}
                 </div>
                 {this.state.selectedNode.type ==='bookmark' && <Archive node={this.state.selectedNode} />}
             </>
