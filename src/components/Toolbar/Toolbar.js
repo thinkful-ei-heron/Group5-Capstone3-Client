@@ -8,7 +8,7 @@ export default class Toolbar extends Component {
   static contextType = BookmarkContext;
 
   state = {
-    renderListLoader: false
+    renderListLoader: false,
   };
 
   saveList = () => {
@@ -25,10 +25,6 @@ export default class Toolbar extends Component {
   doneLoading = () => {
     this.setState({ renderListLoader: false });
   };
-
-  updateSearch = () => { };
-
-  updateFilter = () => { };
 
   // will get refactored into context
   exportHandler = () => {
@@ -66,25 +62,29 @@ export default class Toolbar extends Component {
               <option value='safari'>Safari</option>
             </select>
           </div>
-          <form className="searchBlock" onChange={this.updateSearch}>
+          <form className="searchBlock" onSubmit={this.props.updateFinalSearch}>
             <input
               type="text"
               className="searchInput toolbarInput"
               name="search"
               placeholder="Type search..."
+              onChange={e => this.props.updateSearch(e.target.value)}
             />
-            <select className="toolbarInput" onChange={this.updateSearch}>
+            <input type="submit" value="Search"></input>
+          </form>
+          <form>
+            <select className="toolbarInput" onChange={e => this.props.updateSearchFilter(e.target.value)}>
               <option value="any">Any</option>
-              <option value="name">Name</option>
+              <option value="title">Name</option>
               <option value="url">URL</option>
               <option value="tag">Tag</option>
             </select>
           </form>
-          <form className="filterBlock" onChange={this.updateFilter}>
-            <select className="toolbarInput" name="filter" id="filter">
-              <option value="none">No filter</option>
-              <option value="bookmarks">Only Bookmarks</option>
-              <option value="folders">Only Folders</option>
+          <form className="filterBlock">
+            <select className="toolbarInput" name="filter" id="filter" onChange={e => this.props.updateFilter(e.target.value)}>
+              <option value="">No filter</option>
+              <option value="bookmark">Only Bookmarks</option>
+              <option value="folder">Only Folders</option>
             </select>
           </form>
         </div>
