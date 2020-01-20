@@ -1,10 +1,12 @@
 import React from 'react';
-import './Nav.css';
+import { withRouter } from 'react-router-dom';
+import TokenService from '../../services/token-service.js';
 import UserContext from '../../contexts/UserContext';
-import { Link } from 'react-router-dom';
-import TokenService from '../../services/token-service.js'
+import './Nav.css';
 
-export default class Nav extends React.Component {
+import { Link } from 'react-router-dom';
+
+export default withRouter(class Nav extends React.Component {
   static contextType = UserContext
 
   handleLogoutClick = () => {
@@ -16,13 +18,15 @@ export default class Nav extends React.Component {
       <>
         <Link
           to={'/dashboard'}
-          className={'btn'}
+          className={this.props.location.pathname === '/dashboard' ? 'tab activeTab' : 'tab'}
+          id={'tab-dash'}
         >
           Dashboard
         </Link>
         <Link
           to={'/'}
-          className={'btn'}
+          className={'tab'}
+          id={'tab-logout'}
           onClick={this.handleLogoutClick}
         >
           Log Out
@@ -34,8 +38,20 @@ export default class Nav extends React.Component {
   renderLoggedOutLinks() {
     return (
       <>
-        <Link to={'/login'} className={'btn'}>Log In</Link>
-        <Link to={'/signup'} className={'btn'}>Sign Up</Link>
+        <Link
+          to={'/login'}
+          className={this.props.location.pathname === '/login' ? 'tab activeTab' : 'tab'}
+          id={'tab-login'}
+        >
+          Log In
+        </Link>
+        <Link
+          to={'/signup'}
+          className={this.props.location.pathname === '/signup' ? 'tab activeTab' : 'tab'}
+          id={'tab-signup'}
+        >
+          Sign Up
+        </Link>
       </>
     )
   }
@@ -43,9 +59,15 @@ export default class Nav extends React.Component {
   render() {
     return (
       <nav>
-        <Link to={'/list'} className={'btn'}>List</Link>
+        <Link
+          to={'/list'}
+          className={this.props.location.pathname === '/list' ? 'tab activeTab' : 'tab'}
+          id={'tab-list'}
+        >
+          List
+        </Link>
         {TokenService.hasAuthToken() ? this.renderLoggedInLinks() : this.renderLoggedOutLinks()}
       </nav>
     );
   }
-}
+})

@@ -6,7 +6,7 @@
 	flex-direction: column;
 	justify-content: space-evenly;
 	position: fixed;
-	top: 49px;
+	top: 46px;
 	width: 100vw;
 	z-index: 5;
 }
