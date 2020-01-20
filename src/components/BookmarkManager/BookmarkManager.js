@@ -66,11 +66,11 @@ export default class BookmarkManager extends Component {
             node.setState({ selected: false })
             let parent = this.recursiveFind(node.props.parentId, nodes)
             if (parent) {
-              let childIdx = parent.contents.findIndex(item => item.uid === node.props.uid)
+              let childIdx = parent.contents.findIndex(item => item.id === node.props.id)
               parent.contents.splice(childIdx, 1)
 
               if (!newTargetNode.props.data.type === 'bookmark') {
-                let newParent = this.recursiveFind(newTargetNode.props.uid, nodes)
+                let newParent = this.recursiveFind(newTargetNode.props.id, nodes)
                 newParent.contents = [node.props.data, ...newParent.contents]
               }
               else if (newTargetNode.props.data.type === 'bookmark') {
@@ -78,7 +78,7 @@ export default class BookmarkManager extends Component {
                 newParent.contents.splice(newTargetNode.props.order, 0, node.props.data)
               }
             } else {
-              let idx = nodes.findIndex(item => item.uid === node.props.uid)
+              let idx = nodes.findIndex(item => item.id === node.props.id)
               nodes.splice(idx, 1)
               nodes = [node.props.data, ...nodes]
             }
@@ -90,13 +90,13 @@ export default class BookmarkManager extends Component {
     })
   }
 
-  recursiveFind(uid, nodes) {
+  recursiveFind(id, nodes) {
     for (const node of nodes) {
-      if (node.uid === uid) {
+      if (node.id === id) {
         return node;
       }
       if (node.contents) {
-        const foo = this.recursiveFind(uid, node.contents);
+        const foo = this.recursiveFind(id, node.contents);
         if (foo) return foo;
       }
     }
@@ -125,7 +125,7 @@ export default class BookmarkManager extends Component {
             this.context.bookmarks.map((bm, i) => {
               return (
                 <Tree
-                  uid={bm.uid}
+                  id={bm.id}
                   key={bm.title}
                   data={bm}
                   handleSelect={this.handleSelect}

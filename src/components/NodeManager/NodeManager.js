@@ -64,7 +64,7 @@ export class NodeManager extends Component {
     return node.contents && node.contents.some(this.idPredicate);
   };
 
-  idPredicate = node => node.uid === this.props.node.uid;
+  idPredicate = node => node.id === this.props.node.id;
 
   handleEdit = () => {
     const nodes = [...this.context.bookmarks];

@@ -64,7 +64,7 @@ export default class DragDrop extends Component {
             {this.props.selectedItems &&
               this.props.selectedItems.map(item => {
                 return (
-                  <li key={item.props.uid}>
+                  <li key={item.props.id}>
                     {item.props.data.title}
                   </li>
                 )
