@@ -1,14 +1,11 @@
-
 import React, { Component } from 'react';
 import './Tree.css';
-import uuid from 'uuid';
-import NodeManager from '../NodeManager/NodeManager';
 
 export default class Tree extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      expanded: true,
+      expanded: this.props.expanded,
       selected: false,
       parentId: props.parentId,
       data: props.data,
@@ -70,13 +67,13 @@ export default class Tree extends Component {
           onDragEnd={this.props.onDragEnd}
           onClick={this.toggleSelect}
           onDrop={this.toggleSelect}
-          onDragOver={(e)=>{e.preventDefault()}}
+          onDragOver={(e) => { e.preventDefault() }}
           className={ `Tree-info ${this.state.selected && ` selected`}` }>
           {this.props.data.icon && (
             <img className="Tree-icon" src={this.props.data.icon} alt="icon" />
           )}
           <div className="Tree-detail">
-            <NodeManager node={this.props.data} />
+            {/* <NodeManager node={this.props.data} /> */}
             {this.props.data.title && (
               <span className="Tree-title">{this.props.data.title}</span>
             )}
@@ -113,10 +110,11 @@ export default class Tree extends Component {
                   data={data}
                   level={this.props.level + 1}
                   order={i}
-                  path={[...this.props.path, data.id]}
+                  path={this.props.path}
                   registerNode={this.props.registerNode}
                   sortByFunc={this.props.sortByFunc}
                   handleSelect={this.props.handleSelect}
+                  expanded={true}
                   onDrop={this.props.onDrop}
                   onDragStart={this.props.onDragStart}
                   onDrag={this.props.onDrag}

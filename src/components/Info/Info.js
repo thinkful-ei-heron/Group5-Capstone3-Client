@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import BookmarkContext from '../../contexts/BookmarkContext'
 import NodeManager from '../NodeManager/NodeManager';
+import Archive from '../Archive/Archive';
 
 import './Info.css';
 
@@ -25,22 +26,6 @@ export default class Info extends Component {
             touched: false
         }
     }
-
-    // componentDidMount() {
-    //     let data = {key: '5e222a5e8a656155dd30defc13bf436cfbb1b274b6ed2', q: this.state.url.value}
-    //     if (this.state.url.value.length > 0){
-    //         fetch('https://api.linkpreview.net', {
-    //             method: 'POST',
-    //             mode: 'cors',
-    //             body: JSON.stringify(data),
-    //         })
-    //         .then(res => res.json())
-    //         .then(response => {
-    //             console.log(response)
-    //             this.setState({thumbnail: response.image})
-    //         })
-    //     }
-    // }
 
     updateTitle(title) {
         this.setState({title: {
@@ -73,16 +58,16 @@ export default class Info extends Component {
 
     recursiveFind(id, nodes) {
         for (const node of nodes) {
-          if (node.id === id) {
+            if (node.id === id) {
             return node;
-          }
-          if (node.contents) {
+            }
+            if (node.contents) {
             const foo = this.recursiveFind(id, node.contents);
             if (foo) return foo;
-          }
+            }
         }
-      }
-     
+    }
+
     handleSubmit = ev => {
         ev.preventDefault()
         let { title, url, tags, multitags } = this.state;
@@ -136,7 +121,7 @@ export default class Info extends Component {
                 <div className={this.state.selectedNode.type === 'folder' ? 'hidden' : ''}>
                     {this.state.selectedNode.type === 'bookmark' && <img src={`https://image.thum.io/get/auth/7215-bookmarks/crop/600/${this.state.url.value}`} alt={`${this.state.title.value} preview`}/>}
                 </div>
-                {/* <img src={this.state.thumbnail} alt={`${this.state.title.value} preview`} width='600' height='200'/> */}
+                {this.state.selectedNode.type ==='bookmark' && <Archive node={this.state.selectedNode} />}
             </>
         );
     }

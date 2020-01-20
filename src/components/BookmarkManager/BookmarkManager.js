@@ -146,9 +146,10 @@ export default class BookmarkManager extends Component {
     }
   }
 
-  registerNode = node => {
+  registerNode = (node) => {
     if (node.id === null || undefined) {
-      node.props.id = uuid();
+      node.props.id = uuid()
+
     }
     this.hashedFlatBm[node.state.id] = {
       node: node,
@@ -175,10 +176,14 @@ export default class BookmarkManager extends Component {
     }
   };
 
-  updateFinalSearch = ev => {
+  updateFinalSearch = (ev, search, searchFilter, filter)=> {
     ev.preventDefault();
-    this.setState({ finalSearch: this.state.search });
-  };
+    this.setState({
+      search,
+      searchFilter,
+      filter
+    })
+  }
 
   render() {
     const selectedNode =
@@ -230,8 +235,7 @@ export default class BookmarkManager extends Component {
             updateFilter={this.updateFilter}
             updateSearchFilter={this.updateSearchFilter}
           />
-          {this.context.bookmarks &&
-            this.context.bookmarks.map((bm, i) => {
+            {this.context.bookmarks && this.context.bookmarks.map((bm, i) => {
               if (this.state.filter !== '' && bm.type === this.state.filter) {
                 console.log('this.state.filter ===', this.state.filter);
                 return (
@@ -273,7 +277,7 @@ export default class BookmarkManager extends Component {
                 );
               }
             })}
-        </div>
+          </div>
       </div>
     );
   }
