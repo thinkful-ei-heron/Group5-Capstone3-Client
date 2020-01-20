@@ -1,16 +1,22 @@
 :root {
+  --color-user: #7F7F7F;
   --color-text: black;
+  --color-background: rgb(245, 245, 245);
 }
 
 .App {
   text-align: center;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Open Sans', Helvetica, sans-serif;
   color: var(--color-text);
+}
+
+body {
+  background-color: var(--color-background);
 }
 
 main {
   position: relative;
-  top: 50px;
+  top: 40px;
   width: 100vw;
 }
 
@@ -19,7 +25,8 @@ main {
   padding: 4px;
   margin: 0 2px;
   border: 1px solid black;
-  border-radius: 3px;
+  background-color: var(--color-background);
+  border-radius: 2.25px;
 }
 
 .btn:hover {
@@ -37,7 +44,8 @@ input {
 
 .container {
   border: 1px solid black;
-  border-radius: 4px;
+  background-color: white;
+  border-radius: 3px;
   margin: 0 auto;
   padding: 16px;
   max-width: 80%;

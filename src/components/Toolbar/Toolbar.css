@@ -1,5 +1,6 @@
 .toolbar {
-	padding: 6px 2px;
+	background-color: rgb(222, 222, 222);
+	padding: 5px 2px;
 	border-bottom: 1px solid black;
 	display: flex;
 	flex-direction: column;
