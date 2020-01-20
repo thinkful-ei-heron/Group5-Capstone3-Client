@@ -2,8 +2,6 @@ import React from 'react';
 import UserService from '../../services/user-service';
 import './Dashboard.css';
 
-import BookmarkManager from '../../components/BookmarkManager/BookmarkManager'
-
 export default class Dashboard extends React.Component {
   _isMounted = false;
 
@@ -116,7 +114,6 @@ export default class Dashboard extends React.Component {
 
     return (
       <section className='container'>
-        <BookmarkManager />
         <div className='listManager'>
           <p>Currently loaded list: {list}</p>
           {!this.state.deleting

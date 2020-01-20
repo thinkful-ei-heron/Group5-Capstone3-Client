@@ -55,7 +55,7 @@ export default class ImportBookmarks extends Component {
   render() {
     return (
       <div className="Import">
-        {!this.state.imported && (
+        {!this.state.imported &&
           <form id="importform" className="ImportForm">
             <fieldset>
               <label htmlFor="bookmarkfile">
@@ -69,7 +69,7 @@ export default class ImportBookmarks extends Component {
               />
             </fieldset>
           </form>
-        )}
+        }
         <div>
           <button
             className="btn dashExport"

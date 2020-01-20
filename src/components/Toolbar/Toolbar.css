@@ -8,6 +8,7 @@
 	position: fixed;
 	top: 49px;
 	width: 100vw;
+	z-index: 5;
 }
 
 .toolbarRow {
