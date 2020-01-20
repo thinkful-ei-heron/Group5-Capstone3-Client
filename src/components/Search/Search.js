@@ -36,8 +36,8 @@ export default class Search extends Component {
           this.arrHashedFlatBm.filter(bm => bm.data.title.toLowerCase().indexOf(this.props.search) !== -1).map(bm => {
             return (
               <Tree
-                uid={bm.data.uid}
-                key={bm.data.uid}
+                id={bm.data.id}
+                key={bm.data.id}
                 data={bm.data}
                 registerNode={this.props.registerNode}
                 generateTree={this.props.generateTree}
@@ -50,8 +50,8 @@ export default class Search extends Component {
           this.arrHashedFlatBm.filter(bm => (bm.data.url !== undefined && bm.data.url.toLowerCase().indexOf(this.props.search) !== -1)).map(bm => {
             return (
               <Tree
-                uid={bm.data.uid}
-                key={bm.data.uid}
+                id={bm.data.id}
+                key={bm.data.id}
                 data={bm.data}
                 registerNode={this.props.registerNode}
                 generateTree={this.props.generateTree}
@@ -64,8 +64,8 @@ export default class Search extends Component {
           this.arrHashedFlatBm.filter(bm => (bm.data.tags !== undefined && bm.data.tags.join(', ').toLowerCase().indexOf(this.props.search) !== -1)).map(bm => {
             return (
               <Tree
-                uid={bm.data.uid}
-                key={bm.data.uid}
+                id={bm.data.id}
+                key={bm.data.id}
                 data={bm.data}
                 registerNode={this.props.registerNode}
                 generateTree={this.props.generateTree}
@@ -78,8 +78,8 @@ export default class Search extends Component {
           this.arrHashedFlatBm.filter(bm => ( (bm.data.tags !== undefined && bm.data.tags.join(', ').toLowerCase().indexOf(this.props.search) !== -1) || (bm.data.url !== undefined && bm.data.url.toLowerCase().indexOf(this.props.search) !== -1)) || (bm.data.title.toLowerCase().indexOf(this.props.search) !== -1)).map(bm => {
             return (
               <Tree
-                uid={bm.data.uid}
-                key={bm.data.uid}
+                id={bm.data.id}
+                key={bm.data.id}
                 data={bm.data}
                 registerNode={this.props.registerNode}
                 generateTree={this.props.generateTree}

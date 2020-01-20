@@ -9,6 +9,9 @@ export default class Toolbar extends Component {
 
   state = {
     renderListLoader: false,
+    search: '',
+    searchFilter: 'any',
+    filter: ''
   };
 
   saveList = () => {
@@ -29,6 +32,18 @@ export default class Toolbar extends Component {
   // will get refactored into context
   exportHandler = () => {
     exportHTML(this.context.bookmarks);
+  };
+
+  updateSearchFilter = (searchFilter) => {
+    this.setState({searchFilter})
+  };
+
+  updateFilter = (filter) => {
+    this.setState({filter})
+  };
+
+  updateSearch = (search) => {
+    this.setState({search})
   };
 
   render() {
@@ -62,18 +77,18 @@ export default class Toolbar extends Component {
               <option value='safari'>Safari</option>
             </select>
           </div>
-          <form className="searchBlock" onSubmit={this.props.updateFinalSearch}>
+          <form className="searchBlock" onSubmit={e => this.props.updateFinalSearch(e, this.state.search, this.state.searchFilter, this.state.filter)}>
             <input
               type="text"
               className="searchInput toolbarInput"
               name="search"
               placeholder="Type search..."
-              onChange={e => this.props.updateSearch(e.target.value)}
+              onChange={e => this.updateSearch(e.target.value)}
             />
             <input type="submit" value="Search"></input>
           </form>
           <form>
-            <select className="toolbarInput" onChange={e => this.props.updateSearchFilter(e.target.value)}>
+            <select className="toolbarInput" onChange={e => this.updateSearchFilter(e.target.value)}>
               <option value="any">Any</option>
               <option value="title">Name</option>
               <option value="url">URL</option>
@@ -81,7 +96,7 @@ export default class Toolbar extends Component {
             </select>
           </form>
           <form className="filterBlock">
-            <select className="toolbarInput" name="filter" id="filter" onChange={e => this.props.updateFilter(e.target.value)}>
+            <select className="toolbarInput" name="filter" id="filter" onChange={e => this.updateFilter(e.target.value)}>
               <option value="">No filter</option>
               <option value="bookmark">Only Bookmarks</option>
               <option value="folder">Only Folders</option>

@@ -9,12 +9,12 @@ export default class Tree extends Component {
       selected: false,
       parentId: props.parentId,
       data: props.data,
-      uid: props.data.uid
+      id: props.data.id
     }
   }
 
   static defaultProps = {
-    uid: null,
+    id: null,
     parentId: null,
     data: null,
     path: [],
@@ -98,9 +98,9 @@ export default class Tree extends Component {
             contents.map((data, i) => {
               return (
                 <Tree
-                  uid={data.uid}
-                  parentId={this.props.data.uid}
-                  key={data.uid}
+                  id={data.id}
+                  parentId={this.props.data.id}
+                  key={data.id}
                   data={data}
                   level={this.props.level + 1}
                   order={i}
