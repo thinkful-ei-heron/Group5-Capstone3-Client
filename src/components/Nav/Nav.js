@@ -13,10 +13,6 @@ export default withRouter(class Nav extends React.Component {
     this.context.processLogout();
   }
 
-  updateActive = () => {
-    console.log(window.location.pathname)
-  }
-
   renderLoggedInLinks() {
     return (
       <>
@@ -24,7 +20,6 @@ export default withRouter(class Nav extends React.Component {
           to={'/dashboard'}
           className={this.props.location.pathname === '/dashboard' ? 'tab activeTab' : 'tab'}
           id={'tab-dash'}
-          onClick={this.updateActive}
         >
           Dashboard
         </Link>
@@ -47,7 +42,6 @@ export default withRouter(class Nav extends React.Component {
           to={'/login'}
           className={this.props.location.pathname === '/login' ? 'tab activeTab' : 'tab'}
           id={'tab-login'}
-          onClick={this.updateActive}
         >
           Log In
         </Link>
@@ -55,7 +49,6 @@ export default withRouter(class Nav extends React.Component {
           to={'/signup'}
           className={this.props.location.pathname === '/signup' ? 'tab activeTab' : 'tab'}
           id={'tab-signup'}
-          onClick={this.updateActive}
         >
           Sign Up
         </Link>
@@ -70,7 +63,6 @@ export default withRouter(class Nav extends React.Component {
           to={'/list'}
           className={this.props.location.pathname === '/list' ? 'tab activeTab' : 'tab'}
           id={'tab-list'}
-          onClick={this.updateActive}
         >
           List
         </Link>
