@@ -4,19 +4,22 @@ import ProxyService from '../../services/proxy-api-service';
 /**
  * Required props:
  * node
- * //editNodeArchive(archive_url, archive_date)
+ * editNodeArchive: function (archive_url, archive_date) => update the node in the context
  */
 export class Archive extends Component {
   constructor(props) {
     super(props);
-    const favoredArchive = props.node ? props.node.archive_url : null;
+    const favoredArchiveUrl = props.node ? props.node.archive_url : null;
+    const favoredArchiveDate = props.node ? props.node.archive_date : null;
     this.state = {
       archives: [],
-      favoredArchive,
+      favoredArchiveUrl,
+      favoredArchiveDate,
       waybackOk: null,
       waybackUrl: null,
       showAll: false,
-      mementoStatus: null
+      mementoStatus: null,
+      editFavoredArchive: false
     };
   }
 
@@ -102,7 +105,42 @@ export class Archive extends Component {
     this.getArchiveList();
   };
 
+  editFavoredArchive = ev => {
+    ev.preventDefault();
+    const favoredArchiveUrl = document.getElementById('fav-archive-url').value;
+    const dateString = document.getElementById('fav-archive-date').value;
+    const favoredArchiveDate = Date.parse(dateString);
+    this.setState({
+      favoredArchiveUrl,
+      favoredArchiveDate,
+      editFavoredArchive: false
+    });
+    this.props.editNodeArchive(favoredArchiveUrl, favoredArchiveDate);
+  };
+  favoredArchiveEditor = () => {
+    return (
+      <form onSubmit={this.editFavoredArchive}>
+        <label htmlFor="fav-archive-url">Archive URL: </label>
+        <input
+          type="text"
+          id="fav-archive-url"
+          defaultValue={this.state.favoredArchiveUrl}
+          placeholder="https://web.archive.org/web/20000229040250/http://www.google.com/"
+        />
+        <label htmlFor="fav-archive=date">Archive date: </label>
+        <input
+          type="text"
+          id="fav-archive-date"
+          defaultValue={this.state.favoredArchiveDate.toDateString()}
+          placeholder={new Date().toDateString()}
+        />
+        <button type="submit">Save</button>
+      </form>
+    );
+  };
+
   render() {
+    const { favoredArchiveUrl, favoredArchiveDate } = this.state;
     if (this.state.showAll) {
       return (
         <div>
@@ -123,6 +161,36 @@ export class Archive extends Component {
           <button type="button" onClick={this.checkArchives}>
             Check other archives
           </button>
+          {!!favoredArchiveUrl ? (
+            <>
+              <p>
+                You have saved an archive link for this bookmark.{' '}
+                <a
+                  href={favoredArchiveUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Visit this archive{' '}
+                  {favoredArchiveDate &&
+                    `(snapshot date: ${favoredArchiveDate.toDateString()})`}
+                </a>
+              </p>
+            </>
+          ) : (
+            <p>You have not saved an archive link for this bookmark.</p>
+          )}
+          {this.state.editFavoredArchive ? (
+            this.favoredArchiveEditor()
+          ) : (
+            <button
+              type="button"
+              onClick={() => this.setState({ editFavoredArchive: true })}
+            >
+              {!!favoredArchiveUrl
+                ? 'Edit saved archive link'
+                : 'Save an archive link '}
+            </button>
+          )}
           {this.renderWayback()}
         </div>
       );
