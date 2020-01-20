@@ -14,9 +14,19 @@ export default class Nav extends React.Component {
   renderLoggedInLinks() {
     return (
       <>
-        <Link to={'/list'} className={'btn'}>List</Link>
-        <Link to={'/dashboard'} className={'btn'}>Dashboard</Link>
-        <Link to={'/'} className={'btn'} onClick={this.handleLogoutClick}>Log Out</Link>
+        <Link
+          to={'/dashboard'}
+          className={'btn'}
+        >
+          Dashboard
+        </Link>
+        <Link
+          to={'/'}
+          className={'btn'}
+          onClick={this.handleLogoutClick}
+        >
+          Log Out
+        </Link>
       </>
     )
   }
@@ -33,8 +43,9 @@ export default class Nav extends React.Component {
   render() {
     return (
       <nav>
+        <Link to={'/list'} className={'btn'}>List</Link>
         {TokenService.hasAuthToken() ? this.renderLoggedInLinks() : this.renderLoggedOutLinks()}
       </nav>
-    );  
+    );
   }
 }
