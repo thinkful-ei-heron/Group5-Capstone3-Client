@@ -106,7 +106,7 @@ export class NodeManager extends Component {
       bm.tags.push(tags);
     }
     this.context.setBookmarks(nodes);
-  }
+  };
 
   render() {
     return (
