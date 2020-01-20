@@ -88,7 +88,7 @@ export default class BookmarkManager extends Component {
         moveNodes.forEach(node => {
           try {
             node.setState({ selected: false })
-            if (newTargetNode.props.path.includes(node.props.uid)) {
+            if (newTargetNode.props.path.includes(node.props.id)) {
               throw new Error('invalid')
             }
             let parent = this.recursiveFind(node.props.parentId, nodes)
@@ -102,7 +102,7 @@ export default class BookmarkManager extends Component {
                 newParent.contents = [node.props.data, ...newParent.contents]
 =======
               if (newTargetNode.props.data.type === 'folder' || newTargetNode.props.data.contents) {
-                let newParent = this.recursiveFind(newTargetNode.props.uid, nodes)
+                let newParent = this.recursiveFind(newTargetNode.props.id, nodes)
                 newParent.contents.splice(0, 0, node.props.data)
 >>>>>>> 8bc1aa02255321aa144d825d2e0de271d7560aeb
               }
@@ -136,12 +136,12 @@ export default class BookmarkManager extends Component {
   }
 
   registerNode = (node) => {
-    if (node.uid === null || undefined) {
-      node.props.uid = uuid()
+    if (node.id === null || undefined) {
+      node.props.id = uuid()
     }
-    this.hashedFlatBm[node.state.uid] = {
+    this.hashedFlatBm[node.state.id] = {
       node: node,
-      uid: node.props.uid,
+      id: node.props.id,
       parentId: node.props.parentId,
       data: node.props.data,
       path: node.props.path,
@@ -153,7 +153,7 @@ export default class BookmarkManager extends Component {
     //re-render tree object from flat
     if (!node.props.parentId && Array.isArray(sourceObj)) {
       sourceObj.push({
-        uid: node.props.uid,
+        id: node.props.id,
         parentId: node.props.parentId,
         title: node.props.data.title,
         contents: node.props.data.contents,
@@ -214,12 +214,12 @@ export default class BookmarkManager extends Component {
                 console.log('this.state.filter ===', this.state.filter)
                 return (
                   <Tree
-                    uid={bm.uid}
+                    id={bm.id}
                     key={bm.title}
                     data={bm}
                     handleSelect={this.handleSelect}
                     order={i}
-                    path={[bm.uid]}
+                    path={[bm.id]}
                     onDrop={this.handleSelect}
                     onDragStart={this.onDragStart}
                     onDrag={this.onDrag}
@@ -233,12 +233,12 @@ export default class BookmarkManager extends Component {
               } else if(this.state.filter === ''){
                 return (
                   <Tree
-                    uid={bm.uid}
+                    id={bm.id}
                     key={bm.title}
                     data={bm}
                     handleSelect={this.handleSelect}
                     order={i}
-                    path={[bm.uid]}
+                    path={[bm.id]}
                     onDrop={this.handleSelect}
                     onDragStart={this.onDragStart}
                     onDrag={this.onDrag}

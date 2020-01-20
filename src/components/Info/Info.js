@@ -71,13 +71,13 @@ export default class Info extends Component {
 
     }
 
-    recursiveFind(uid, nodes) {
+    recursiveFind(id, nodes) {
         for (const node of nodes) {
-          if (node.uid === uid) {
+          if (node.id === id) {
             return node;
           }
           if (node.contents) {
-            const foo = this.recursiveFind(uid, node.contents);
+            const foo = this.recursiveFind(id, node.contents);
             if (foo) return foo;
           }
         }
@@ -90,7 +90,7 @@ export default class Info extends Component {
             tags.value = tags.value.split(',').map(tag => tag.trim());
         }
         const nodes = [...this.context.bookmarks];
-        const bm = this.recursiveFind(this.state.selectedNode.uid, nodes);
+        const bm = this.recursiveFind(this.state.selectedNode.id, nodes);
         if (!bm) {
           throw new Error('Could not find matching node');
         }
