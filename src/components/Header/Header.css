@@ -3,6 +3,9 @@ header {
 	justify-content: space-evenly;
 	padding: 8px;
 	border-bottom: 1px solid black;
+	position: fixed;
+	top: 0;
+	width: 100vw;
 }
 
 h1 {
