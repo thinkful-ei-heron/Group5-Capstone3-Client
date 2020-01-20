@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import Tree from '../Tree/Tree';
 import BookmarkContext from '../../contexts/BookmarkContext';
-import ImportBookmarks from '../ImportBookmarks/ImportBookmarks';
+// import ImportBookmarks from '../ImportBookmarks/ImportBookmarks';
 import DragDrop from '../DragDrop/DragDrop';
 import Toolbar from '../Toolbar/Toolbar';
 import Info from '../Info/Info';
 import MultiInfo from '../MultiInfo/MultiInfo';
 import Search from '../Search/Search';
 import uuid from 'uuid';
+import './BookmarkManager.css';
 
 export default class BookmarkManager extends Component {
   static contextType = BookmarkContext;
@@ -191,94 +192,98 @@ export default class BookmarkManager extends Component {
         ? this.state.selectedNodes[0].state.data
         : null;
     return (
-      <div className="BookmarkManager">
-        <ImportBookmarks />
-        {this.state.finalSearch !== '' && (
-          <Search
-            flat={this.state.flat}
-            search={this.state.finalSearch}
-            searchFilter={this.state.searchFilter}
-            hashedFlatBm={this.hashedFlatBm}
-            registerNode={this.registerNode}
-            generateTree={this.generateTree}
-            handleSelect={this.handleSelect}
-          />
-        )}
-        {selectedNode && (
-          <Info
-            selectedNode={selectedNode}
-            selectedNodes={this.state.selectedNodes}
-            clearSelect={this.clearSelect}
-          />
-        )}
-        {this.state.selectedNodes.length > 1 && (
-          <MultiInfo
-            selectedNodes={this.state.selectedNodes}
-            clearSelect={this.clearSelect}
-          />
-        )}
+      <>
+        <Toolbar
+        updateFinalSearch={this.updateFinalSearch}
+        updateSearch={this.updateSearch}
+        updateFilter={this.updateFilter}
+        updateSearchFilter={this.updateSearchFilter}
+        />
+        <div className="BookmarkManager">
+          <div className="row">
+            <div className="column BookmarkView">
+              {this.state.selectedNodes.length > 0 && (
+                <DragDrop
+                  onDragStart={this.onDragStart}
+                  onDrag={this.onDrag}
+                  onDragEnd={this.onDragEnd}
+                  selectedItems={this.state.selectedNodes}
+                  moving={this.state.moving}
+                />
+              )}
+              {this.state.moving && `Click a folder to move selected items`}
 
-        <div className="BookmarkView">
-          {this.state.selectedNodes.length > 0 && (
-            <DragDrop
-              onDragStart={this.onDragStart}
-              onDrag={this.onDrag}
-              onDragEnd={this.onDragEnd}
-              selectedItems={this.state.selectedNodes}
-              moving={this.state.moving}
-            />
-          )}
-          {this.state.moving && `Click a folder to move selected items`}
-          <Toolbar
-            updateFinalSearch={this.updateFinalSearch}
-            updateSearch={this.updateSearch}
-            updateFilter={this.updateFilter}
-            updateSearchFilter={this.updateSearchFilter}
-          />
-            {this.context.bookmarks && this.context.bookmarks.map((bm, i) => {
-              if (this.state.filter !== '' && bm.type === this.state.filter) {
-                console.log('this.state.filter ===', this.state.filter);
-                return (
-                  <Tree
-                    id={bm.id}
-                    key={bm.title}
-                    data={bm}
-                    handleSelect={this.handleSelect}
-                    order={i}
-                    path={[bm.id]}
-                    onDrop={this.handleSelect}
-                    onDragStart={this.onDragStart}
-                    onDrag={this.onDrag}
-                    onDragEnd={this.onDragEnd}
-                    registerNode={this.registerNode}
-                    generateTree={this.generateTree}
-                    handleSelect={this.handleSelect}
-                    expanded={true}
-                  />
-                );
-              } else if (this.state.filter === '') {
-                return (
-                  <Tree
-                    id={bm.id}
-                    key={bm.title}
-                    data={bm}
-                    handleSelect={this.handleSelect}
-                    order={i}
-                    path={[bm.id]}
-                    onDrop={this.handleSelect}
-                    onDragStart={this.onDragStart}
-                    onDrag={this.onDrag}
-                    onDragEnd={this.onDragEnd}
-                    registerNode={this.registerNode}
-                    generateTree={this.generateTree}
-                    handleSelect={this.handleSelect}
-                    expanded={true}
-                  />
-                );
-              }
-            })}
+              {this.context.bookmarks && this.context.bookmarks.map((bm, i) => {
+                if (this.state.filter !== '' && bm.type === this.state.filter) {
+                  console.log('this.state.filter ===', this.state.filter);
+                  return (
+                    <Tree
+                      id={bm.id}
+                      key={bm.title}
+                      data={bm}
+                      handleSelect={this.handleSelect}
+                      order={i}
+                      path={[bm.id]}
+                      onDrop={this.handleSelect}
+                      onDragStart={this.onDragStart}
+                      onDrag={this.onDrag}
+                      onDragEnd={this.onDragEnd}
+                      registerNode={this.registerNode}
+                      generateTree={this.generateTree}
+                      expanded={true}
+                    />
+                  );
+                } else if (this.state.filter === '') {
+                  return (
+                    <Tree
+                      id={bm.id}
+                      key={bm.title}
+                      data={bm}
+                      handleSelect={this.handleSelect}
+                      order={i}
+                      path={[bm.id]}
+                      onDrop={this.handleSelect}
+                      onDragStart={this.onDragStart}
+                      onDrag={this.onDrag}
+                      onDragEnd={this.onDragEnd}
+                      registerNode={this.registerNode}
+                      generateTree={this.generateTree}
+                      expanded={true}
+                    />
+                  );
+                }
+              })}
+            </div>
+
+            <div className="column SearchInfoView">
+              {this.state.finalSearch !== '' && (
+                <Search
+                  flat={this.state.flat}
+                  search={this.state.finalSearch}
+                  searchFilter={this.state.searchFilter}
+                  hashedFlatBm={this.hashedFlatBm}
+                  registerNode={this.registerNode}
+                  generateTree={this.generateTree}
+                  handleSelect={this.handleSelect}
+                />
+              )}
+              {selectedNode && (
+                <Info
+                  selectedNode={selectedNode}
+                  selectedNodes={this.state.selectedNodes}
+                  clearSelect={this.clearSelect}
+                />
+              )}
+              {this.state.selectedNodes.length > 1 && (
+                <MultiInfo
+                  selectedNodes={this.state.selectedNodes}
+                  clearSelect={this.clearSelect}
+                />
+              )}
+            </div>
           </div>
-      </div>
+        </div>
+      </>
     );
   }
 }

@@ -2,7 +2,6 @@ import React from 'react';
 import './DashboardRoute.css';
 import BookmarkManager from '../../components/BookmarkManager/BookmarkManager'
 import Dashboard from '../../components/Dashboard/Dashboard';
-import Toolbar from '../../components/Toolbar/Toolbar';
 
 class DashboardRoute extends React.Component {
   static defaultProps = {

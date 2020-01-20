@@ -1,14 +1,13 @@
 import React from 'react';
 import './ViewRoute.css';
-
-import Toolbar from '../../components/Toolbar/Toolbar';
-import View from '../../components/View/View';
+import BookmarkManager from '../../components/BookmarkManager/BookmarkManager'
+import ImportBookmarks from '../../components/ImportBookmarks/ImportBookmarks';
 
 function ViewRoute() {
   return (
     <div>
-      <Toolbar />
-      <View />
+      <ImportBookmarks />
+      <BookmarkManager />
     </div>
   );
 }
