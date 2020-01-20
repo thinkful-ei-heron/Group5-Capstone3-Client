@@ -54,6 +54,7 @@ export class NodeManager extends Component {
 
     if (confirmRemoveChildren) {
       parent.contents.splice(idx, 1); //in place update
+      this.props.clearSelect();
       this.context.setBookmarks(root.contents);
     }
   };
@@ -99,7 +100,11 @@ export class NodeManager extends Component {
     }
     const tags = ev.target.tags.value.split(',').map(tag => tag.trim());
     ev.target.tags.value = '';
-    bm.tags = tags;
+    if (bm.tags === undefined){
+      bm.tags = tags;
+    } else {
+      bm.tags.push(tags);
+    }
     this.context.setBookmarks(nodes);
   };
 
@@ -118,17 +123,17 @@ export class NodeManager extends Component {
           </form>
         ) : (
           <>
-            <button type="button" onClick={this.toggleEdit}>
+            {/* <button type="button" onClick={this.toggleEdit}>
               Edit
-            </button>
+            </button> */}
             <button type="button" onClick={this.handleDelete}>
               Delete
             </button>
 
-            <form onSubmit={this.handleAddTag}>
+            {/* <form onSubmit={this.handleAddTag}>
               <input type="text" name="tags"></input>
               <button>Add Tags</button>
-            </form>
+            </form> */}
 
             {this.props.node.contents && !this.state.add && (
               <button type="button" onClick={this.toggleAdd}>

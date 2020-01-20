@@ -2,6 +2,10 @@ import React, { Component } from 'react'
 import Tree from '../Tree/Tree'
 import BookmarkContext from '../../contexts/BookmarkContext'
 import ImportBookmarks from '../ImportBookmarks/ImportBookmarks'
+import Toolbar from '../Toolbar/Toolbar'
+import Info from '../Info/Info'
+import MultiInfo from '../MultiInfo/MultiInfo'
+import Search from '../Search/Search'
 import uuid from 'uuid'
 
 export default class BookmarkManager extends Component {
@@ -13,11 +17,31 @@ export default class BookmarkManager extends Component {
     selectedNodes: [],
     moveToNode: null,
     moving: false,
+    filter: '',
+    searchFilter: 'any',
+    search: '',
+    finalSearch: ''
   }
 
   hashedFlatBm = {}
 
   orderedTreeBm = []
+
+  updateSearchFilter = (searchFilter) => {
+    this.setState({searchFilter})
+  };
+
+  updateFilter = (filter) => {
+    this.setState({filter})
+  };
+
+  updateSearch = (search) => {
+    this.setState({search})
+  };
+
+  clearSelect = () => {
+    this.setState({selectedNodes: []})
+  }
 
   handleSelect = (node, moving = this.state.moving) => {
     //Check if selecting items or selecting folder to move items
@@ -124,36 +148,62 @@ export default class BookmarkManager extends Component {
     }
   }
 
+  updateFinalSearch = ev => {
+    ev.preventDefault();
+    this.setState({finalSearch: this.state.search})
+  }
+
   componentDidMount() {
     this.setState({flat: this.hashedFlatBm})
   }
 
   render() {
+    const selectedNode = this.state.selectedNodes.length === 1 ? this.state.selectedNodes[0].state.data : null;
     return (
       <div className="BookmarkManager">
         <ImportBookmarks />
+        {this.state.finalSearch !== '' && <Search flat={this.state.flat} search={this.state.finalSearch} searchFilter={this.state.searchFilter} hashedFlatBm={this.hashedFlatBm} registerNode={this.registerNode} generateTree={this.generateTree} handleSelect={this.handleSelect}/>}
+        {selectedNode && <Info selectedNode={selectedNode} selectedNodes={this.state.selectedNodes}clearSelect={this.clearSelect}/>}
+        {this.state.selectedNodes.length > 1 && <MultiInfo selectedNodes={this.state.selectedNodes}clearSelect={this.clearSelect}/>}
 
         <div className="BookmarkView">
-          {this.state.selectedNodes.length &&
+          {this.state.selectedNodes.length > 0 &&
             <button onClick={this.handleMoving}>Move To...</button>
           }
           {this.state.moving &&
             `Click a folder to move selected items`
           }
-
-          {this.context.bookmarks &&
+          <Toolbar updateFinalSearch={this.updateFinalSearch} updateSearch={this.updateSearch} updateFilter={this.updateFilter} updateSearchFilter={this.updateSearchFilter}/>
+          {this.context.bookmarks && (
             this.context.bookmarks.map((bm, i) => {
-              return (
-                <Tree
-                  uid={bm.uid}
-                  key={bm.title}
-                  data={bm}
-                  registerNode={this.registerNode}
-                  generateTree={this.generateTree}
-                  handleSelect={this.handleSelect}
-                />
-              )
-            })}
+              if (this.state.filter !== '' && bm.type === this.state.filter){
+                console.log('this.state.filter ===', this.state.filter)
+                return (
+                  <Tree
+                    uid={bm.uid}
+                    key={bm.title}
+                    data={bm}
+                    registerNode={this.registerNode}
+                    generateTree={this.generateTree}
+                    handleSelect={this.handleSelect}
+                    expanded={true}
+                  />
+                )
+              } else if(this.state.filter === ''){
+                return (
+                  <Tree
+                    uid={bm.uid}
+                    key={bm.title}
+                    data={bm}
+                    registerNode={this.registerNode}
+                    generateTree={this.generateTree}
+                    handleSelect={this.handleSelect}
+                    expanded={true}
+                  />
+                )
+              }
+            })
+          )}
         </div>
       </div>
     )

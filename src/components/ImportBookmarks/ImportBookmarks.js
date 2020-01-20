@@ -33,7 +33,6 @@ export default class ImportBookmarks extends Component {
           },
           () => {
             this.context.setBookmarks(res.bookmarks);
-            console.log(this.state.bookmarks);
           }
         );
       });
