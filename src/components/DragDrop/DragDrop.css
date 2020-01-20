@@ -1,0 +1,19 @@
+.DragDrop {
+  transition: all 0.2;
+  background-color: aliceblue;
+  transform: translate(50%, 0);
+  max-width: 120px;
+  z-index: 2;
+  font-size: small;
+  margin: 0;
+  padding: 0;
+
+}
+
+.DragDrop .selected-list {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  padding: none;
+  overflow-x: hidden;
+}

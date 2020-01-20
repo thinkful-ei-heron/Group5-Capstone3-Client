@@ -61,7 +61,13 @@ export default class Tree extends Component {
         }}
       >
         <div
+          draggable
+          onDragStart={this.props.onDragStart}
+          onDrag={this.props.onDrag}
+          onDragEnd={this.props.onDragEnd}
           onClick={this.toggleSelect}
+          onDrop={this.toggleSelect}
+          onDragOver={(e) => { e.preventDefault() }}
           className={ `Tree-info ${this.state.selected && ` selected`}` }>
           {this.props.data.icon && (
             <img className="Tree-icon" src={this.props.data.icon} alt="icon" />
@@ -109,6 +115,10 @@ export default class Tree extends Component {
                   sortByFunc={this.props.sortByFunc}
                   handleSelect={this.props.handleSelect}
                   expanded={true}
+                  onDrop={this.props.onDrop}
+                  onDragStart={this.props.onDragStart}
+                  onDrag={this.props.onDrag}
+                  onDragEnd={this.props.onDragEnd}
                 />
               )
             }

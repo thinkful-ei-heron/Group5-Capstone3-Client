@@ -67,7 +67,7 @@ export default class Info extends Component {
             }
         }
     }
-     
+
     handleSubmit = ev => {
         ev.preventDefault()
         let { title, url, tags, multitags } = this.state;
