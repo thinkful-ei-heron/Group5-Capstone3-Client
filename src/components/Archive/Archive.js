@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ProxyService from '../../services/proxy-api-service';
+import BookmarkContext from '../../contexts/BookmarkContext';
 
 /**
  * Required props:
@@ -23,13 +24,10 @@ export class Archive extends Component {
     };
   }
 
+  static contextType = BookmarkContext;
+
   getWayback = async () => {
     const url = this.props.node.url;
-    // const prepped = encodeURIComponent(url.split('://')[1]);
-    // const res = await fetch(
-    //   `http://archive.org/wayback/available?url=${prepped}`
-    // );
-
     const availResponse = await ProxyService.getWayback(url);
     console.log(availResponse);
     const newestSnapshot = availResponse.archived_snapshots.closest;
@@ -42,17 +40,6 @@ export class Archive extends Component {
 
   getArchiveList = async () => {
     let url = this.props.node.url;
-    // if (url.includes('?')) {
-    //   //need to partially URI encode
-    //   const parts = url.split('?');
-    //   parts[1] = encodeURIComponent(parts[1]);
-    //   url = parts.join('%3f');
-    // }
-    // try {
-    //   const res = await fetch(
-    //     `http://timetravel.mementoweb.org/prediction/json/${url}`
-    //   );
-    //   const mementoInfo = res.json().memento_info;
     const memento = await ProxyService.getMemento(url);
     console.log(memento);
     const archives = memento.memento_info.map(service => service.timegate_uri);
@@ -67,7 +54,9 @@ export class Archive extends Component {
     const host = url.split('/')[2];
     return (
       <li key={url}>
-        <a href={url}>{host}</a>
+        <a href={url} target="_blank" rel="noopener noreferrer">
+          {host}
+        </a>
       </li>
     );
   };
@@ -79,7 +68,13 @@ export class Archive extends Component {
       return (
         <div>
           Visit{' '}
-          <a href={this.state.waybackUrl}>archive on the Wayback Machine</a>
+          <a
+            href={this.state.waybackUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            archive on the Wayback Machine
+          </a>
         </div>
       );
     } else {
@@ -109,15 +104,27 @@ export class Archive extends Component {
     ev.preventDefault();
     const favoredArchiveUrl = document.getElementById('fav-archive-url').value;
     const dateString = document.getElementById('fav-archive-date').value;
-    const favoredArchiveDate = Date.parse(dateString);
+
+    let favoredArchiveDate = null;
+
+    if (dateString) {
+      const elements = dateString.split('-');
+      favoredArchiveDate = new Date(elements[0], elements[1] - 1, elements[2]);
+    }
     this.setState({
       favoredArchiveUrl,
       favoredArchiveDate,
       editFavoredArchive: false
     });
-    this.props.editNodeArchive(favoredArchiveUrl, favoredArchiveDate);
+    const update = {
+      archive_url: favoredArchiveUrl,
+      archive_date: favoredArchiveDate
+    };
+
+    this.context.updateNode(this.props.node.id, update);
   };
   favoredArchiveEditor = () => {
+    const date = this.state.favoredArchiveDate;
     return (
       <form onSubmit={this.editFavoredArchive}>
         <label htmlFor="fav-archive-url">Archive URL: </label>
@@ -129,15 +136,31 @@ export class Archive extends Component {
         />
         <label htmlFor="fav-archive=date">Archive date: </label>
         <input
-          type="text"
+          type="date"
           id="fav-archive-date"
-          defaultValue={this.state.favoredArchiveDate.toDateString()}
-          placeholder={new Date().toDateString()}
+          defaultValue={date ? this.formatDate(date) : null}
         />
+        <button
+          type="button"
+          onClick={() =>
+            (document.getElementById('fav-archive-date').value = null)
+          }
+        >
+          clear date
+        </button>
         <button type="submit">Save</button>
       </form>
     );
   };
+
+  formatDate(timestamp) {
+    const date = new Date(timestamp);
+    return `${date.getFullYear()}-${
+      date.getMonth() >= 9 ? '' : '0'
+    }${date.getMonth() + 1}-${
+      date.getDate() >= 10 ? '' : '0'
+    }${date.getDate()}`;
+  }
 
   render() {
     const { favoredArchiveUrl, favoredArchiveDate } = this.state;
@@ -172,7 +195,7 @@ export class Archive extends Component {
                 >
                   Visit this archive{' '}
                   {favoredArchiveDate &&
-                    `(snapshot date: ${favoredArchiveDate.toDateString()})`}
+                    `(snapshot date: ${this.formatDate(favoredArchiveDate)})`}
                 </a>
               </p>
             </>
