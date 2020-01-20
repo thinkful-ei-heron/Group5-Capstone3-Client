@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Tree from '../Tree/Tree';
 import BookmarkContext from '../../contexts/BookmarkContext';
-// import ImportBookmarks from '../ImportBookmarks/ImportBookmarks';
+import ImportBookmarks from '../ImportBookmarks/ImportBookmarks';
 import DragDrop from '../DragDrop/DragDrop';
 import Toolbar from '../Toolbar/Toolbar';
 import Info from '../Info/Info';
@@ -194,14 +194,12 @@ export default class BookmarkManager extends Component {
     return (
       <>
         <Toolbar
-        updateFinalSearch={this.updateFinalSearch}
-        updateSearch={this.updateSearch}
-        updateFilter={this.updateFilter}
-        updateSearchFilter={this.updateSearchFilter}
+          updateFinalSearch={this.updateFinalSearch}
         />
+        <ImportBookmarks/>
         <div className="BookmarkManager">
           <div className="row">
-            <div className="column BookmarkView">
+            <div className="columnLeft BookmarkView">
               {this.state.selectedNodes.length > 0 && (
                 <DragDrop
                   onDragStart={this.onDragStart}
@@ -255,11 +253,11 @@ export default class BookmarkManager extends Component {
               })}
             </div>
 
-            <div className="column SearchInfoView">
-              {this.state.finalSearch !== '' && (
+            <div className="columnRight SearchInfoView">
+              {this.state.search !== '' && (
                 <Search
                   flat={this.state.flat}
-                  search={this.state.finalSearch}
+                  search={this.state.search}
                   searchFilter={this.state.searchFilter}
                   hashedFlatBm={this.hashedFlatBm}
                   registerNode={this.registerNode}

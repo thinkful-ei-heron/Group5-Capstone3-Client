@@ -1,11 +1,28 @@
+.BookmarkManager {
+  position: relative;
+  top: 140px;
+}
 
+.SearchInfoView {
+  position: fixed;
+  left: 40%
+}
 
 .row {
   display: flex;
-  position: fixed;
-  top: 200px;
+  justify-content: center;
+
 }
 
-.column {
-  flex: 50%
+.columnLeft {
+  flex: 30%;
+  width: 30%;
+  text-align: center
+}
+
+.columnRight {
+  flex: 70%;
+  width: 70%;
+  text-align: center;
+  justify-content: center;
 }
