@@ -145,14 +145,14 @@ export default class Dashboard extends React.Component {
               onChange={this.handlePreview}
             />
             <br />
-            <label htmlFor='extraPanel'>Extra Panel:</label>
+            {/* <label htmlFor='extraPanel'>Extra Panel:</label>
             <input
               type='checkbox'
               name='extraPanel' id='extraPanel'
               checked={this.state.extra}
               onChange={this.handleExtra}
             />
-            <br />
+            <br /> */}
             <label htmlFor='autosave'>Autosave:</label>
             <input
               type='checkbox'

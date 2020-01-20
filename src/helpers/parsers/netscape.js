@@ -33,7 +33,7 @@ export function parse(html, callback) {
     function _getNodeData( node ){
 
       var data = {
-        uid: uuid()
+        id: uuid()
       };
 
       for( var i = 0; i != node.childNodes.length; i++ ){
@@ -120,7 +120,7 @@ export function parse(html, callback) {
                 title: "Menu",
                 contents: [],
                 ns_root: 'menu',
-                uid: uuid(),
+                id: uuid(),
               };
             }
             if( itemData.type == "folder" && itemData.__dir_dl ){
