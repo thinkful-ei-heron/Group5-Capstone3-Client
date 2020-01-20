@@ -20,6 +20,7 @@ export default class BookmarkManager extends Component {
 
   orderedTreeBm = []
 
+
   onDragStart = (e) => {
     this.setState({ moving: true })
   }
@@ -64,14 +65,17 @@ export default class BookmarkManager extends Component {
         moveNodes.forEach(node => {
           try {
             node.setState({ selected: false })
+            if (newTargetNode.props.path.includes(node.props.uid)) {
+              throw new Error('invalid')
+            }
             let parent = this.recursiveFind(node.props.parentId, nodes)
             if (parent) {
               let childIdx = parent.contents.findIndex(item => item.uid === node.props.uid)
               parent.contents.splice(childIdx, 1)
 
-              if (!newTargetNode.props.data.type === 'bookmark') {
+              if (newTargetNode.props.data.type === 'folder' || newTargetNode.props.data.contents) {
                 let newParent = this.recursiveFind(newTargetNode.props.uid, nodes)
-                newParent.contents = [node.props.data, ...newParent.contents]
+                newParent.contents.splice(0, 0, node.props.data)
               }
               else if (newTargetNode.props.data.type === 'bookmark') {
                 let newParent = this.recursiveFind(newTargetNode.props.parentId, nodes)
@@ -130,7 +134,8 @@ export default class BookmarkManager extends Component {
                   data={bm}
                   handleSelect={this.handleSelect}
                   order={i}
-                  onDrop={this.onDrop}
+                  path={[bm.uid]}
+                  onDrop={this.handleSelect}
                   onDragStart={this.onDragStart}
                   onDrag={this.onDrag}
                   onDragEnd={this.onDragEnd}

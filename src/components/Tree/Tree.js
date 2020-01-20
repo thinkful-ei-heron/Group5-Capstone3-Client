@@ -112,7 +112,7 @@ export default class Tree extends Component {
                   data={data}
                   level={this.props.level + 1}
                   order={i}
-                  path={this.props.path}
+                  path={[...this.props.path, data.uid]}
                   registerNode={this.props.registerNode}
                   sortByFunc={this.props.sortByFunc}
                   handleSelect={this.props.handleSelect}
