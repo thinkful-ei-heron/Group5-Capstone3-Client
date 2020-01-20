@@ -194,22 +194,6 @@ export default class BookmarkManager extends Component {
           <Toolbar updateFinalSearch={this.updateFinalSearch} updateSearch={this.updateSearch} updateFilter={this.updateFilter} updateSearchFilter={this.updateSearchFilter}/>
           {this.context.bookmarks && (
             this.context.bookmarks.map((bm, i) => {
-<<<<<<< HEAD
-              return (
-                <Tree
-                  id={bm.id}
-                  key={bm.title}
-                  data={bm}
-                  handleSelect={this.handleSelect}
-                  order={i}
-                  onDrop={this.onDrop}
-                  onDragStart={this.onDragStart}
-                  onDrag={this.onDrag}
-                  onDragEnd={this.onDragEnd}
-                />
-              )
-            })}
-=======
               if (this.state.filter !== '' && bm.type === this.state.filter){
                 console.log('this.state.filter ===', this.state.filter)
                 return (
@@ -252,7 +236,6 @@ export default class BookmarkManager extends Component {
               }
             })
           )}
->>>>>>> 8bc1aa02255321aa144d825d2e0de271d7560aeb
         </div>
       </div>
     )
