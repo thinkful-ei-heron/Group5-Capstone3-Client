@@ -4,6 +4,7 @@ import exportHTML from '../../helpers/exportHTML';
 import './Toolbar.css';
 import PersistApiService from '../../services/persist-api-service';
 import RemoteListChooser from '../RemoteListChooser/RemoteListChooser';
+import ImportBookmarks from '../ImportBookmarks/ImportBookmarks';
 export default class Toolbar extends Component {
   static contextType = BookmarkContext;
 
@@ -11,14 +12,24 @@ export default class Toolbar extends Component {
     renderListLoader: false,
     search: '',
     searchFilter: 'any',
-    filter: ''
+    filter: '',
+    renderUploader: false,
+    renderExporter: false
   };
 
-  saveList = () => {
-    const { bookmarks, listName, listId } = this.context;
+  save = listId => {
+    const { bookmarks, listName } = this.context;
     PersistApiService.submitList(bookmarks, listName, listId).then(res => {
       this.context.setListId(res.id);
     });
+  };
+
+  saveList = () => {
+    this.save(this.context.listId);
+  };
+
+  saveCopy = () => {
+    this.save(null);
   };
 
   loadList = () => {
@@ -30,20 +41,36 @@ export default class Toolbar extends Component {
   };
 
   // will get refactored into context
-  exportHandler = () => {
-    exportHTML(this.context.bookmarks);
+  // exportHandler = () => {
+  //   exportHTML(this.context.bookmarks);
+  // };
+
+  updateSearchFilter = searchFilter => {
+    this.setState({ searchFilter });
   };
 
-  updateSearchFilter = (searchFilter) => {
-    this.setState({searchFilter})
+  updateFilter = filter => {
+    this.setState({ filter });
   };
 
-  updateFilter = (filter) => {
-    this.setState({filter})
+  updateSearch = search => {
+    this.setState({ search });
   };
 
-  updateSearch = (search) => {
-    this.setState({search})
+  importFile = () => {
+    this.setState({ renderUploader: true });
+  };
+
+  doneImporting = () => {
+    this.setState({ renderUploader: false });
+  };
+
+  exportFile = () => {
+    this.setState({ renderExporter: true });
+  };
+
+  doneExporting = () => {
+    this.setState({ renderExporter: false });
   };
 
   render() {
@@ -56,6 +83,18 @@ export default class Toolbar extends Component {
           </button>
         </div>
       );
+    } else if (this.state.renderUploader) {
+      return (
+        <div className="toolbar">
+          <ImportBookmarks import={true} done={this.doneImporting} />
+        </div>
+      );
+    } else if (this.state.renderExporter) {
+      return (
+        <div className="toolbar">
+          <ImportBookmarks import={false} done={this.doneExporting} />
+        </div>
+      );
     } else {
       return (
         <div className="toolbar">
@@ -63,21 +102,35 @@ export default class Toolbar extends Component {
             <button className="btn" onClick={this.saveList}>
               Save
             </button>
-            <button className="btn">Save as...</button>
+            <button className="btn" onClick={this.saveCopy}>
+              Copy to new list
+            </button>
             <button className="btn" onClick={this.loadList}>
               Load...
             </button>
-            <button className="btn">Import...</button>
-            <button className="btn" onClick={() => this.exportHandler()}>
+            <button className="btn" onClick={this.importFile}>
+              Import...
+            </button>
+            <button className="btn" onClick={this.exportFile}>
               Export...
             </button>
             <select className="exportFormat" id="browserSelect">
               <option value="chrome">Chrome</option>
               <option value="firefox">Firefox</option>
-              <option value='safari'>Safari</option>
+              <option value="safari">Safari</option>
             </select>
           </div>
-          <form className="searchBlock" onSubmit={e => this.props.updateFinalSearch(e, this.state.search, this.state.searchFilter, this.state.filter)}>
+          <form
+            className="searchBlock"
+            onSubmit={e =>
+              this.props.updateFinalSearch(
+                e,
+                this.state.search,
+                this.state.searchFilter,
+                this.state.filter
+              )
+            }
+          >
             <input
               type="text"
               className="searchInput toolbarInput"
@@ -88,7 +141,10 @@ export default class Toolbar extends Component {
             <input type="submit" value="Search"></input>
           </form>
           <form>
-            <select className="toolbarInput" onChange={e => this.updateSearchFilter(e.target.value)}>
+            <select
+              className="toolbarInput"
+              onChange={e => this.updateSearchFilter(e.target.value)}
+            >
               <option value="any">Any</option>
               <option value="title">Name</option>
               <option value="url">URL</option>
@@ -96,7 +152,12 @@ export default class Toolbar extends Component {
             </select>
           </form>
           <form className="filterBlock">
-            <select className="toolbarInput" name="filter" id="filter" onChange={e => this.updateFilter(e.target.value)}>
+            <select
+              className="toolbarInput"
+              name="filter"
+              id="filter"
+              onChange={e => this.updateFilter(e.target.value)}
+            >
               <option value="">No filter</option>
               <option value="bookmark">Only Bookmarks</option>
               <option value="folder">Only Folders</option>

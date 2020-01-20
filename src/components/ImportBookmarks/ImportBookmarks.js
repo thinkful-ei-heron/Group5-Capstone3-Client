@@ -10,7 +10,8 @@ export default class ImportBookmarks extends Component {
   static contextType = BookmarkContext;
 
   static defaultProps = {
-    storeBookmarks: () => {}
+    storeBookmarks: () => {},
+    import: true
   };
 
   state = {
@@ -33,6 +34,7 @@ export default class ImportBookmarks extends Component {
           },
           () => {
             this.context.setBookmarks(res.bookmarks);
+            this.props.done();
           }
         );
       });
@@ -45,30 +47,45 @@ export default class ImportBookmarks extends Component {
     }
   };
 
-  // will get refactored into context
+  // will get refactored into context (maybe?)
   exportHandler = () => {
     const browser = document.getElementById('browserSelect').value;
     exportHTML(this.context.bookmarks, browser);
+    this.props.done();
+  };
+
+  cancelButton = () => {
+    return (
+      <button type="button" onClick={this.props.done}>
+        Cancel
+      </button>
+    );
   };
 
   render() {
-    return (
-      <div className="Import">
-        {!this.state.imported &&
-          <form id="importform" className="ImportForm">
-            <fieldset>
-              <label htmlFor="bookmarkfile">
-                Upload your bookmarks HTML file:
-              </label>
-              <input
-                type="file"
-                name="bookmarkfile"
-                id="bookmarkfile"
-                onChange={this.handleImport}
-              />
-            </fieldset>
-          </form>
-        }
+    if (this.props.import) {
+      return (
+        <div className="Import">
+          {!this.state.imported && (
+            <form id="importform" className="ImportForm">
+              <fieldset>
+                <label htmlFor="bookmarkfile">
+                  Upload your bookmarks HTML file:
+                </label>
+                <input
+                  type="file"
+                  name="bookmarkfile"
+                  id="bookmarkfile"
+                  onChange={this.handleImport}
+                />
+              </fieldset>
+              {this.cancelButton()}
+            </form>
+          )}
+        </div>
+      );
+    } else {
+      return (
         <div>
           <button
             className="btn dashExport"
@@ -81,8 +98,9 @@ export default class ImportBookmarks extends Component {
             <option value="firefox">Firefox</option>
             <option value="safari">Safari</option>
           </select>
+          {this.cancelButton()}
         </div>
-      </div>
-    );
+      );
+    }
   }
 }
