@@ -70,61 +70,27 @@ export default class Info extends Component {
   render() {
     return (
       <>
-        <h3>Details</h3>
-        {this.props.selectedNodes.length === 1 && (
-          <NodeManager
-            clearSelect={this.props.clearSelect}
-            node={this.props.selectedNode}
-          />
-        )}
+        <h3>Edit Info</h3>
+        {this.props.selectedNodes.length === 1 && <NodeManager clearSelect={this.props.clearSelect} node={this.props.selectedNode} />}
         <form onSubmit={this.handleSubmit}>
           <label htmlFor="title">Title:</label>
-          <input
-            type="text"
-            name="title"
-            defaultValue={this.state.selectedNode.title}
-            onChange={e => this.updateTitle(e.target.value)}
-          ></input>
+          <input type="text" name="title" defaultValue={this.state.selectedNode.title} onChange={e => this.updateTitle(e.target.value)}></input>
           <br></br>
-          <div
-            className={
-              this.state.selectedNode.type === 'folder' ? 'hidden' : ''
-            }
-          >
-            <label htmlFor="url">URL:</label>
-            <input
-              type="text"
-              name="url"
-              defaultValue={this.state.selectedNode.url}
-              onChange={e => this.updateURL(e.target.value)}
-            ></input>
+          <div className={this.state.selectedNode.type === 'folder' ? 'hidden' : ''}>
+              <label htmlFor="url" >URL:</label>
+              <input type="text" name="url" defaultValue={this.state.selectedNode.url} onChange={e => this.updateURL(e.target.value)}></input>
           </div>
-          <br></br>
-
-    render() {
-        return (
-            <>
-                <h3>Edit Info</h3>
-                {this.props.selectedNodes.length === 1 && <NodeManager clearSelect={this.props.clearSelect} node={this.props.selectedNode} />}
-                <form onSubmit={this.handleSubmit}>
-                    <label htmlFor="title">Title:</label>
-                    <input type="text" name="title" defaultValue={this.state.selectedNode.title} onChange={e => this.updateTitle(e.target.value)}></input>
-                    <br></br>
-                    <div className={this.state.selectedNode.type === 'folder' ? 'hidden' : ''}>
-                        <label htmlFor="url" >URL:</label>
-                        <input type="text" name="url" defaultValue={this.state.selectedNode.url} onChange={e => this.updateURL(e.target.value)}></input>
-                    </div>
-                    <div className={this.state.selectedNode === null ? 'hidden' : ''}>
-                        <label htmlFor="tags">Tags:</label>
-                        <input type="text" name="tags" defaultValue={this.state.selectedNode.tags} onChange={e => this.updateTags(e.target.value)}></input>
-                    </div>
-                    <input type='submit' value='Save' className='btn'/>
-                </form>
-                <div className={this.state.selectedNode.type === 'folder' ? 'hidden' : ''}>
-                    {this.state.selectedNode.type === 'bookmark' && <img src={`https://image.thum.io/get/auth/7215-bookmarks/crop/200/${this.state.url.value}`} alt={`${this.state.title.value} preview`}/>}
-                </div>
-                {this.state.selectedNode.type ==='bookmark' && <Archive node={this.state.selectedNode} />}
-            </>
-        );
-    }
+          <div className={this.state.selectedNode === null ? 'hidden' : ''}>
+              <label htmlFor="tags">Tags:</label>
+              <input type="text" name="tags" defaultValue={this.state.selectedNode.tags} onChange={e => this.updateTags(e.target.value)}></input>
+          </div>
+          <input type='submit' value='Save' className='btn'/>
+        </form>
+        <div className={this.state.selectedNode.type === 'folder' ? 'hidden' : ''}>
+          {this.state.selectedNode.type === 'bookmark' && <img src={`https://image.thum.io/get/auth/7215-bookmarks/crop/200/${this.state.url.value}`} alt={`${this.state.title.value} preview`}/>}
+        </div>
+        {this.state.selectedNode.type ==='bookmark' && <Archive node={this.state.selectedNode} />}
+      </>
+    );
+  }
 }
