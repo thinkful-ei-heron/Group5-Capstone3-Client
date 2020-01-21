@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import BookmarkContext from '../../contexts/BookmarkContext';
+import bmParser from '../../helpers/bookmarks-parser';
 import exportHTML from '../../helpers/exportHTML';
 import './Toolbar.css';
 import PersistApiService from '../../services/persist-api-service';
@@ -14,7 +15,7 @@ export default class Toolbar extends Component {
     searchFilter: 'any',
     filter: '',
     renderUploader: false,
-    renderExporter: false
+    renderExporter: false,
   };
 
   save = listId => {
@@ -57,8 +58,22 @@ export default class Toolbar extends Component {
     this.setState({ search });
   };
 
-  importFile = () => {
-    this.setState({ renderUploader: true });
+  importFile = ev => {
+    let reader = new FileReader();
+    reader.onload = ev => {
+      bmParser(reader.result, (err, res) => {
+        if (err) {
+          throw new Error(err);
+        }
+        return this.context.setBookmarks(res.bookmarks);
+      });
+    };
+    try {
+      reader.readAsText(ev.target.files[0]);
+    } catch {
+      this.setState({ error: 'No valid file' });
+      return;
+    }
   };
 
   doneImporting = () => {
@@ -83,12 +98,6 @@ export default class Toolbar extends Component {
           </button>
         </div>
       );
-    } else if (this.state.renderUploader) {
-      return (
-        <div className="toolbar">
-          <ImportBookmarks import={true} done={this.doneImporting} />
-        </div>
-      );
     } else if (this.state.renderExporter) {
       return (
         <div className="toolbar">
@@ -108,17 +117,17 @@ export default class Toolbar extends Component {
             <button className="btn" onClick={this.loadList}>
               Load...
             </button>
-            <button className="btn" onClick={this.importFile}>
-              Import...
-            </button>
+            <label className="btn inputfilelabel" htmlFor="bookmarkfile">Import...</label>
+            <input 
+              type="file" 
+              className="btn inputfile" 
+              name="bookmarkfile" 
+              id="bookmarkfile" 
+              onChange={this.importFile}>
+            </input>
             <button className="btn" onClick={this.exportFile}>
               Export...
             </button>
-            {/* <select className="exportFormat" id="browserSelect">
-              <option value="chrome">Chrome</option>
-              <option value="firefox">Firefox</option>
-              <option value="safari">Safari</option>
-            </select> */}
           </div>
           <form
             className="searchBlock"
