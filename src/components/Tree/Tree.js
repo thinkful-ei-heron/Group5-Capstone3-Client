@@ -52,39 +52,44 @@ export default class Tree extends Component {
     return (
       <div
         className='Tree'
-        style={{ left: `${contents ? '28' : '50'}px` }}
+        style={{ left: `${contents ? '28' : '46'}px` }}
       >
         <div className='itemRow'>
-        {contents &&
-          <button className='expand-button' onClick={this.handleExpand}>
-            {this.state.expanded ? '▼' : '►'}
-          </button>
-        }
+          {contents &&
+            <button className='expand-button' onClick={this.handleExpand}>
+              {this.state.expanded ? '▼' : '►'}
+            </button>
+          }
 
-        <div
-          className={`Tree-info ${this.state.selected && 'selected'}`}
-          draggable
-          onDragStart={this.props.onDragStart}
-          onDrag={this.props.onDrag}
-          onDragEnd={this.props.onDragEnd}
-          onClick={this.toggleSelect}
-          onDrop={this.toggleSelect}
-          onDragOver={(e) => { e.preventDefault() }}
-        >
-          {this.props.data.icon && <img className='Tree-icon' src={this.props.data.icon} alt='icon' />}
+          <div
+            className={`Tree-info ${this.state.selected && 'selected'}`}
+            draggable
+            onDragStart={this.props.onDragStart}
+            onDrag={this.props.onDrag}
+            onDragEnd={this.props.onDragEnd}
+            onClick={this.toggleSelect}
+            onDrop={this.toggleSelect}
+            onDragOver={(e) => { e.preventDefault() }}
+          >
+            {this.props.data.icon && <img className='Tree-icon' src={this.props.data.icon} alt='icon' />}
 
-          <div className="Tree-detail">
-            {/* <NodeManager node={this.props.data} /> */}
-            {this.props.data.title && <span className='Tree-title'>
-              {this.props.data.contents && <>
-                <i class={`far ${this.state.expanded ? 'fa-folder-open' : 'fa-folder'}`} />
-                {' '}
-              </>}
-              {this.props.data.title}
-            </span>}
-            {this.props.data.url && <span className='Tree-url'>{this.props.data.url}</span>}
+            <div className="Tree-detail">
+              {/* <NodeManager node={this.props.data} /> */}
+              {this.props.data.title &&
+                <div className='Tree-title'>
+                  {this.props.data.contents
+                    ? <>
+                      <span className='folderIcon'><i class={`far ${this.state.expanded ? 'fa-folder-open' : 'fa-folder'}`} /></span>
+                      {' '}
+                      <span className='folderText'>{this.props.data.title}</span>
+                    </>
+                    : <>{this.props.data.title}</>
+                  }
+                </div>
+              }
+              {this.props.data.url && <span className='Tree-url'>{this.props.data.url}</span>}
+            </div>
           </div>
-        </div>
         </div>
 
         {contents && this.state.expanded &&
@@ -110,7 +115,7 @@ export default class Tree extends Component {
             )
           })
         }
-        
+
       </div>
     );
   }
