@@ -45,7 +45,6 @@ export default class Tree extends Component {
   }
 
   render() {
-    const indent = this.props.level * 10;
     let contents = this.props.data.contents;
 
     if (this.props.sortByFunc) contents = this.props.sortByFunc(contents);
@@ -53,13 +52,10 @@ export default class Tree extends Component {
     return (
       <div
         className='Tree'
-        style={{
-          position: 'relative',
-          left: `${indent}px`
-        }}
+        style={{ left: `${contents ? '28' : '50'}px` }}
       >
         <div className='itemRow'>
-        {(this.props.data.contents) &&
+        {contents &&
           <button className='expand-button' onClick={this.handleExpand}>
             {this.state.expanded ? '▼' : '►'}
           </button>
@@ -89,9 +85,9 @@ export default class Tree extends Component {
             {this.props.data.url && <span className='Tree-url'>{this.props.data.url}</span>}
           </div>
         </div>
+        </div>
 
-        {contents &&
-          this.state.expanded &&
+        {contents && this.state.expanded &&
           contents.map((data, i) => {
             return (
               <Tree
@@ -114,7 +110,7 @@ export default class Tree extends Component {
             )
           })
         }
-        </div>
+        
       </div>
     );
   }

@@ -198,7 +198,7 @@ export default class BookmarkManager extends Component {
         <div className="BookmarkManager">
           <div className="row">
             <div className="columnLeft BookmarkView">
-              {this.state.selectedNodes.length > 0 && (
+              {this.state.selectedNodes.length > 0 &&
                 <DragDrop
                   onDragStart={this.onDragStart}
                   onDrag={this.onDrag}
@@ -206,7 +206,7 @@ export default class BookmarkManager extends Component {
                   selectedItems={this.state.selectedNodes}
                   moving={this.state.moving}
                 />
-              )}
+              }
               {this.state.moving && `Click a folder to move selected items`}
 
               {this.context.bookmarks &&
@@ -233,7 +233,8 @@ export default class BookmarkManager extends Component {
                         expanded={true}
                       />
                     );
-                  } else if (this.state.filter === '') {
+                  }
+                  if (this.state.filter === '') {
                     return (
                       <Tree
                         id={bm.id}
@@ -256,7 +257,7 @@ export default class BookmarkManager extends Component {
             </div>
 
             <div className="columnRight SearchInfoView">
-              {this.state.search !== '' && (
+              {this.state.search !== '' &&
                 <Search
                   flat={this.state.flat}
                   search={this.state.search}
@@ -266,20 +267,19 @@ export default class BookmarkManager extends Component {
                   generateTree={this.generateTree}
                   handleSelect={this.handleSelect}
                 />
-              )}
-              {selectedNode && (
+              }
+              {selectedNode &&
                 <Info
                   selectedNode={selectedNode}
                   selectedNodes={this.state.selectedNodes}
                   clearSelect={this.clearSelect}
                 />
-              )}
-              {this.state.selectedNodes.length > 1 && (
+              }
+              {this.state.selectedNodes.length > 1 &&
                 <MultiInfo
                   selectedNodes={this.state.selectedNodes}
                   clearSelect={this.clearSelect}
-                />
-              )}
+                />}
             </div>
           </div>
         </div>

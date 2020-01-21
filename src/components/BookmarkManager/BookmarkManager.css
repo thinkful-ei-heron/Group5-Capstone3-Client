@@ -1,6 +1,7 @@
 .BookmarkManager {
   position: relative;
-  top: 62px;
+  top: 60px;
+  left: -25px;
 }
 
 .SearchInfoView {
@@ -11,7 +12,6 @@
 .row {
   display: flex;
   justify-content: center;
-
 }
 
 .columnLeft {
