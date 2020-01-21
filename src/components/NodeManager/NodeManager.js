@@ -4,30 +4,23 @@ import NodeAdder from '../NodeAdder/NodeAdder';
 
 export class NodeManager extends Component {
   static contextType = BookmarksContext;
-  state = {
-    add: false,
-    edit: false,
-    url: null
-  };
 
   constructor(props) {
     super(props);
-    this.state.url = props.node.url;
+    this.state = {
+      add: false
+    };
   }
   addChild = newNode => {
-    const nodes = [...this.context.bookmarks];
-    const folder = this.recursiveFind(this.idPredicate, nodes);
-    if (!folder) {
-      throw new Error('Could not find matching node');
+    const id = this.props.node.id;
+    const folder = this.context.findNodeById(id);
+    const contents = folder.contents;
+    if (!Array.isArray(contents)) {
+      throw new Error('Attempted to add child node to a bookmark');
     }
-    folder.contents.push(newNode);
-    this.context.setBookmarks(nodes);
+    contents.push(newNode);
+    this.context.updateNode(id, { contents });
     this.toggleAdd();
-  };
-
-  toggleEdit = () => {
-    const edit = !this.state.edit;
-    this.setState({ edit });
   };
 
   toggleAdd = () => {
@@ -42,113 +35,40 @@ export class NodeManager extends Component {
         `This will delete ${node.title} and all contents!  Continue?`
       );
     }
-    const nodes = [...this.context.bookmarks];
-    const root = {
-      contents: nodes
-    };
-    const parent = this.recursiveFind(this.parentPredicate, [root]);
-    if (!parent) {
-      throw new Error('Could not find parent node');
-    }
-    const idx = parent.contents.findIndex(this.idPredicate);
-
     if (confirmRemoveChildren) {
-      parent.contents.splice(idx, 1); //in place update
+      // parent.contents.splice(idx, 1); //in place update
       this.props.clearSelect();
-      this.context.setBookmarks(root.contents);
+      this.context.deleteNodeById(node.id);
     }
-  };
-
-  parentPredicate = node => {
-    console.log('target: ', this.props.node.id);
-    node.contents && console.log('searching: ', node.contents);
-    return node.contents && node.contents.some(this.idPredicate);
-  };
-
-  idPredicate = node => node.id === this.props.node.id;
-
-  handleEdit = () => {
-    const nodes = [...this.context.bookmarks];
-    const bm = this.recursiveFind(this.idPredicate, nodes);
-    if (!bm) {
-      throw new Error('Could not find matching node');
-    }
-    bm.title = document.getElementById('newtitle').value; //update in place
-    this.context.setBookmarks(nodes);
-    this.toggleEdit();
-  };
-
-  recursiveFind(predicate, nodes) {
-    for (const node of nodes) {
-      if (predicate(node)) {
-        return node;
-      }
-      if (node.contents) {
-        const maybeResult = this.recursiveFind(predicate, node.contents);
-        if (maybeResult) return maybeResult;
-      }
-    }
-    return null;
-  }
-
-  handleAddTag = ev => {
-    ev.preventDefault();
-    const nodes = [...this.context.bookmarks];
-    const bm = this.recursiveFind(this.idPredicate, nodes);
-    if (!bm) {
-      throw new Error('Could not find matching node');
-    }
-    const tags = ev.target.tags.value.split(',').map(tag => tag.trim());
-    ev.target.tags.value = '';
-    if (bm.tags === undefined) {
-      bm.tags = tags;
-    } else {
-      bm.tags.push(tags);
-    }
-    this.context.setBookmarks(nodes);
   };
 
   render() {
     return (
       <div>
-        {this.state.edit ? (
-          <form
-            onSubmit={ev => {
-              ev.preventDefault();
-              this.handleEdit();
-            }}
-          >
-            <input type="text" id="newtitle" />{' '}
-            <button type="submit">Save</button>
-          </form>
-        ) : (
-          <>
-            {/* <button type="button" onClick={this.toggleEdit}>
+        {/* <button type="button" onClick={this.toggleEdit}>
               Edit
             </button> */}
-            <button type="button" onClick={this.handleDelete}>
-              Delete
-            </button>
+        <button type="button" onClick={this.handleDelete} className="btn">
+          Delete
+        </button>
 
-            {/* <form onSubmit={this.handleAddTag}>
+        {/* <form onSubmit={this.handleAddTag}>
               <input type="text" name="tags"></input>
               <button>Add Tags</button>
             </form> */}
 
-            {this.props.node.contents && !this.state.add && (
-              <button type="button" onClick={this.toggleAdd}>
-                +
-              </button>
-            )}
-            {this.state.add && (
-              <NodeAdder
-                parent={this.props.node}
-                done={newNode => {
-                  this.addChild(newNode);
-                }}
-              />
-            )}
-          </>
+        {this.props.node.contents && !this.state.add && (
+          <button type="button" onClick={this.toggleAdd} className="btn">
+            +
+          </button>
+        )}
+        {this.state.add && (
+          <NodeAdder
+            parent={this.props.node}
+            done={newNode => {
+              this.addChild(newNode);
+            }}
+          />
         )}
       </div>
     );
