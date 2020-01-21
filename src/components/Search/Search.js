@@ -13,11 +13,6 @@ export default class Search extends Component {
 
   orderedTreeBm = [];
 
-  // componentDidUpdate() {
-  //   this.props.searchFilter==='any' && console.log(this.arrHashedFlatBm.filter(bm => ( (bm.data.tags !== undefined && bm.data.tags.join(', ').toLowerCase().indexOf(this.props.search) !== -1) || (bm.data.url !== undefined && bm.data.url.toLowerCase().indexOf(this.props.search) !== -1) || (bm.data.title.toLowerCase().indexOf(this.props.search) !== -1) )));
-  //   this.props.searchFilter==='any' && this.setState({count: this.arrHashedFlatBm.filter(bm => ( (bm.data.tags !== undefined && bm.data.tags.join(', ').toLowerCase().indexOf(this.props.search) !== -1) || (bm.data.url !== undefined && bm.data.url.toLowerCase().indexOf(this.props.search) !== -1) || (bm.data.title.toLowerCase().indexOf(this.props.search) !== -1) )).length});
-  // }
-
   componentDidUpdate () {
     this.props.searchFilter==='any' && console.log('results count: ', this.arrHashedFlatBm.filter(bm => ( (bm.data.tags !== undefined && bm.data.tags.join(', ').toLowerCase().indexOf(this.props.search) !== -1) || (bm.data.url !== undefined && bm.data.url.toLowerCase().indexOf(this.props.search) !== -1) || (bm.data.title.toLowerCase().indexOf(this.props.search) !== -1) )).length);
     // this.props.searchFilter==='any' && this.setState({count: (this.arrHashedFlatBm.filter(bm => ( (bm.data.tags !== undefined && bm.data.tags.join(', ').toLowerCase().indexOf(this.props.search) !== -1) || (bm.data.url !== undefined && bm.data.url.toLowerCase().indexOf(this.props.search) !== -1) || (bm.data.title.toLowerCase().indexOf(this.props.search) !== -1) )).length)});

@@ -1,11 +1,11 @@
 .BookmarkManager {
   position: relative;
-  top: 140px;
+  top: 60px;
 }
 
 .SearchInfoView {
   position: fixed;
-  left: 40%
+  left: 30%
 }
 
 .row {
