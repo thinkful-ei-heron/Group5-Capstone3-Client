@@ -91,6 +91,7 @@ class Signup extends React.Component {
           ref={this.firstInput}
           type='text'
           name='username' id='username'
+          className='unloggedInput'
           required
           autoFocus
           onChange={e => this.updateUsername(e.target.value)}
@@ -98,13 +99,19 @@ class Signup extends React.Component {
         <br />
         <label htmlFor='email'>Would you like to give an email?</label>
         <br />
-        <input type='email' name='email' id='email' onChange={e => this.updateEmail(e.target.value)}/>
+        <input
+          type='email'
+          name='email' id='email'
+          className='unloggedInput'
+          onChange={e => this.updateEmail(e.target.value)}
+        />
         <br />
         <label htmlFor='password'>Choose password:</label>
         <br />
         <input
           type='password'
           name='password' id='password'
+          className='unloggedInput'
           required
           onChange={e => this.updatePassword(e.target.value)}
         />

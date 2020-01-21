@@ -2,7 +2,6 @@ import React from 'react';
 import './DashboardRoute.css';
 import BookmarkManager from '../../components/BookmarkManager/BookmarkManager'
 import Dashboard from '../../components/Dashboard/Dashboard';
-import Toolbar from '../../components/Toolbar/Toolbar';
 
 class DashboardRoute extends React.Component {
   static defaultProps = {
@@ -19,7 +18,7 @@ class DashboardRoute extends React.Component {
   render() {
     return (
       <div>
-        <BookmarkManager />
+        {/* <BookmarkManager /> */}
         <h2>Dashboard</h2>
         <Dashboard onPatchSettingsSuccess={this.handlePatchSettingsSuccess}/>
       </div>
