@@ -1,6 +1,5 @@
 :root {
-  /* --color-user: #7F7F7F; */
-  --color-user: blue;
+  --color-user: #7F7F7F;
   --color-text: black;
   --color-background: rgb(240, 240, 240);
   --btn-corners: 2.5px;
@@ -14,6 +13,8 @@
 
 body {
   background-color: var(--color-background);
+  position: relative;
+  top: 32px;
 }
 
 main {
@@ -41,6 +42,11 @@ a {
 
 input {
   margin: 6px;
+}
+
+.unloggedInput {
+  padding: 6px;
+  border-radius: var(--btn-corners);
 }
 
 .container {

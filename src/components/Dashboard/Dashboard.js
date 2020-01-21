@@ -31,7 +31,6 @@ export default class Dashboard extends React.Component {
         if (this._isMounted) {
           this.setState({
             preview: settings.preview === true,
-            extra: settings.extra === true,
             autosave: settings.autosave === true,
             color: settings.color
           })
@@ -82,18 +81,21 @@ export default class Dashboard extends React.Component {
   }
 
   handleColor = ev => {
-    this.setState({ color: ev.target.value })
+    const color = ev.target.value;
+    const root = document.documentElement;
+    root.style.setProperty('--color-user', color);
+
+    this.setState({ color })
   }
 
   handleSubmit = ev => {
     ev.preventDefault();
-    if (this._isMounted){
+    if (this._isMounted) {
       this.setState({ submitted: true })
     }
-    const { previewImg, extraPanel, autosave, colorUI } = ev.target
+    const { previewImg, autosave, colorUI } = ev.target
     UserService.patchUserSettings({
       preview: previewImg.checked,
-      extra: extraPanel.checked,
       autosave: autosave.checked,
       color: colorUI.value
     })
