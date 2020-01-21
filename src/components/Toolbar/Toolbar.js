@@ -7,28 +7,43 @@ import RemoteListChooser from '../RemoteListChooser/RemoteListChooser';
 import ImportBookmarks from '../ImportBookmarks/ImportBookmarks';
 export default class Toolbar extends Component {
   static contextType = BookmarkContext;
+  constructor(props, context) {
+    super(props, context);
+    this.state = {
+      renderListLoader: false,
+      search: '',
+      searchFilter: 'any',
+      filter: '',
+      renderUploader: false,
+      renderExporter: false,
+      renderListNamer: false,
+      nameError: null,
+      listName: this.context.listName || ''
+    };
+  }
 
-  state = {
-    renderListLoader: false,
-    search: '',
-    searchFilter: 'any',
-    filter: '',
-    renderUploader: false,
-    renderExporter: false,
-  };
 
   save = listId => {
-    const { bookmarks, listName } = this.context;
+    const { bookmarks } = this.context;
+    const { listName } = this.state;
+    if (!listName) return;
     PersistApiService.submitList(bookmarks, listName, listId).then(res => {
       this.context.setListId(res.id);
     });
   };
 
   saveList = () => {
-    this.save(this.context.listId);
+    if (!this.state.listName) {
+      this.setState({ renderListNamer: true });
+    } else {
+      this.save(this.context.listId);
+    }
   };
 
-  saveCopy = () => {
+  saveAs = event => {
+    event.preventDefault();
+    this.context.setListName(this.state.listName);
+    this.setState({ renderListNamer: false });
     this.save(null);
   };
 
@@ -37,7 +52,10 @@ export default class Toolbar extends Component {
   };
 
   doneLoading = () => {
-    this.setState({ renderListLoader: false });
+    this.setState({
+      renderListLoader: false,
+      listName: this.context.listName || ''
+    });
   };
 
   // will get refactored into context
@@ -87,6 +105,14 @@ export default class Toolbar extends Component {
     this.setState({ renderExporter: false });
   };
 
+  beginSaveAs = () => {
+    this.setState({ renderListNamer: true });
+  };
+
+  handleNameChange = event => {
+    this.setState({ listName: event.target.value });
+  };
+
   render() {
     if (this.state.renderListLoader) {
       return (
@@ -103,6 +129,28 @@ export default class Toolbar extends Component {
           <ImportBookmarks import={false} done={this.doneExporting} />
         </div>
       );
+    } else if (this.state.renderListNamer) {
+      return (
+        <div className="toolbar">
+          <form onSubmit={this.saveAs}>
+            <input
+              type="text"
+              id="list-name-input"
+              value={this.state.listName}
+              onChange={this.handleNameChange}
+            />
+            <button type="submit" disabled={!this.state.listName}>
+              Save
+            </button>
+            <button
+              type="button"
+              onClick={() => this.setState({ renderListNamer: false })}
+            >
+              Cancel
+            </button>
+          </form>
+        </div>
+      );
     } else {
       return (
         <div className="toolbar">
@@ -110,8 +158,8 @@ export default class Toolbar extends Component {
             <button className="btn" onClick={this.saveList}>
               Save
             </button>
-            <button className="btn" onClick={this.saveCopy}>
-              Copy to new list
+            <button className="btn" onClick={this.beginSaveAs}>
+              Save as
             </button>
             <button className="btn" onClick={this.loadList}>
               Load...
