@@ -17,10 +17,8 @@ class SignupRoute extends React.Component {
   render() {
     return (
       <section className='registration'>
-        <p>
-          Sign up to save and manage your bookmarks
-        </p>
         <h2>Sign up</h2>
+        <p className='landingText'>Sign up to save and manage your bookmarks</p>
         <Signup
           onRegistrationSuccess={this.handleRegistrationSuccess}
         />

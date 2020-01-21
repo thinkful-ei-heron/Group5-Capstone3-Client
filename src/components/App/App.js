@@ -26,20 +26,20 @@ export default class App extends React.Component {
 
 	render() {
 		return (
-					<div className="App">
-						<Header />
-						<main>
-							<Switch>
-								<PublicOnlyRoute path={'/login'} component={LoginRoute}/>
-								<PublicOnlyRoute path={'/signup'} component={SignupRoute}/>
-								<PublicOnlyRoute exact path={'/'} component={LandingRoute}/>
-								<PrivateOnlyRoute path={'/list'} component={ViewRoute}/>
-								<PrivateOnlyRoute path={'/dashboard'} component={DashboardRoute}/>
-								<Route component={NotFoundRoute}/>
-							</Switch>
-						</main>
-						<Footer />
-					</div>
+			<div className="App">
+				<Header />
+				<main>
+					<Switch>
+						<Route exact path={'/'} component={LandingRoute} />
+						<Route path={'/list'} component={ViewRoute} />
+						<PublicOnlyRoute path={'/login'} component={LoginRoute} />
+						<PublicOnlyRoute path={'/signup'} component={SignupRoute} />
+						<PrivateOnlyRoute path={'/dashboard'} component={DashboardRoute} />
+						<Route component={NotFoundRoute} />
+					</Switch>
+				</main>
+				<Footer />
+			</div>
 		);
 	}
 }
