@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
-import Tree from '../Tree/Tree';
+import uuid from 'uuid';
 import BookmarkContext from '../../contexts/BookmarkContext';
+import './BookmarkManager.css';
+
+import Tree from '../Tree/Tree';
 // import ImportBookmarks from '../ImportBookmarks/ImportBookmarks';
 import DragDrop from '../DragDrop/DragDrop';
 import Toolbar from '../Toolbar/Toolbar';
 import Info from '../Info/Info';
 import MultiInfo from '../MultiInfo/MultiInfo';
 import Search from '../Search/Search';
-import uuid from 'uuid';
-import './BookmarkManager.css';
 
 export default class BookmarkManager extends Component {
   static contextType = BookmarkContext;
@@ -29,6 +30,10 @@ export default class BookmarkManager extends Component {
 
   orderedTreeBm = [];
 
+  componentDidMount() {
+    this.setState({ flat: this.hashedFlatBm });
+  }
+
   onDragStart = e => {
     this.setState({ moving: true });
   };
@@ -40,10 +45,6 @@ export default class BookmarkManager extends Component {
   onDragEnd = e => {
     this.setState({ moving: false });
   };
-
-  componentDidMount() {
-    this.setState({ flat: this.hashedFlatBm });
-  }
 
   updateSearchFilter = searchFilter => {
     this.setState({ searchFilter });
@@ -197,7 +198,7 @@ export default class BookmarkManager extends Component {
         <div className="BookmarkManager">
           <div className="row">
             <div className="columnLeft BookmarkView">
-              {this.state.selectedNodes.length > 0 && (
+              {this.state.selectedNodes.length > 0 &&
                 <DragDrop
                   onDragStart={this.onDragStart}
                   onDrag={this.onDrag}
@@ -205,7 +206,7 @@ export default class BookmarkManager extends Component {
                   selectedItems={this.state.selectedNodes}
                   moving={this.state.moving}
                 />
-              )}
+              }
               {this.state.moving && `Click a folder to move selected items`}
 
               {this.context.bookmarks &&
@@ -232,7 +233,8 @@ export default class BookmarkManager extends Component {
                         expanded={true}
                       />
                     );
-                  } else if (this.state.filter === '') {
+                  }
+                  if (this.state.filter === '') {
                     return (
                       <Tree
                         id={bm.id}
@@ -255,33 +257,29 @@ export default class BookmarkManager extends Component {
             </div>
 
             <div className="columnRight SearchInfoView">
-              {selectedNode && (
+              {this.state.search !== '' &&
+                <Search
+                  flat={this.state.flat}
+                  search={this.state.search}
+                  searchFilter={this.state.searchFilter}
+                  hashedFlatBm={this.hashedFlatBm}
+                  registerNode={this.registerNode}
+                  generateTree={this.generateTree}
+                  handleSelect={this.handleSelect}
+                />
+              }
+              {selectedNode &&
                 <Info
                   selectedNode={selectedNode}
                   selectedNodes={this.state.selectedNodes}
                   clearSelect={this.clearSelect}
                 />
-              )}
-              {this.state.selectedNodes.length > 1 && (
+              }
+              {this.state.selectedNodes.length > 1 &&
                 <MultiInfo
                   selectedNodes={this.state.selectedNodes}
                   clearSelect={this.clearSelect}
-                />
-              )}
-              {this.state.search !== '' && (
-                <div className="searchresults">
-                  <Search
-                    flat={this.state.flat}
-                    search={this.state.search}
-                    searchFilter={this.state.searchFilter}
-                    hashedFlatBm={this.hashedFlatBm}
-                    registerNode={this.registerNode}
-                    generateTree={this.generateTree}
-                    handleSelect={this.handleSelect}
-                  />
-                </div>
-              )}
-
+                />}
             </div>
           </div>
         </div>

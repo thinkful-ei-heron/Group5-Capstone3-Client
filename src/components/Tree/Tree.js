@@ -26,6 +26,14 @@ export default class Tree extends Component {
     sortByFunc: null,
   }
 
+  componentDidMount() {
+    this.props.registerNode(this)
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    this.props.registerNode(this)
+  }
+
   handleExpand = e => {
     this.setState({ expanded: !this.state.expanded });
   };
@@ -36,31 +44,25 @@ export default class Tree extends Component {
     })
   }
 
-  componentDidMount() {
-    this.props.registerNode(this)
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    this.props.registerNode(this)
-  }
-
   render() {
-    const indent = this.props.level * 10;
     let contents = this.props.data.contents;
 
-    if (this.props.sortByFunc) {
-      contents = this.props.sortByFunc(contents);
-    }
+    if (this.props.sortByFunc) contents = this.props.sortByFunc(contents);
 
     return (
       <div
-        className="Tree"
-        style={{
-          position: 'relative',
-          left: `${indent}px`
-        }}
+        className='Tree'
+        style={{ left: `${contents ? '28' : '50'}px` }}
       >
+        <div className='itemRow'>
+        {contents &&
+          <button className='expand-button' onClick={this.handleExpand}>
+            {this.state.expanded ? '▼' : '►'}
+          </button>
+        }
+
         <div
+          className={`Tree-info ${this.state.selected && 'selected'}`}
           draggable
           onDragStart={this.props.onDragStart}
           onDrag={this.props.onDrag}
@@ -68,62 +70,47 @@ export default class Tree extends Component {
           onClick={this.toggleSelect}
           onDrop={this.toggleSelect}
           onDragOver={(e) => { e.preventDefault() }}
-          className={ `Tree-info ${this.state.selected && ` selected`}` }>
-          {this.props.data.icon && (
-            <img className="Tree-icon" src={this.props.data.icon} alt="icon" />
-          )}
-          {this.props.data.type === 'folder' && <i class="far fa-folder fa-lg"></i>}
+        >
+          {this.props.data.icon && <img className='Tree-icon' src={this.props.data.icon} alt='icon' />}
+
           <div className="Tree-detail">
             {/* <NodeManager node={this.props.data} /> */}
-            {this.props.data.title && (
-              <span className="Tree-title">{this.props.data.title}</span>
-            )}
-            {this.props.data.url && (
-              <a
-                className="Tree-url"
-                href={this.props.data.url}
-                target="_blank"
-              >
-                {this.props.data.url}
-              </a>
-            )}
+            {this.props.data.title && <span className='Tree-title'>
+              {this.props.data.contents && <>
+                <i class={`far ${this.state.expanded ? 'fa-folder-open' : 'fa-folder'}`} />
+                {' '}
+              </>}
+              {this.props.data.title}
+            </span>}
+            {this.props.data.url && <span className='Tree-url'>{this.props.data.url}</span>}
           </div>
         </div>
+        </div>
 
-        {/* {this.props.tree.last_modified &&
-          <span className="Tree-modified">
-            Last_modified: {this.props.tree.last_modified}</span>} */}
-
-        {(this.props.data.type === 'folder' || this.props.data.contents) &&
-          <button className="expand-button" onClick={this.handleExpand}>
-            {this.state.expanded ? '-' : '+'}
-          </button>
+        {contents && this.state.expanded &&
+          contents.map((data, i) => {
+            return (
+              <Tree
+                id={data.id}
+                parentId={this.props.data.id}
+                key={data.id}
+                data={data}
+                level={this.props.level + 1}
+                order={i}
+                path={this.props.path}
+                registerNode={this.props.registerNode}
+                sortByFunc={this.props.sortByFunc}
+                handleSelect={this.props.handleSelect}
+                expanded={true}
+                onDrop={this.props.onDrop}
+                onDragStart={this.props.onDragStart}
+                onDrag={this.props.onDrag}
+                onDragEnd={this.props.onDragEnd}
+              />
+            )
+          })
         }
-
-        {contents &&
-          this.state.expanded &&
-            contents.map((data, i) => {
-              return (
-                <Tree
-                  id={data.id}
-                  parentId={this.props.data.id}
-                  key={data.id}
-                  data={data}
-                  level={this.props.level + 1}
-                  order={i}
-                  path={this.props.path}
-                  registerNode={this.props.registerNode}
-                  sortByFunc={this.props.sortByFunc}
-                  handleSelect={this.props.handleSelect}
-                  expanded={true}
-                  onDrop={this.props.onDrop}
-                  onDragStart={this.props.onDragStart}
-                  onDrag={this.props.onDrag}
-                  onDragEnd={this.props.onDragEnd}
-                />
-              )
-            }
-        )}
+        
       </div>
     );
   }

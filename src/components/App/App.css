@@ -1,5 +1,6 @@
 :root {
-  --color-user: #7F7F7F;
+  /* --color-user: #7F7F7F; */
+  --color-user: blue;
   --color-text: black;
   --color-background: rgb(240, 240, 240);
   --btn-corners: 2.5px;
