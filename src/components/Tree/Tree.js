@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import './Tree.css';
+import BookmarkContext from '../../contexts/BookmarkContext'
 
 export default class Tree extends Component {
+  static contextType = BookmarkContext
   constructor(props) {
     super(props);
     this.state = {
-      expanded: this.props.expanded,
+      expanded: props.expanded,
       selected: false,
       parentId: props.parentId,
       data: props.data,
@@ -20,10 +22,35 @@ export default class Tree extends Component {
     path: [],
     level: null,
     order: null,
+    expanded: false,
+    selected: false,
     registerNode: () => { },
     generateTree: () => { },
     handleSelect: () => { },
     sortByFunc: null,
+  }
+
+  onDragStart = (e) => {
+    this.props.handleOnDragStart(e, this)
+  }
+
+  handleExpand = e => {
+    this.setState({ expanded: !this.state.expanded }, () => {
+      if (this.state.expanded && !this.context.expandedNodes.includes(this.props.id)) {
+        this.context.setExpandedNodes([...this.context.expandedNodes, this.props.id])
+      } else if (!this.state.expanded && this.context.expandedNodes.includes(this.props.id)) {
+        let idx = this.context.expandedNodes.findIndex(item => item === this.props.id);
+        this.context.expandedNodes.splice(idx, 1);
+        this.context.setExpandedNodes(this.context.expandedNodes);
+      }
+    });
+
+  };
+
+  toggleSelect = () => {
+    this.setState({ selected: !this.state.selected }, () => {
+      this.props.handleSelect(this)
+    })
   }
 
   componentDidMount() {
@@ -34,83 +61,76 @@ export default class Tree extends Component {
     this.props.registerNode(this)
   }
 
-  handleExpand = e => {
-    this.setState({ expanded: !this.state.expanded });
-  };
-
-  toggleSelect = () => {
-    this.setState({ selected: !this.state.selected }, () => {
-      this.props.handleSelect(this)
-    })
-  }
-
   render() {
     let contents = this.props.data.contents;
 
-    if (this.props.sortByFunc) contents = this.props.sortByFunc(contents);
+    if (this.props.sortByFunc) {
+      contents = this.props.sortByFunc(contents);
+    }
 
     return (
       <div
-        className='Tree'
-        style={{ left: `${contents ? '28' : '50'}px` }}
+        className="Tree"
+        style={{ left: `${contents ? '28' : '46'}px` }}
       >
         <div className='itemRow'>
-        {contents &&
-          <button className='expand-button' onClick={this.handleExpand}>
-            {this.state.expanded ? '▼' : '►'}
-          </button>
-        }
+          {contents &&
+            <button className='expand-button' onClick={this.handleExpand}>
+              {this.state.expanded ? '▼' : '►'}
+            </button>
+          }
 
-        <div
-          className={`Tree-info ${this.state.selected && 'selected'}`}
-          draggable
-          onDragStart={this.props.onDragStart}
-          onDrag={this.props.onDrag}
-          onDragEnd={this.props.onDragEnd}
-          onClick={this.toggleSelect}
-          onDrop={this.toggleSelect}
-          onDragOver={(e) => { e.preventDefault() }}
-        >
-          {this.props.data.icon && <img className='Tree-icon' src={this.props.data.icon} alt='icon' />}
+          <div
+            className={`Tree-info ${this.state.selected && ` selected`}`}
+            draggable
+            onDragStart={this.onDragStart}
+            onDragEnd={this.props.handleOnDragEnd}
+            onClick={this.toggleSelect}
+            onDrop={this.toggleSelect}
+            onDragOver={(e) => { e.preventDefault() }}
+          >
+            {this.props.data.icon && <img className='Tree-icon' src={this.props.data.icon} alt='icon' />}
 
-          <div className="Tree-detail">
-            {/* <NodeManager node={this.props.data} /> */}
-            {this.props.data.title && <span className='Tree-title'>
-              {this.props.data.contents && <>
-                <i class={`far ${this.state.expanded ? 'fa-folder-open' : 'fa-folder'}`} />
-                {' '}
-              </>}
-              {this.props.data.title}
-            </span>}
-            {this.props.data.url && <span className='Tree-url'>{this.props.data.url}</span>}
+            <div className="Tree-detail">
+              {/* <NodeManager node={this.props.data} /> */}
+              {this.props.data.title &&
+                <div className='Tree-title'>
+                  {this.props.data.contents
+                    ? <>
+                      <span className='folderIcon'><i class={`far ${this.state.expanded ? 'fa-folder-open' : 'fa-folder'}`} /></span>
+                      {' '}
+                      <span className='folderText'>{this.props.data.title}</span>
+                    </>
+                    : <>{this.props.data.title}</>
+                  }
+                </div>
+              }
+              {this.props.data.url && <span className='Tree-url'>{this.props.data.url}</span>}
+            </div>
           </div>
-        </div>
         </div>
 
         {contents && this.state.expanded &&
           contents.map((data, i) => {
-            return (
-              <Tree
-                id={data.id}
-                parentId={this.props.data.id}
-                key={data.id}
-                data={data}
-                level={this.props.level + 1}
-                order={i}
-                path={this.props.path}
-                registerNode={this.props.registerNode}
-                sortByFunc={this.props.sortByFunc}
-                handleSelect={this.props.handleSelect}
-                expanded={true}
-                onDrop={this.props.onDrop}
-                onDragStart={this.props.onDragStart}
-                onDrag={this.props.onDrag}
-                onDragEnd={this.props.onDragEnd}
-              />
-            )
-          })
-        }
-        
+              return (
+                <Tree
+                  id={data.id}
+                  parentId={this.props.data.id}
+                  key={data.id}
+                  data={data}
+                  level={this.props.level + 1}
+                  order={i}
+                  path={[...this.props.path, this.props.id]}
+                  expanded={this.context.expandedNodes.includes(data.id)}
+                  registerNode={this.props.registerNode}
+                  sortByFunc={this.props.sortByFunc}
+                  handleSelect={this.props.handleSelect}
+                  handleOnDragStart={this.props.handleOnDragStart}
+                  handleOnDragEnd={this.props.handleOnDragEnd}
+                />
+              )
+            }
+        )}
       </div>
     );
   }

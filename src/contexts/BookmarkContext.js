@@ -7,10 +7,10 @@ export class BookmarkContextProvider extends React.Component {
     bookmarks: null,
     flat: null,
     error: null,
-    selected1: null,
-    selected2: null,
+    selectedNodes: [],
+    expandedNodes: [],
     listId: null,
-    listName: null
+    listName: null,
   };
 
   setBookmarks = bm => {
@@ -26,6 +26,14 @@ export class BookmarkContextProvider extends React.Component {
       bookmarks
     });
   };
+
+  setExpandedNodes = nodes => {
+    this.setState({expandedNodes: nodes})
+  }
+
+  setSelectedNodes = nodes => {
+    this.setState({selectedNodes: nodes})
+  }
 
   setFlat = flat => {
     this.setState({ flat });
@@ -49,13 +57,26 @@ export class BookmarkContextProvider extends React.Component {
     this.setState({ bookmarks });
   };
 
-  findNodeById = (id, nodes = this.state.bookmarks) => {
+  findNodeById = id => {
+    const nodes = this.state.bookmarks;
     console.log('find by id: ', id, ',', nodes);
     return this._recursiveFind(this._makeIdPredicate(id), nodes);
   };
 
+  deleteNodeById = id => {
+    const nodes = [...this.state.bookmarks];
+    const root = { contents: nodes };
+    const parent = this._recursiveFind(this.makeParentPredicate(id), [root]);
+    const idx = parent.findIndex(node => node.id === id);
+    parent.contents.splice(idx, 1);
+    this.setState({ bookmarks: root.contents });
+  };
+
   //given id, return predicate function that examines a node to see if node.id is equal to the provided id
   _makeIdPredicate = id => node => node.id === id;
+
+  _makeParentPredicate = id => node =>
+    node.contents && node.contents.some(node => node.id === id);
 
   _recursiveFind(predicate, nodes) {
     for (const node of nodes) {
@@ -79,7 +100,11 @@ export class BookmarkContextProvider extends React.Component {
       setListName: this.setListName,
       setFlat: this.setFlat,
       updateNode: this.updateNode,
-      findNodeById: this.findNodeById
+      findNodeById: this.findNodeById,
+      selectedNodes: this.state.selectedNodes,
+      setSelectedNodes: this.setSelectedNodes,
+      expandedNodes: this.state.expandedNodes,
+      setExpandedNodes: this.setExpandedNodes,
     };
     return (
       <BookmarkContext.Provider value={value}>

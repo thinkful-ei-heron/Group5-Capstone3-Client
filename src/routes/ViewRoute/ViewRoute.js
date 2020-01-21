@@ -4,7 +4,7 @@ import BookmarkManager from '../../components/BookmarkManager/BookmarkManager'
 
 function ViewRoute() {
   return (
-    <div>
+    <div className="ManagerView">
       <BookmarkManager />
     </div>
   );
