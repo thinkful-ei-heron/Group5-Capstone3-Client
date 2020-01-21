@@ -26,6 +26,14 @@ export default class Tree extends Component {
     sortByFunc: null,
   }
 
+  componentDidMount() {
+    this.props.registerNode(this)
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    this.props.registerNode(this)
+  }
+
   handleExpand = e => {
     this.setState({ expanded: !this.state.expanded });
   };
@@ -34,14 +42,6 @@ export default class Tree extends Component {
     this.setState({ selected: !this.state.selected }, () => {
       this.props.handleSelect(this)
     })
-  }
-
-  componentDidMount() {
-    this.props.registerNode(this)
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    this.props.registerNode(this)
   }
 
   render() {
@@ -58,7 +58,15 @@ export default class Tree extends Component {
           left: `${indent}px`
         }}
       >
+        <div className='itemRow'>
+        {(this.props.data.contents) &&
+          <button className='expand-button' onClick={this.handleExpand}>
+            {this.state.expanded ? '▼' : '►'}
+          </button>
+        }
+
         <div
+          className={`Tree-info ${this.state.selected && 'selected'}`}
           draggable
           onDragStart={this.props.onDragStart}
           onDrag={this.props.onDrag}
@@ -66,25 +74,21 @@ export default class Tree extends Component {
           onClick={this.toggleSelect}
           onDrop={this.toggleSelect}
           onDragOver={(e) => { e.preventDefault() }}
-          className={`Tree-info ${this.state.selected && 'selected'}`}
         >
           {this.props.data.icon && <img className='Tree-icon' src={this.props.data.icon} alt='icon' />}
-
-          {(this.props.data.type === 'folder' || this.props.data.contents) &&
-            <button className='expand-button' onClick={this.handleExpand}>
-              {this.state.expanded ? '▼' : '►'}
-            </button>
-          }
 
           <div className="Tree-detail">
             {/* <NodeManager node={this.props.data} /> */}
             {this.props.data.title && <span className='Tree-title'>
-              <i class={this.state.expanded ? 'far fa-folder-open' : 'far fa-folder'} /> {this.props.data.title}</span>}
+              {this.props.data.contents && <>
+                <i class={`far ${this.state.expanded ? 'fa-folder-open' : 'fa-folder'}`} />
+                {' '}
+              </>}
+              {this.props.data.title}
+            </span>}
             {this.props.data.url && <span className='Tree-url'>{this.props.data.url}</span>}
           </div>
         </div>
-
-
 
         {contents &&
           this.state.expanded &&
@@ -110,6 +114,7 @@ export default class Tree extends Component {
             )
           })
         }
+        </div>
       </div>
     );
   }

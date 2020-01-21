@@ -2,16 +2,17 @@
   text-align: left;
   display: flex;
   flex-direction: column;
-  margin: 4px;
+  margin: 5px;
 }
 
-.selected {
-  background-color: lightgray;
-  border: 2px solid var(--color-user);
+.itemRow {
+  /* display: flex; */
+  /* flex-direction: row; */
 }
 
 .expand-button {
   width: fit-content;
+  height: 24px;
   margin: 3px;
 }
 
@@ -30,6 +31,12 @@
   height: fit-content;
   overflow-x: hidden;
   background-color: white;
+}
+
+.selected {
+  background-color: rgb(225, 225, 225);
+  border: 2px solid var(--color-user);
+  margin: -1px;
 }
 
 .Tree-detail {
