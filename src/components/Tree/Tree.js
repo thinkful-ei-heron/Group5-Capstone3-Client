@@ -52,7 +52,7 @@ export default class Tree extends Component {
 
     return (
       <div
-        className="Tree"
+        className='Tree'
         style={{
           position: 'relative',
           left: `${indent}px`
@@ -66,20 +66,21 @@ export default class Tree extends Component {
           onClick={this.toggleSelect}
           onDrop={this.toggleSelect}
           onDragOver={(e) => { e.preventDefault() }}
-          className={`Tree-info ${this.state.selected && `selected`}`}
+          className={`Tree-info ${this.state.selected && 'selected'}`}
         >
-          {this.props.data.icon && <img className="Tree-icon" src={this.props.data.icon} alt="icon" />}
+          {this.props.data.icon && <img className='Tree-icon' src={this.props.data.icon} alt='icon' />}
 
           {(this.props.data.type === 'folder' || this.props.data.contents) &&
-            <button className="expand-button" onClick={this.handleExpand}>
+            <button className='expand-button' onClick={this.handleExpand}>
               {this.state.expanded ? '▼' : '►'}
             </button>
           }
 
           <div className="Tree-detail">
             {/* <NodeManager node={this.props.data} /> */}
-            {this.props.data.title && <span className="Tree-title">{this.props.data.title}</span>}
-            {this.props.data.url && <span className="Tree-url">{this.props.data.url}</span>}
+            {this.props.data.title && <span className='Tree-title'>
+              <i class={this.state.expanded ? 'far fa-folder-open' : 'far fa-folder'} /> {this.props.data.title}</span>}
+            {this.props.data.url && <span className='Tree-url'>{this.props.data.url}</span>}
           </div>
         </div>
 
