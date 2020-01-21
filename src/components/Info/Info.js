@@ -99,7 +99,7 @@ export default class Info extends Component {
     render() {
         return (
             <>
-                <h2>Details</h2>
+                <h3>Details</h3>
                 {this.props.selectedNodes.length === 1 && <NodeManager clearSelect={this.props.clearSelect} node={this.props.selectedNode} />}
                 <form onSubmit={this.handleSubmit}>
                     <label htmlFor="title">Title:</label>
