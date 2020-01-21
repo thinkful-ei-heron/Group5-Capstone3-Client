@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import BookmarkContext from '../../contexts/BookmarkContext';
-import exportHTML from '../../helpers/exportHTML';
+import bmParser from '../../helpers/bookmarks-parser';
 import './Toolbar.css';
 import PersistApiService from '../../services/persist-api-service';
 import RemoteListChooser from '../RemoteListChooser/RemoteListChooser';
 import ImportBookmarks from '../ImportBookmarks/ImportBookmarks';
 export default class Toolbar extends Component {
   static contextType = BookmarkContext;
-
   constructor(props, context) {
     super(props, context);
     this.state = {
@@ -22,6 +21,7 @@ export default class Toolbar extends Component {
       listName: this.context.listName || ''
     };
   }
+
 
   save = listId => {
     const { bookmarks } = this.context;
@@ -75,8 +75,22 @@ export default class Toolbar extends Component {
     this.setState({ search });
   };
 
-  importFile = () => {
-    this.setState({ renderUploader: true });
+  importFile = ev => {
+    let reader = new FileReader();
+    reader.onload = ev => {
+      bmParser(reader.result, (err, res) => {
+        if (err) {
+          throw new Error(err);
+        }
+        return this.context.setBookmarks(res.bookmarks);
+      });
+    };
+    try {
+      reader.readAsText(ev.target.files[0]);
+    } catch {
+      this.setState({ error: 'No valid file' });
+      return;
+    }
   };
 
   doneImporting = () => {
@@ -107,12 +121,6 @@ export default class Toolbar extends Component {
           <button className="btn cancel" onClick={this.doneLoading}>
             Cancel
           </button>
-        </div>
-      );
-    } else if (this.state.renderUploader) {
-      return (
-        <div className="toolbar">
-          <ImportBookmarks import={true} done={this.doneImporting} />
         </div>
       );
     } else if (this.state.renderExporter) {
@@ -156,18 +164,29 @@ export default class Toolbar extends Component {
             <button className="btn" onClick={this.loadList}>
               Load...
             </button>
-            <button className="btn" onClick={this.importFile}>
-              Import...
-            </button>
+            <label className="btn inputfilelabel" htmlFor="bookmarkfile">Import...</label>
+            <input 
+              type="file" 
+              className="btn inputfile" 
+              name="bookmarkfile" 
+              id="bookmarkfile" 
+              onChange={this.importFile}>
+            </input>
             <button className="btn" onClick={this.exportFile}>
               Export...
             </button>
-            {/* <select className="exportFormat" id="browserSelect">
-              <option value="chrome">Chrome</option>
-              <option value="firefox">Firefox</option>
-              <option value="safari">Safari</option>
-            </select> */}
           </div>
+          <form className="filterBlock">
+            <select
+              className="selectInput"
+              onChange={e => this.updateSearchFilter(e.target.value)}
+            >
+              <option value="any">Any</option>
+              <option value="title">Name</option>
+              <option value="url">URL</option>
+              <option value="tag">Tag</option>
+            </select>
+          </form>
           <form
             className="searchBlock"
             onSubmit={e =>
@@ -181,29 +200,17 @@ export default class Toolbar extends Component {
           >
             <input
               type="text"
-              className="searchInput toolbarInput"
+              className="searchInput"
               name="search"
               placeholder="Type search..."
               onChange={e => this.updateSearch(e.target.value)}
             />
-            <input type="submit" value="Search"></input>
+            <input className="btn" type="submit" value="Search"></input>
           </form>
-          <form>
-            <select
-              className="toolbarInput"
-              onChange={e => this.updateSearchFilter(e.target.value)}
-            >
-              <option value="any">Any</option>
-              <option value="title">Name</option>
-              <option value="url">URL</option>
-              <option value="tag">Tag</option>
-            </select>
-          </form>
+
           <form className="filterBlock">
             <select
-              className="toolbarInput"
-              name="filter"
-              id="filter"
+              className="selectInput"
               onChange={e => this.updateFilter(e.target.value)}
             >
               <option value="">No filter</option>
