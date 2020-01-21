@@ -4,8 +4,6 @@ import exportHTML from '../../helpers/exportHTML';
 import BookmarkContext from '../../contexts/BookmarkContext';
 import './ImportBookmarks.css';
 
-import Tree from '../Tree/Tree';
-
 export default class ImportBookmarks extends Component {
   static contextType = BookmarkContext;
 
@@ -67,19 +65,6 @@ export default class ImportBookmarks extends Component {
             />
           </fieldset>
         </form>
-        {/* <div>
-          <button
-            className="btn dashExport"
-            onClick={() => this.exportHandler()}
-          >
-            Export...
-          </button>
-          <select className="exportFormat" id="browserSelect">
-            <option value="chrome">Chrome</option>
-            <option value="firefox">Firefox</option>
-            <option value="safari">Safari</option>
-          </select>
-        </div> */}
       </div>
     );
   }

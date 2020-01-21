@@ -196,6 +196,7 @@ export default class BookmarkManager extends Component {
         <Toolbar
           updateFinalSearch={this.updateFinalSearch}
         />
+        {/* comment out ImportBookmarks when the toolbar is properly implemented */}
         <ImportBookmarks/>
         <div className="BookmarkManager">
           <div className="row">
@@ -254,17 +255,6 @@ export default class BookmarkManager extends Component {
             </div>
 
             <div className="columnRight SearchInfoView">
-              {this.state.search !== '' && (
-                <Search
-                  flat={this.state.flat}
-                  search={this.state.search}
-                  searchFilter={this.state.searchFilter}
-                  hashedFlatBm={this.hashedFlatBm}
-                  registerNode={this.registerNode}
-                  generateTree={this.generateTree}
-                  handleSelect={this.handleSelect}
-                />
-              )}
               {selectedNode && (
                 <Info
                   selectedNode={selectedNode}
@@ -278,6 +268,18 @@ export default class BookmarkManager extends Component {
                   clearSelect={this.clearSelect}
                 />
               )}
+              {this.state.search !== '' && (
+                <Search
+                  flat={this.state.flat}
+                  search={this.state.search}
+                  searchFilter={this.state.searchFilter}
+                  hashedFlatBm={this.hashedFlatBm}
+                  registerNode={this.registerNode}
+                  generateTree={this.generateTree}
+                  handleSelect={this.handleSelect}
+                />
+              )}
+
             </div>
           </div>
         </div>
