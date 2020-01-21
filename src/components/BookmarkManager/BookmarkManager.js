@@ -17,7 +17,7 @@ export default class BookmarkManager extends Component {
     error: null,
     levels: null,
     flat: null,
-    selectedNodes: [],
+    selectedNodes: this.context.selectedNodes,
     moveToNode: null,
     moving: false,
     filter: '',
@@ -30,19 +30,30 @@ export default class BookmarkManager extends Component {
 
   orderedTreeBm = [];
 
+  handleOnDragStart = (e, node) => {
+    if (!this.context.selectedNodes.includes(node)) {
+      node.setState({ selected: true }, () => {
+        this.context.setSelectedNodes([...this.context.selectedNodes, node])
+        this.setState({ moving: true })
+      })
+    } else {
+      this.setState({ moving: true })
+    }
+  }
+
   componentDidMount() {
     this.setState({ flat: this.hashedFlatBm });
   }
 
-  onDragStart = e => {
-    this.setState({ moving: true });
-  };
-
-  onDrag = e => {
+  handleOnDrag = e => {
     e.preventDefault();
   };
 
-  onDragEnd = e => {
+  handleExpand = (node) => {
+    this.context.setExpandedNodes([...this.context.expandedNodes, node])
+  }
+
+  handleOnDragEnd = e => {
     this.setState({ moving: false });
   };
 
@@ -59,7 +70,7 @@ export default class BookmarkManager extends Component {
   };
 
   clearSelect = () => {
-    this.setState({ selectedNodes: [] });
+    this.context.setSelectedNodes([]);
   };
 
   handleSelect = (node, moving = this.state.moving) => {
@@ -67,33 +78,33 @@ export default class BookmarkManager extends Component {
     if (moving) {
       node.setState({ selected: false });
       this.setState({ moveToNode: node }, () => {
-        this.moveNodesToFolder(this.state.selectedNodes, this.state.moveToNode);
+        this.moveNodesToFolder(this.context.selectedNodes, this.state.moveToNode);
       });
     } else {
-      if (this.state.selectedNodes.includes(node)) {
-        let idx = this.state.selectedNodes.findIndex(item => item === node);
-        this.state.selectedNodes.splice(idx, 1);
-        this.setState({ selectedNodes: this.state.selectedNodes });
+      if (this.context.selectedNodes.includes(node)) {
+        let idx = this.context.selectedNodes.findIndex(item => item === node);
+        this.context.selectedNodes.splice(idx, 1);
+        this.context.setSelectedNodes(this.context.selectedNodes);
       } else {
-        this.setState({ selectedNodes: [...this.state.selectedNodes, node] });
+        this.context.setSelectedNodes([...this.context.selectedNodes, node]);
       }
     }
   };
 
   moveNodesToFolder = (moveNodes, newTargetNode) => {
+    this.context.setSelectedNodes([])
     this.setState(
       {
         moving: false,
         moveToNode: null,
-        selectedNodes: []
       },
       () => {
         let nodes = [...this.context.bookmarks];
         moveNodes.forEach(node => {
           try {
             node.setState({ selected: false });
-            if (newTargetNode.props.path.includes(node.props.id)) {
-              throw new Error('invalid');
+            if (newTargetNode.props.path.find(item=>item === node.props.id)) {
+              return
             }
             let parent = this.recursiveFind(node.props.parentId, nodes);
             if (parent) {
@@ -188,8 +199,8 @@ export default class BookmarkManager extends Component {
 
   render() {
     const selectedNode =
-      this.state.selectedNodes.length === 1
-        ? this.state.selectedNodes[0].state.data
+      this.context.selectedNodes.length === 1
+        ? this.context.selectedNodes[0].state.data
         : null;
     return (
       <>
@@ -198,15 +209,15 @@ export default class BookmarkManager extends Component {
         <div className="BookmarkManager">
           <div className="row">
             <div className="columnLeft BookmarkView">
-              {this.state.selectedNodes.length > 0 &&
+              {this.context.selectedNodes.length > 0 && (
                 <DragDrop
-                  onDragStart={this.onDragStart}
-                  onDrag={this.onDrag}
-                  onDragEnd={this.onDragEnd}
-                  selectedItems={this.state.selectedNodes}
+                  onDragStart={()=>{this.setState({moving:true})}}
+                  onDrag={this.handleOnDrag}
+                  onDragEnd={this.handleOnDragEnd}
+                  selectedItems={this.context.selectedNodes}
                   moving={this.state.moving}
                 />
-              }
+              )}
               {this.state.moving && `Click a folder to move selected items`}
 
               {this.context.bookmarks &&
@@ -224,13 +235,11 @@ export default class BookmarkManager extends Component {
                         handleSelect={this.handleSelect}
                         order={i}
                         path={[bm.id]}
-                        onDrop={this.handleSelect}
-                        onDragStart={this.onDragStart}
-                        onDrag={this.onDrag}
-                        onDragEnd={this.onDragEnd}
+                        expanded={this.context.expandedNodes.includes(bm.id)}
+                        handleOnDragStart={this.handleOnDragStart}
+                        handleOnDragEnd={this.handleOnDragEnd}
                         registerNode={this.registerNode}
                         generateTree={this.generateTree}
-                        expanded={true}
                       />
                     );
                   }
@@ -243,21 +252,33 @@ export default class BookmarkManager extends Component {
                         handleSelect={this.handleSelect}
                         order={i}
                         path={[bm.id]}
-                        onDrop={this.handleSelect}
-                        onDragStart={this.onDragStart}
-                        onDrag={this.onDrag}
-                        onDragEnd={this.onDragEnd}
+                        expanded={this.context.expandedNodes.includes(bm.id)}
+                        handleOnDragStart={this.handleOnDragStart}
+                        handleOnDragEnd={this.handleOnDragEnd}
                         registerNode={this.registerNode}
                         generateTree={this.generateTree}
-                        expanded={true}
                       />
                     );
                   }
                 })}
+
             </div>
 
             <div className="columnRight SearchInfoView">
-              {this.state.search !== '' &&
+              {selectedNode && (
+                <Info
+                  selectedNode={selectedNode}
+                  selectedNodes={this.context.selectedNodes}
+                  clearSelect={this.clearSelect}
+                />
+              )}
+              {this.state.selectedNodes.length > 1 && (
+                <MultiInfo
+                  selectedNodes={this.context.selectedNodes}
+                  clearSelect={this.clearSelect}
+                />
+              )}
+              {this.state.search !== '' && (
                 <Search
                   flat={this.state.flat}
                   search={this.state.search}
@@ -267,7 +288,7 @@ export default class BookmarkManager extends Component {
                   generateTree={this.generateTree}
                   handleSelect={this.handleSelect}
                 />
-              }
+              )}
               {selectedNode &&
                 <Info
                   selectedNode={selectedNode}
