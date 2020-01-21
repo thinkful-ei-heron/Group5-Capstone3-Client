@@ -5,47 +5,48 @@
   margin: 4px;
 }
 
-.Tree .selected {
-  background-color: blue;
+.selected {
+  background-color: lightgray;
+  border: 2px solid var(--color-user);
 }
 
-.Tree .expand-button {
+.expand-button {
   width: fit-content;
   margin: 3px;
 }
 
-.Tree .Tree-icon {
+.Tree-icon {
   height: 16px;
   width: 16px;
-  margin-top: 12px;
+  margin-top: 5px;
 }
 
-.Tree .Tree-info {
+.Tree-info {
   display: flex;
-  /* flex-direction: row; */
   font-size: 13px;
-  border: 1px solid black;
-  border-radius: 8px;
+  border: 1px solid gray;
+  border-radius: 2px;
   width: 240px;
   height: fit-content;
   overflow-x: hidden;
+  background-color: white;
 }
 
-.Tree .Tree-detail {
+.Tree-detail {
   display: flex;
   flex-direction: column;
   padding: 4px;
 }
 
-.Tree .Tree-title {
+.Tree-title {
   width: 215px;
   height: 20px;
   overflow: hidden;
 }
 
-.Tree .Tree-url {
+.Tree-url {
   width: 215px;
   height: 20px;
   overflow: hidden;
-  color: lightblue;
+  color: rgb(100, 100, 100);
 }

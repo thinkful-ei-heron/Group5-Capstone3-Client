@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
-import Tree from '../Tree/Tree';
+import uuid from 'uuid';
 import BookmarkContext from '../../contexts/BookmarkContext';
+import './BookmarkManager.css';
+
+import Tree from '../Tree/Tree';
 // import ImportBookmarks from '../ImportBookmarks/ImportBookmarks';
 import DragDrop from '../DragDrop/DragDrop';
 import Toolbar from '../Toolbar/Toolbar';
 import Info from '../Info/Info';
 import MultiInfo from '../MultiInfo/MultiInfo';
 import Search from '../Search/Search';
-import uuid from 'uuid';
-import './BookmarkManager.css';
 
 export default class BookmarkManager extends Component {
   static contextType = BookmarkContext;
@@ -29,6 +30,10 @@ export default class BookmarkManager extends Component {
 
   orderedTreeBm = [];
 
+  componentDidMount() {
+    this.setState({ flat: this.hashedFlatBm });
+  }
+
   onDragStart = e => {
     this.setState({ moving: true });
   };
@@ -40,10 +45,6 @@ export default class BookmarkManager extends Component {
   onDragEnd = e => {
     this.setState({ moving: false });
   };
-
-  componentDidMount() {
-    this.setState({ flat: this.hashedFlatBm });
-  }
 
   updateSearchFilter = searchFilter => {
     this.setState({ searchFilter });
