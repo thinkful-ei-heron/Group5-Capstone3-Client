@@ -54,22 +54,20 @@ export default class ImportBookmarks extends Component {
   render() {
     return (
       <div className="Import">
-        {/* {!this.state.imported && */}
-          <form id="importform" className="ImportForm">
-            <fieldset>
-              <label htmlFor="bookmarkfile">
-                Upload your bookmarks HTML file:
-              </label>
-              <input
-                type="file"
-                name="bookmarkfile"
-                id="bookmarkfile"
-                onChange={this.handleImport}
-              />
-            </fieldset>
-          </form>
-        {/* } */}
-        <div>
+        <form id="importform" className="ImportForm">
+          <fieldset>
+            <label htmlFor="bookmarkfile">
+              Upload your bookmarks HTML file:
+            </label>
+            <input
+              type="file"
+              name="bookmarkfile"
+              id="bookmarkfile"
+              onChange={this.handleImport}
+            />
+          </fieldset>
+        </form>
+        {/* <div>
           <button
             className="btn dashExport"
             onClick={() => this.exportHandler()}
@@ -81,7 +79,7 @@ export default class ImportBookmarks extends Component {
             <option value="firefox">Firefox</option>
             <option value="safari">Safari</option>
           </select>
-        </div>
+        </div> */}
       </div>
     );
   }
