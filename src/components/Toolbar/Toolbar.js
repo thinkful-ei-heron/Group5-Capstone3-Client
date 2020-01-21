@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import BookmarkContext from '../../contexts/BookmarkContext';
 import bmParser from '../../helpers/bookmarks-parser';
-import exportHTML from '../../helpers/exportHTML';
 import './Toolbar.css';
 import PersistApiService from '../../services/persist-api-service';
 import RemoteListChooser from '../RemoteListChooser/RemoteListChooser';
@@ -129,6 +128,17 @@ export default class Toolbar extends Component {
               Export...
             </button>
           </div>
+          <form className="filterBlock">
+            <select
+              className="selectInput"
+              onChange={e => this.updateSearchFilter(e.target.value)}
+            >
+              <option value="any">Any</option>
+              <option value="title">Name</option>
+              <option value="url">URL</option>
+              <option value="tag">Tag</option>
+            </select>
+          </form>
           <form
             className="searchBlock"
             onSubmit={e =>
@@ -142,29 +152,17 @@ export default class Toolbar extends Component {
           >
             <input
               type="text"
-              className="searchInput toolbarInput"
+              className="searchInput"
               name="search"
               placeholder="Type search..."
               onChange={e => this.updateSearch(e.target.value)}
             />
-            <input type="submit" value="Search"></input>
+            <input className="btn" type="submit" value="Search"></input>
           </form>
-          <form>
-            <select
-              className="toolbarInput"
-              onChange={e => this.updateSearchFilter(e.target.value)}
-            >
-              <option value="any">Any</option>
-              <option value="title">Name</option>
-              <option value="url">URL</option>
-              <option value="tag">Tag</option>
-            </select>
-          </form>
+
           <form className="filterBlock">
             <select
-              className="toolbarInput"
-              name="filter"
-              id="filter"
+              className="selectInput"
               onChange={e => this.updateFilter(e.target.value)}
             >
               <option value="">No filter</option>
