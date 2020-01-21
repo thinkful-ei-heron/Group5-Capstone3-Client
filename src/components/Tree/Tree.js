@@ -72,6 +72,7 @@ export default class Tree extends Component {
           {this.props.data.icon && (
             <img className="Tree-icon" src={this.props.data.icon} alt="icon" />
           )}
+          {this.props.data.type === 'folder' && <i class="far fa-folder fa-lg"></i>}
           <div className="Tree-detail">
             {/* <NodeManager node={this.props.data} /> */}
             {this.props.data.title && (
