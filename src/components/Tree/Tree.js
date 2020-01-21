@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import './Tree.css';
+import BookmarkContext from '../../contexts/BookmarkContext'
 
 export default class Tree extends Component {
+  static contextType = BookmarkContext
   constructor(props) {
     super(props);
     this.state = {
-      expanded: this.props.expanded,
+      expanded: props.expanded,
       selected: false,
       parentId: props.parentId,
       data: props.data,
@@ -20,6 +22,8 @@ export default class Tree extends Component {
     path: [],
     level: null,
     order: null,
+    expanded: false,
+    selected: false,
     registerNode: () => { },
     generateTree: () => { },
     handleSelect: () => { },
@@ -31,7 +35,16 @@ export default class Tree extends Component {
   }
 
   handleExpand = e => {
-    this.setState({ expanded: !this.state.expanded });
+    this.setState({ expanded: !this.state.expanded }, () => {
+      if (this.state.expanded && !this.context.expandedNodes.includes(this.props.id)) {
+        this.context.setExpandedNodes([...this.context.expandedNodes, this.props.id])
+      } else if (!this.state.expanded && this.context.expandedNodes.includes(this.props.id)) {
+        let idx = this.context.expandedNodes.findIndex(item => item === this.props.id);
+        this.context.expandedNodes.splice(idx, 1);
+        this.context.setExpandedNodes(this.context.expandedNodes);
+      }
+    });
+
   };
 
   toggleSelect = () => {
@@ -104,7 +117,7 @@ export default class Tree extends Component {
         }
 
         {contents &&
-          this.state.expanded &&
+          this.props.expanded &&
             contents.map((data, i) => {
               return (
                 <Tree
@@ -115,10 +128,10 @@ export default class Tree extends Component {
                   level={this.props.level + 1}
                   order={i}
                   path={[...this.props.path, this.props.id]}
+                  expanded={this.context.expandedNodes.includes(data.id)}
                   registerNode={this.props.registerNode}
                   sortByFunc={this.props.sortByFunc}
                   handleSelect={this.props.handleSelect}
-                  expanded={true}
                   handleOnDragStart={this.props.handleOnDragStart}
                   // handleOnDrag={this.props.handleOnDrag}
                   handleOnDragEnd={this.props.handleOnDragEnd}

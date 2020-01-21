@@ -7,10 +7,10 @@ export class BookmarkContextProvider extends React.Component {
     bookmarks: null,
     flat: null,
     error: null,
-    selected1: null,
-    selected2: null,
+    selectedNodes: [],
+    expandedNodes: [],
     listId: null,
-    listName: null
+    listName: null,
   };
 
   setBookmarks = bm => {
@@ -26,6 +26,14 @@ export class BookmarkContextProvider extends React.Component {
       bookmarks
     });
   };
+
+  setExpandedNodes = nodes => {
+    this.setState({expandedNodes: nodes})
+  }
+
+  setSelectedNodes = nodes => {
+    this.setState({selectedNodes: nodes})
+  }
 
   setFlat = flat => {
     this.setState({ flat });
@@ -79,7 +87,11 @@ export class BookmarkContextProvider extends React.Component {
       setListName: this.setListName,
       setFlat: this.setFlat,
       updateNode: this.updateNode,
-      findNodeById: this.findNodeById
+      findNodeById: this.findNodeById,
+      selectedNodes: this.state.selectedNodes,
+      setSelectedNodes: this.setSelectedNodes,
+      expandedNodes: this.state.expandedNodes,
+      setExpandedNodes: this.setExpandedNodes,
     };
     return (
       <BookmarkContext.Provider value={value}>
