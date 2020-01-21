@@ -257,29 +257,36 @@ export default class BookmarkManager extends Component {
             </div>
 
             <div className="columnRight SearchInfoView">
-              {this.state.search !== '' &&
-                <Search
-                  flat={this.state.flat}
-                  search={this.state.search}
-                  searchFilter={this.state.searchFilter}
-                  hashedFlatBm={this.hashedFlatBm}
-                  registerNode={this.registerNode}
-                  generateTree={this.generateTree}
-                  handleSelect={this.handleSelect}
-                />
-              }
               {selectedNode &&
-                <Info
-                  selectedNode={selectedNode}
-                  selectedNodes={this.state.selectedNodes}
-                  clearSelect={this.clearSelect}
-                />
+                <div className="infoblock">
+                  <Info
+                    selectedNode={selectedNode}
+                    selectedNodes={this.state.selectedNodes}
+                    clearSelect={this.clearSelect}
+                  />
+                </div>
               }
               {this.state.selectedNodes.length > 1 &&
-                <MultiInfo
-                  selectedNodes={this.state.selectedNodes}
-                  clearSelect={this.clearSelect}
-                />}
+                <div className="infoblock">
+                  <MultiInfo
+                    selectedNodes={this.state.selectedNodes}
+                    clearSelect={this.clearSelect}
+                  />
+                </div>
+              }
+              {this.state.search !== '' &&
+                <div className="searchresults">
+                  <Search
+                    flat={this.state.flat}
+                    search={this.state.search}
+                    searchFilter={this.state.searchFilter}
+                    hashedFlatBm={this.hashedFlatBm}
+                    registerNode={this.registerNode}
+                    generateTree={this.generateTree}
+                    handleSelect={this.handleSelect}
+                  />
+                </div>
+              }
             </div>
           </div>
         </div>
