@@ -62,7 +62,6 @@ export default class Tree extends Component {
   }
 
   render() {
-    const indent = this.props.level * 10;
     let contents = this.props.data.contents;
 
     if (this.props.sortByFunc) {
@@ -72,53 +71,47 @@ export default class Tree extends Component {
     return (
       <div
         className="Tree"
-        style={{
-          position: 'relative',
-          left: `${indent}px`
-        }}
+        style={{ left: `${contents ? '28' : '46'}px` }}
       >
-        <div
-          draggable
-          onDragStart={this.onDragStart}
-          // onDrag={this.props.handleOnDrag}
-          onDragEnd={this.props.handleOnDragEnd}
-          onClick={this.toggleSelect}
-          onDrop={this.toggleSelect}
-          onDragOver={(e) => { e.preventDefault() }}
-          className={ `Tree-info ${this.state.selected && ` selected`}` }>
-          {this.props.data.icon && (
-            <img className="Tree-icon" src={this.props.data.icon} alt="icon" />
-          )}
-          <div className="Tree-detail">
-            {/* <NodeManager node={this.props.data} /> */}
-            {this.props.data.title && (
-              <span className="Tree-title">{this.props.data.title}</span>
-            )}
-            {this.props.data.url && (
-              <a
-                className="Tree-url"
-                href={this.props.data.url}
-                target="_blank"
-              >
-                {this.props.data.url}
-              </a>
-            )}
+        <div className='itemRow'>
+          {contents &&
+            <button className='expand-button' onClick={this.handleExpand}>
+              {this.state.expanded ? '▼' : '►'}
+            </button>
+          }
+
+          <div
+            className={`Tree-info ${this.state.selected && ` selected`}`}
+            draggable
+            onDragStart={this.onDragStart}
+            onDragEnd={this.props.handleOnDragEnd}
+            onClick={this.toggleSelect}
+            onDrop={this.toggleSelect}
+            onDragOver={(e) => { e.preventDefault() }}
+          >
+            {this.props.data.icon && <img className='Tree-icon' src={this.props.data.icon} alt='icon' />}
+
+            <div className="Tree-detail">
+              {/* <NodeManager node={this.props.data} /> */}
+              {this.props.data.title &&
+                <div className='Tree-title'>
+                  {this.props.data.contents
+                    ? <>
+                      <span className='folderIcon'><i class={`far ${this.state.expanded ? 'fa-folder-open' : 'fa-folder'}`} /></span>
+                      {' '}
+                      <span className='folderText'>{this.props.data.title}</span>
+                    </>
+                    : <>{this.props.data.title}</>
+                  }
+                </div>
+              }
+              {this.props.data.url && <span className='Tree-url'>{this.props.data.url}</span>}
+            </div>
           </div>
         </div>
 
-        {/* {this.props.tree.last_modified &&
-          <span className="Tree-modified">
-            Last_modified: {this.props.tree.last_modified}</span>} */}
-
-        {(this.props.data.type === 'folder' || this.props.data.contents) &&
-          <button className="expand-button" onClick={this.handleExpand}>
-            {this.state.expanded ? '-' : '+'}
-          </button>
-        }
-
-        {contents &&
-          this.props.expanded &&
-            contents.map((data, i) => {
+        {contents && this.state.expanded &&
+          contents.map((data, i) => {
               return (
                 <Tree
                   id={data.id}
@@ -133,7 +126,6 @@ export default class Tree extends Component {
                   sortByFunc={this.props.sortByFunc}
                   handleSelect={this.props.handleSelect}
                   handleOnDragStart={this.props.handleOnDragStart}
-                  // handleOnDrag={this.props.handleOnDrag}
                   handleOnDragEnd={this.props.handleOnDragEnd}
                 />
               )

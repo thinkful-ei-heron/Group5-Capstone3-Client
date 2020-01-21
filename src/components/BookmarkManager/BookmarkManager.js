@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
-import Tree from '../Tree/Tree';
+import uuid from 'uuid';
 import BookmarkContext from '../../contexts/BookmarkContext';
+import './BookmarkManager.css';
+
+import Tree from '../Tree/Tree';
 // import ImportBookmarks from '../ImportBookmarks/ImportBookmarks';
 import DragDrop from '../DragDrop/DragDrop';
 import Toolbar from '../Toolbar/Toolbar';
 import Info from '../Info/Info';
 import MultiInfo from '../MultiInfo/MultiInfo';
 import Search from '../Search/Search';
-import uuid from 'uuid';
-import './BookmarkManager.css';
 
 export default class BookmarkManager extends Component {
   static contextType = BookmarkContext;
@@ -38,7 +39,11 @@ export default class BookmarkManager extends Component {
     } else {
       this.setState({ moving: true })
     }
-  };
+  }
+
+  componentDidMount() {
+    this.setState({ flat: this.hashedFlatBm });
+  }
 
   handleOnDrag = e => {
     e.preventDefault();
@@ -51,10 +56,6 @@ export default class BookmarkManager extends Component {
   handleOnDragEnd = e => {
     this.setState({ moving: false });
   };
-
-  componentDidMount() {
-    this.setState({ flat: this.hashedFlatBm });
-  }
 
   updateSearchFilter = searchFilter => {
     this.setState({ searchFilter });
@@ -241,7 +242,8 @@ export default class BookmarkManager extends Component {
                         generateTree={this.generateTree}
                       />
                     );
-                  } else if (this.state.filter === '') {
+                  }
+                  if (this.state.filter === '') {
                     return (
                       <Tree
                         id={bm.id}
@@ -259,6 +261,7 @@ export default class BookmarkManager extends Component {
                     );
                   }
                 })}
+
             </div>
 
             <div className="columnRight SearchInfoView">
@@ -286,7 +289,18 @@ export default class BookmarkManager extends Component {
                   handleSelect={this.handleSelect}
                 />
               )}
-
+              {selectedNode &&
+                <Info
+                  selectedNode={selectedNode}
+                  selectedNodes={this.state.selectedNodes}
+                  clearSelect={this.clearSelect}
+                />
+              }
+              {this.state.selectedNodes.length > 1 &&
+                <MultiInfo
+                  selectedNodes={this.state.selectedNodes}
+                  clearSelect={this.clearSelect}
+                />}
             </div>
           </div>
         </div>

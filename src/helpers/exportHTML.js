@@ -4,7 +4,7 @@ function _parseTree(data, level, browser) {
 	const indent = '	'.repeat(level);
 
 	return data.map(node => {
-		if (node.hasOwnProperty('contents')) {
+		if (node.contents) {
 			const { add_date, last_modified, title, contents } = node;
 			const nextNode = _parseTree(contents, level + 1, browser);
 
