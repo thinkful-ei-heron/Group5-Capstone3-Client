@@ -5,7 +5,8 @@
 
 .SearchInfoView {
   position: fixed;
-  left: 30%
+  left: 30%;
+  margin: auto;
 }
 
 .row {
@@ -24,5 +25,12 @@
   flex: 70%;
   width: 70%;
   text-align: center;
+  justify-content: center;
+}
+
+.searchresults {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
 }
