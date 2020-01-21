@@ -4,8 +4,6 @@ import exportHTML from '../../helpers/exportHTML';
 import BookmarkContext from '../../contexts/BookmarkContext';
 import './ImportBookmarks.css';
 
-import Tree from '../Tree/Tree';
-
 export default class ImportBookmarks extends Component {
   static contextType = BookmarkContext;
 
@@ -56,9 +54,8 @@ export default class ImportBookmarks extends Component {
 
   cancelButton = () => {
     return (
-      <button type="button" onClick={this.props.done}>
-        Cancel
-      </button>
+      <input className="btn" type="button" value="Cancel" onClick={this.props.done}>
+      </input>
     );
   };
 
@@ -87,17 +84,17 @@ export default class ImportBookmarks extends Component {
     } else {
       return (
         <div>
-          <button
-            className="btn dashExport"
-            onClick={() => this.exportHandler()}
-          >
-            Export...
-          </button>
-          <select className="exportFormat" id="browserSelect">
+          <select className="btn" id="browserSelect">
             <option value="chrome">Chrome</option>
             <option value="firefox">Firefox</option>
             <option value="safari">Safari</option>
           </select>
+          <button
+            className="btn"
+            onClick={() => this.exportHandler()}
+          >
+            Export...
+          </button>
           {this.cancelButton()}
         </div>
       );
