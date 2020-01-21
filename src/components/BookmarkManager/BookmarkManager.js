@@ -266,28 +266,34 @@ export default class BookmarkManager extends Component {
 
             <div className="columnRight SearchInfoView">
               {selectedNode && (
-                <Info
-                  selectedNode={selectedNode}
-                  selectedNodes={this.context.selectedNodes}
-                  clearSelect={this.clearSelect}
-                />
+                <div className='infoblock'>
+                  <Info
+                    selectedNode={selectedNode}
+                    selectedNodes={this.context.selectedNodes}
+                    clearSelect={this.clearSelect}
+                  />
+                </div>
               )}
               {this.context.selectedNodes.length > 1 && (
-                <MultiInfo
-                  selectedNodes={this.context.selectedNodes}
-                  clearSelect={this.clearSelect}
-                />
+                <div className='infoblock'>
+                  <MultiInfo
+                    selectedNodes={this.context.selectedNodes}
+                    clearSelect={this.clearSelect}
+                  />
+                </div>
               )}
               {this.state.search !== '' && (
-                <Search
-                  flat={this.state.flat}
-                  search={this.state.search}
-                  searchFilter={this.state.searchFilter}
-                  hashedFlatBm={this.hashedFlatBm}
-                  registerNode={this.registerNode}
-                  generateTree={this.generateTree}
-                  handleSelect={this.handleSelect}
-                />
+                <div className='searchresults'>
+                  <Search
+                    flat={this.state.flat}
+                    search={this.state.search}
+                    searchFilter={this.state.searchFilter}
+                    hashedFlatBm={this.hashedFlatBm}
+                    registerNode={this.registerNode}
+                    generateTree={this.generateTree}
+                    handleSelect={this.handleSelect}
+                  />
+                </div>
               )}
             </div>
           </div>

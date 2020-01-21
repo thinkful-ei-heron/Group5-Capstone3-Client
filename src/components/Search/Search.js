@@ -25,6 +25,8 @@ export default class Search extends Component {
   }
 
   render() {
+    console.log(this.arrHashedFlatBm.length);
+    console.log(this.arrHashedFlatBm);
     return (
       <>
         <h3>Search Results</h3>
@@ -71,7 +73,7 @@ export default class Search extends Component {
             )
           })}
         {(this.arrHashedFlatBm && this.props.searchFilter==='any') &&
-          this.arrHashedFlatBm.filter(bm => ( (bm.data.tags !== undefined && bm.data.tags.join(', ').toLowerCase().indexOf(this.props.search) !== -1) || (bm.data.url !== undefined && bm.data.url.toLowerCase().indexOf(this.props.search) !== -1)) || (bm.data.title.toLowerCase().indexOf(this.props.search) !== -1)).map(bm => {
+          this.arrHashedFlatBm.filter(bm => ( (!!bm.data.tags && bm.data.tags.join(', ').toLowerCase().indexOf(this.props.search) !== -1) || (!!bm.data.url && bm.data.url.toLowerCase().indexOf(this.props.search) !== -1)) || (!!bm.data.title && bm.data.title.toLowerCase().indexOf(this.props.search) !== -1)).map(bm => {
             return (
               <Tree
                 id={bm.data.id}
