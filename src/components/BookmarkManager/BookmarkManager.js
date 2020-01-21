@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Tree from '../Tree/Tree';
 import BookmarkContext from '../../contexts/BookmarkContext';
-import ImportBookmarks from '../ImportBookmarks/ImportBookmarks';
+// import ImportBookmarks from '../ImportBookmarks/ImportBookmarks';
 import DragDrop from '../DragDrop/DragDrop';
 import Toolbar from '../Toolbar/Toolbar';
 import Info from '../Info/Info';
@@ -193,7 +193,7 @@ export default class BookmarkManager extends Component {
     return (
       <>
         <Toolbar updateFinalSearch={this.updateFinalSearch} />
-        <ImportBookmarks />
+        {/* <ImportBookmarks /> */}
         <div className="BookmarkManager">
           <div className="row">
             <div className="columnLeft BookmarkView">
