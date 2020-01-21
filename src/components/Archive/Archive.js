@@ -20,7 +20,9 @@ export class Archive extends Component {
       waybackUrl: null,
       showAll: false,
       mementoStatus: null,
-      editFavoredArchive: false
+      editFavoredArchive: false,
+      tempFavoredUrl: '',
+      tempFavoredDate: null
     };
   }
 
@@ -102,8 +104,8 @@ export class Archive extends Component {
 
   editFavoredArchive = ev => {
     ev.preventDefault();
-    const favoredArchiveUrl = document.getElementById('fav-archive-url').value;
-    const dateString = document.getElementById('fav-archive-date').value;
+    const favoredArchiveUrl = this.state.tempFavoredUrl;
+    const dateString = this.state.tempFavoredDate;
 
     let favoredArchiveDate = null;
 
@@ -123,28 +125,37 @@ export class Archive extends Component {
 
     this.context.updateNode(this.props.node.id, update);
   };
+
+  handleDateChange = ev => {
+    this.setState({ tempFavoredDate: ev.target.value });
+  };
+
+  handleUrlChange = ev => {
+    this.setState({ tempFavoredUrl: ev.target.value });
+  };
+
   favoredArchiveEditor = () => {
-    const date = this.state.favoredArchiveDate;
+    const date = this.state.tempFavoredDate;
     return (
       <form onSubmit={this.editFavoredArchive}>
         <label htmlFor="fav-archive-url">Archive URL: </label>
         <input
           type="text"
           id="fav-archive-url"
-          defaultValue={this.state.favoredArchiveUrl}
+          value={this.state.tempFavoredUrl}
+          onChange={this.handleUrlChange}
           placeholder="https://web.archive.org/web/20000229040250/http://www.google.com/"
         />
         <label htmlFor="fav-archive=date">Archive date: </label>
         <input
           type="date"
           id="fav-archive-date"
-          defaultValue={date ? this.formatDate(date) : null}
+          value={this.state.tempFavoredDate}
+          onChange={this.handleDateChange}
         />
         <button
           type="button"
-          onClick={() =>
-            (document.getElementById('fav-archive-date').value = null)
-          }
+          onClick={() => this.setState({ tempFavoredDate: '' })}
         >
           clear date
         </button>
@@ -154,6 +165,7 @@ export class Archive extends Component {
   };
 
   formatDate(timestamp) {
+    if (!timestamp) return '';
     const date = new Date(timestamp);
     return `${date.getFullYear()}-${
       date.getMonth() >= 9 ? '' : '0'
@@ -207,7 +219,15 @@ export class Archive extends Component {
           ) : (
             <button
               type="button"
-              onClick={() => this.setState({ editFavoredArchive: true })}
+              onClick={() =>
+                this.setState({
+                  editFavoredArchive: true,
+                  tempFavoredDate: this.formatDate(
+                    this.state.favoredArchiveDate
+                  ),
+                  tempFavoredUrl: this.state.favoredArchiveUrl
+                })
+              }
             >
               {!!favoredArchiveUrl
                 ? 'Edit saved archive link'
