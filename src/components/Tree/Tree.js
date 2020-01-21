@@ -97,7 +97,7 @@ export default class Tree extends Component {
                 <div className='Tree-title'>
                   {this.props.data.contents
                     ? <>
-                      <span className='folderIcon'><i class={`far ${this.state.expanded ? 'fa-folder-open' : 'fa-folder'}`} /></span>
+                      <span className='folderIcon'><i className={`far ${this.state.expanded ? 'fa-folder-open' : 'fa-folder'}`} /></span>
                       {' '}
                       <span className='folderText'>{this.props.data.title}</span>
                     </>
