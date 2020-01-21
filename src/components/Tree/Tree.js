@@ -26,6 +26,10 @@ export default class Tree extends Component {
     sortByFunc: null,
   }
 
+  onDragStart = (e) => {
+    this.props.handleOnDragStart(e, this)
+  }
+
   handleExpand = e => {
     this.setState({ expanded: !this.state.expanded });
   };
@@ -62,9 +66,9 @@ export default class Tree extends Component {
       >
         <div
           draggable
-          onDragStart={this.props.onDragStart}
-          onDrag={this.props.onDrag}
-          onDragEnd={this.props.onDragEnd}
+          onDragStart={this.onDragStart}
+          // onDrag={this.props.handleOnDrag}
+          onDragEnd={this.props.handleOnDragEnd}
           onClick={this.toggleSelect}
           onDrop={this.toggleSelect}
           onDragOver={(e) => { e.preventDefault() }}
@@ -110,15 +114,14 @@ export default class Tree extends Component {
                   data={data}
                   level={this.props.level + 1}
                   order={i}
-                  path={this.props.path}
+                  path={[...this.props.path, this.props.id]}
                   registerNode={this.props.registerNode}
                   sortByFunc={this.props.sortByFunc}
                   handleSelect={this.props.handleSelect}
                   expanded={true}
-                  onDrop={this.props.onDrop}
-                  onDragStart={this.props.onDragStart}
-                  onDrag={this.props.onDrag}
-                  onDragEnd={this.props.onDragEnd}
+                  handleOnDragStart={this.props.handleOnDragStart}
+                  // handleOnDrag={this.props.handleOnDrag}
+                  handleOnDragEnd={this.props.handleOnDragEnd}
                 />
               )
             }

@@ -29,15 +29,22 @@ export default class BookmarkManager extends Component {
 
   orderedTreeBm = [];
 
-  onDragStart = e => {
-    this.setState({ moving: true });
+  handleOnDragStart = (e, node) => {
+    if (!this.state.selectedNodes.includes(node)) {
+      node.setState({ selected: true }, () => {
+        this.setState({ selectedNodes: [...this.state.selectedNodes, node] })
+        this.setState({ moving: true })
+      })
+    } else {
+      this.setState({ moving: true })
+    }
   };
 
-  onDrag = e => {
+  handleOnDrag = e => {
     e.preventDefault();
   };
 
-  onDragEnd = e => {
+  handleOnDragEnd = e => {
     this.setState({ moving: false });
   };
 
@@ -91,8 +98,8 @@ export default class BookmarkManager extends Component {
         moveNodes.forEach(node => {
           try {
             node.setState({ selected: false });
-            if (newTargetNode.props.path.includes(node.props.id)) {
-              throw new Error('invalid');
+            if (newTargetNode.props.path.find(item=>item === node.props.id)) {
+              return
             }
             let parent = this.recursiveFind(node.props.parentId, nodes);
             if (parent) {
@@ -199,9 +206,9 @@ export default class BookmarkManager extends Component {
             <div className="columnLeft BookmarkView">
               {this.state.selectedNodes.length > 0 && (
                 <DragDrop
-                  onDragStart={this.onDragStart}
-                  onDrag={this.onDrag}
-                  onDragEnd={this.onDragEnd}
+                  onDragStart={()=>{this.setState({moving:true})}}
+                  onDrag={this.handleOnDrag}
+                  onDragEnd={this.handleOnDragEnd}
                   selectedItems={this.state.selectedNodes}
                   moving={this.state.moving}
                 />
@@ -223,10 +230,8 @@ export default class BookmarkManager extends Component {
                         handleSelect={this.handleSelect}
                         order={i}
                         path={[bm.id]}
-                        onDrop={this.handleSelect}
-                        onDragStart={this.onDragStart}
-                        onDrag={this.onDrag}
-                        onDragEnd={this.onDragEnd}
+                        handleOnDragStart={this.handleOnDragStart}
+                        handleOnDragEnd={this.handleOnDragEnd}
                         registerNode={this.registerNode}
                         generateTree={this.generateTree}
                         expanded={true}
@@ -241,10 +246,8 @@ export default class BookmarkManager extends Component {
                         handleSelect={this.handleSelect}
                         order={i}
                         path={[bm.id]}
-                        onDrop={this.handleSelect}
-                        onDragStart={this.onDragStart}
-                        onDrag={this.onDrag}
-                        onDragEnd={this.onDragEnd}
+                        handleOnDragStart={this.handleOnDragStart}
+                        handleOnDragEnd={this.handleOnDragEnd}
                         registerNode={this.registerNode}
                         generateTree={this.generateTree}
                         expanded={true}
