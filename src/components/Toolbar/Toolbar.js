@@ -8,34 +8,43 @@ import ImportBookmarks from '../ImportBookmarks/ImportBookmarks';
 export default class Toolbar extends Component {
   static contextType = BookmarkContext;
 
-  state = {
-    renderListLoader: false,
-    search: '',
-    searchFilter: 'any',
-    filter: '',
-    renderUploader: false,
-    renderExporter: false,
-    renderListNamer: false
-  };
+  constructor(props, context) {
+    super(props, context);
+    this.state = {
+      renderListLoader: false,
+      search: '',
+      searchFilter: 'any',
+      filter: '',
+      renderUploader: false,
+      renderExporter: false,
+      renderListNamer: false,
+      nameError: null,
+      listName: this.context.listName || ''
+    };
+  }
 
-  save = (listId, name = null) => {
+  save = listId => {
     const { bookmarks } = this.context;
-    const listName = name || this.context.listName;
+    const { listName } = this.state;
+    if (!listName) return;
     PersistApiService.submitList(bookmarks, listName, listId).then(res => {
       this.context.setListId(res.id);
     });
   };
 
   saveList = () => {
-    this.save(this.context.listId);
+    if (!this.state.listName) {
+      this.setState({ renderListNamer: true });
+    } else {
+      this.save(this.context.listId);
+    }
   };
 
   saveAs = event => {
     event.preventDefault();
-    const name = document.getElementById('list-name-input').value;
-    this.context.setListName(name);
+    this.context.setListName(this.state.listName);
     this.setState({ renderListNamer: false });
-    this.save(null, name);
+    this.save(null);
   };
 
   loadList = () => {
@@ -43,7 +52,10 @@ export default class Toolbar extends Component {
   };
 
   doneLoading = () => {
-    this.setState({ renderListLoader: false });
+    this.setState({
+      renderListLoader: false,
+      listName: this.context.listName || ''
+    });
   };
 
   // will get refactored into context
@@ -79,6 +91,14 @@ export default class Toolbar extends Component {
     this.setState({ renderExporter: false });
   };
 
+  beginSaveAs = () => {
+    this.setState({ renderListNamer: true });
+  };
+
+  handleNameChange = event => {
+    this.setState({ listName: event.target.value });
+  };
+
   render() {
     if (this.state.renderListLoader) {
       return (
@@ -108,9 +128,12 @@ export default class Toolbar extends Component {
             <input
               type="text"
               id="list-name-input"
-              defaultValue={this.context.listName}
+              value={this.state.listName}
+              onChange={this.handleNameChange}
             />
-            <button type="submit">Save</button>
+            <button type="submit" disabled={!this.state.listName}>
+              Save
+            </button>
             <button
               type="button"
               onClick={() => this.setState({ renderListNamer: false })}
@@ -127,10 +150,7 @@ export default class Toolbar extends Component {
             <button className="btn" onClick={this.saveList}>
               Save
             </button>
-            <button
-              className="btn"
-              onClick={() => this.setState({ renderListNamer: true })}
-            >
+            <button className="btn" onClick={this.beginSaveAs}>
               Save as
             </button>
             <button className="btn" onClick={this.loadList}>
