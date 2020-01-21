@@ -14,11 +14,13 @@ export default class Toolbar extends Component {
     searchFilter: 'any',
     filter: '',
     renderUploader: false,
-    renderExporter: false
+    renderExporter: false,
+    renderListNamer: false
   };
 
-  save = listId => {
-    const { bookmarks, listName } = this.context;
+  save = (listId, name = null) => {
+    const { bookmarks } = this.context;
+    const listName = name || this.context.listName;
     PersistApiService.submitList(bookmarks, listName, listId).then(res => {
       this.context.setListId(res.id);
     });
@@ -28,8 +30,12 @@ export default class Toolbar extends Component {
     this.save(this.context.listId);
   };
 
-  saveCopy = () => {
-    this.save(null);
+  saveAs = event => {
+    event.preventDefault();
+    const name = document.getElementById('list-name-input').value;
+    this.context.setListName(name);
+    this.setState({ renderListNamer: false });
+    this.save(null, name);
   };
 
   loadList = () => {
@@ -95,6 +101,25 @@ export default class Toolbar extends Component {
           <ImportBookmarks import={false} done={this.doneExporting} />
         </div>
       );
+    } else if (this.state.renderListNamer) {
+      return (
+        <div className="toolbar">
+          <form onSubmit={this.saveAs}>
+            <input
+              type="text"
+              id="list-name-input"
+              defaultValue={this.context.listName}
+            />
+            <button type="submit">Save</button>
+            <button
+              type="button"
+              onClick={() => this.setState({ renderListNamer: false })}
+            >
+              Cancel
+            </button>
+          </form>
+        </div>
+      );
     } else {
       return (
         <div className="toolbar">
@@ -102,8 +127,11 @@ export default class Toolbar extends Component {
             <button className="btn" onClick={this.saveList}>
               Save
             </button>
-            <button className="btn" onClick={this.saveCopy}>
-              Copy to new list
+            <button
+              className="btn"
+              onClick={() => this.setState({ renderListNamer: true })}
+            >
+              Save as
             </button>
             <button className="btn" onClick={this.loadList}>
               Load...
