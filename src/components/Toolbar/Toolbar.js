@@ -114,11 +114,11 @@ export default class Toolbar extends Component {
             <button className="btn" onClick={this.exportFile}>
               Export...
             </button>
-            <select className="exportFormat" id="browserSelect">
+            {/* <select className="exportFormat" id="browserSelect">
               <option value="chrome">Chrome</option>
               <option value="firefox">Firefox</option>
               <option value="safari">Safari</option>
-            </select>
+            </select> */}
           </div>
           <form
             className="searchBlock"
