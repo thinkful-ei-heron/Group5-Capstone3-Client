@@ -65,6 +65,19 @@ export default class ImportBookmarks extends Component {
             />
           </fieldset>
         </form>
+        {/* <div>	
+          <button	
+            className="btn dashExport"	
+            onClick={() => this.exportHandler()}	
+          >	
+            Export...	
+          </button>	
+          <select className="exportFormat" id="browserSelect">	
+            <option value="chrome">Chrome</option>	
+            <option value="firefox">Firefox</option>	
+            <option value="safari">Safari</option>	
+          </select>	
+        </div> */}	
       </div>
     );
   }

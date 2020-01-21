@@ -196,8 +196,6 @@ export default class BookmarkManager extends Component {
         <Toolbar
           updateFinalSearch={this.updateFinalSearch}
         />
-        {/* comment out ImportBookmarks when the toolbar is properly implemented */}
-        <ImportBookmarks/>
         <div className="BookmarkManager">
           <div className="row">
             <div className="columnLeft BookmarkView">
