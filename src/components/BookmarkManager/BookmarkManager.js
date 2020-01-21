@@ -269,15 +269,17 @@ export default class BookmarkManager extends Component {
                 />
               )}
               {this.state.search !== '' && (
-                <Search
-                  flat={this.state.flat}
-                  search={this.state.search}
-                  searchFilter={this.state.searchFilter}
-                  hashedFlatBm={this.hashedFlatBm}
-                  registerNode={this.registerNode}
-                  generateTree={this.generateTree}
-                  handleSelect={this.handleSelect}
-                />
+                <div className="searchresults">
+                  <Search
+                    flat={this.state.flat}
+                    search={this.state.search}
+                    searchFilter={this.state.searchFilter}
+                    hashedFlatBm={this.hashedFlatBm}
+                    registerNode={this.registerNode}
+                    generateTree={this.generateTree}
+                    handleSelect={this.handleSelect}
+                  />
+                </div>
               )}
 
             </div>
