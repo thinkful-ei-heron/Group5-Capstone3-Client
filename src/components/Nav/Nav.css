@@ -9,6 +9,7 @@ nav {
 	padding: 4px 8px;
 	margin: 0 3px;
 	border: 1px solid black;
+	border-bottom: 1px solid var(--color-border);
 	border-radius: var(--btn-corners) var(--btn-corners) 0 0;
 	background-color: var(--color-background);
 	position: relative;
