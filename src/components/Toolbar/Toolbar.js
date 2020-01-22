@@ -116,34 +116,34 @@ export default class Toolbar extends Component {
   render() {
     if (this.state.renderListLoader) {
       return (
-        <div className="toolbar">
+        <div className='toolbar'>
           <RemoteListChooser done={this.doneLoading} />
-          <button className="btn cancel" onClick={this.doneLoading}>
+          <button className='btn cancel' onClick={this.doneLoading}>
             Cancel
           </button>
         </div>
       );
     } else if (this.state.renderExporter) {
       return (
-        <div className="toolbar">
+        <div className='toolbar'>
           <ImportBookmarks import={false} done={this.doneExporting} />
         </div>
       );
     } else if (this.state.renderListNamer) {
       return (
-        <div className="toolbar">
+        <div className='toolbar'>
           <form onSubmit={this.saveAs}>
             <input
-              type="text"
-              id="list-name-input"
+              type='text'
+              id='list-name-input'
               value={this.state.listName}
               onChange={this.handleNameChange}
             />
-            <button type="submit" disabled={!this.state.listName}>
+            <button type='submit' disabled={!this.state.listName}>
               Save
             </button>
             <button
-              type="button"
+              type='button'
               onClick={() => this.setState({ renderListNamer: false })}
             >
               Cancel
@@ -153,26 +153,33 @@ export default class Toolbar extends Component {
       );
     } else {
       return (
-        <div className="toolbar">
-          <div className="btnBlock toolbarRow">
-            <button className="btn" onClick={this.saveList}>
+        <div className='toolbar'>
+          <div className='btnBlock toolbarRow'>
+            <button className='btn' onClick={this.saveList}>
               Save
             </button>
-            <button className="btn" onClick={this.beginSaveAs}>
+            <button className='btn' onClick={this.beginSaveAs}>
               Save as
             </button>
-            <button className="btn" onClick={this.loadList}>
+            <button className='btn' onClick={this.loadList}>
               Load...
             </button>
-            <label className="btn inputfilelabel" htmlFor="bookmarkfile">Import...</label>
-            <input 
-              type="file" 
-              className="btn inputfile" 
-              name="bookmarkfile" 
-              id="bookmarkfile" 
-              onChange={this.importFile}>
-            </input>
-            <button className="btn" onClick={this.exportFile}>
+            <label
+              className='btn inputFileLabel'
+              htmlFor='bookmarkFile'
+              tabIndex='0'
+            >
+              Import...
+            </label>
+            <input
+              type='file'
+              className='btn inputFile'
+              tabIndex='-1'
+              name='bookmarkFile'
+              id='bookmarkFile'
+              onChange={this.importFile}
+            />
+            <button className='btn' onClick={this.exportFile}>
               Export...
             </button>
           </div>
