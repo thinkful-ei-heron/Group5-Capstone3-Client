@@ -10,7 +10,7 @@ export class BookmarkContextProvider extends React.Component {
     selectedNodes: [],
     expandedNodes: [],
     listId: null,
-    listName: null,
+    listName: null
   };
 
   setBookmarks = bm => {
@@ -28,12 +28,12 @@ export class BookmarkContextProvider extends React.Component {
   };
 
   setExpandedNodes = nodes => {
-    this.setState({expandedNodes: nodes})
-  }
+    this.setState({ expandedNodes: nodes });
+  };
 
   setSelectedNodes = nodes => {
-    this.setState({selectedNodes: nodes})
-  }
+    this.setState({ selectedNodes: nodes });
+  };
 
   setFlat = flat => {
     this.setState({ flat });
@@ -66,8 +66,8 @@ export class BookmarkContextProvider extends React.Component {
   deleteNodeById = id => {
     const nodes = [...this.state.bookmarks];
     const root = { contents: nodes };
-    const parent = this._recursiveFind(this.makeParentPredicate(id), [root]);
-    const idx = parent.findIndex(node => node.id === id);
+    const parent = this._recursiveFind(this._makeParentPredicate(id), [root]);
+    const idx = parent.contents.findIndex(node => node.id === id);
     parent.contents.splice(idx, 1);
     this.setState({ bookmarks: root.contents });
   };
@@ -105,6 +105,7 @@ export class BookmarkContextProvider extends React.Component {
       setSelectedNodes: this.setSelectedNodes,
       expandedNodes: this.state.expandedNodes,
       setExpandedNodes: this.setExpandedNodes,
+      deleteNodeById: this.deleteNodeById
     };
     return (
       <BookmarkContext.Provider value={value}>
