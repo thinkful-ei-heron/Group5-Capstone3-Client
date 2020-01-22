@@ -6,7 +6,7 @@
 
 .row {
   display: flex;
-  width: 100%;
+  width: 100vw;
   overflow: hidden;
   height: 100vh;
   backface-visibility: hidden;
@@ -32,19 +32,22 @@
   -webkit-overflow-scrolling: touch;
   -ms-overflow-style: none;
   height: 100vh;
+  width: 100vw;
 }
 
 .infoblock {
   position: fixed;
-  left: 30%;
   border-right: solid 1px black;
   height: 100vh;
+  width: 35%;
 }
 
 .searchresults {
   position: relative;
-  right: 18%;
+  left: 49%;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  width: 30%;
+  margin: 0;
 }
