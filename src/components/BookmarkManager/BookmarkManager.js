@@ -103,7 +103,8 @@ export default class BookmarkManager extends Component {
         moveNodes.forEach(node => {
           try {
             node.setState({ selected: false });
-            if (newTargetNode.props.path.find(item=>item === node.props.id)) {
+            if (newTargetNode.props.path.find(item => item === node.props.id) ||
+              (node.props.id === newTargetNode.props.id)) {
               return
             }
             let parent = this.recursiveFind(node.props.parentId, nodes);
