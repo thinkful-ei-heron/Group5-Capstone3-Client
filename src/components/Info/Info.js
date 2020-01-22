@@ -7,6 +7,13 @@ import './Info.css';
 
 export default class Info extends Component {
   static contextType = BookmarkContext;
+  static defaultProps = {
+    selectedNode: {
+      title: null,
+      url: null,
+      tags: null,
+    },
+  }
   state = {
     selectedNode: this.props.selectedNode,
     title: {
@@ -71,7 +78,8 @@ export default class Info extends Component {
     return (
       <>
         <h3>Edit Info</h3>
-        {this.props.selectedNodes.length === 1 && <NodeManager clearSelect={this.props.clearSelect} node={this.props.selectedNode} />}
+        { this.props.selectedNodes &&
+          this.props.selectedNodes.length === 1 && <NodeManager clearSelect={this.props.clearSelect} node={this.props.selectedNode} />}
         <form onSubmit={this.handleSubmit}>
           <label htmlFor="title">Title:</label>
           <input type="text" name="title" defaultValue={this.state.selectedNode.title} onChange={e => this.updateTitle(e.target.value)}></input>

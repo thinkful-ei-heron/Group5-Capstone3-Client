@@ -2,7 +2,10 @@ import React, { Component } from 'react'
 import BookmarkContext from '../../contexts/BookmarkContext'
 
 export default class MultiInfo extends Component {
-    static contextType = BookmarkContext
+  static contextType = BookmarkContext
+  static defaultProps = {
+    selectedNodes: [],
+  }
     state = {
         multitags: {
             value: '',
@@ -28,7 +31,7 @@ export default class MultiInfo extends Component {
         }
       }
     }
-     
+
     handleSubmit = ev => {
         ev.preventDefault()
         let { multitags } = this.state;
@@ -46,7 +49,7 @@ export default class MultiInfo extends Component {
                 } else {
                   bm.tags = bm.tags.concat(multitags.value)
                 }
-              }      
+              }
             }
         }
         this.context.setBookmarks(nodes);

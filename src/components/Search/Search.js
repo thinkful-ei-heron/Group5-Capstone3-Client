@@ -9,24 +9,27 @@ export default class Search extends Component {
   static contextType = BookmarkContext
 
   hashedFlatBm = this.props.hashedFlatBm;
-  arrHashedFlatBm = Object.values(this.hashedFlatBm);
+  arrHashedFlatBm = this.hashedFlatBm? Object.values(this.hashedFlatBm): [];
 
   orderedTreeBm = [];
 
   componentDidUpdate () {
-    this.props.searchFilter==='any' && console.log('results count: ', this.arrHashedFlatBm.filter(bm => ( (!!bm.data.tags && bm.data.tags.join(', ').toLowerCase().indexOf(this.props.search) !== -1) || (!!bm.data.url && bm.data.url.toLowerCase().indexOf(this.props.search) !== -1) || (!!bm.data.title && bm.data.title.toLowerCase().indexOf(this.props.search) !== -1) )).length);
+    // this.props.searchFilter==='any' && console.log('results count: ', this.arrHashedFlatBm.filter(bm => ( (!!bm.data.tags && bm.data.tags.join(', ').toLowerCase().indexOf(this.props.search) !== -1) || (!!bm.data.url && bm.data.url.toLowerCase().indexOf(this.props.search) !== -1) || (!!bm.data.title && bm.data.title.toLowerCase().indexOf(this.props.search) !== -1) )).length);
+
     // this.props.searchFilter==='any' && this.setState({count: (this.arrHashedFlatBm.filter(bm => ( (bm.data.tags !== undefined && bm.data.tags.join(', ').toLowerCase().indexOf(this.props.search) !== -1) || (bm.data.url !== undefined && bm.data.url.toLowerCase().indexOf(this.props.search) !== -1) || (bm.data.title.toLowerCase().indexOf(this.props.search) !== -1) )).length)});
 
-    this.props.searchFilter==='tags' && console.log('results count: ', this.arrHashedFlatBm.filter(bm => !!bm.data.tags && bm.data.tags.join(', ').toLowerCase().indexOf(this.props.search) !== -1).length)
+    // this.props.searchFilter === 'tags' && console.log('results count: ', this.arrHashedFlatBm.filter(bm => !!bm.data.tags && bm.data.tags.join(', ').toLowerCase().indexOf(this.props.search) !== -1).length)
+
     // this.props.searchFilter==='tags' && this.setState({count: this.arrHashedFlatBm.filter(bm => bm.data.tags !== undefined && bm.data.tags.join(', ').toLowerCase().indexOf(this.props.search) !== -1).length});
 
-    (this.props.searchFilter==='url' || this.props.searchFilter==='title') && console.log('results count: ', this.arrHashedFlatBm.filter(bm => !!bm.data[this.props.searchFilter] && bm.data[this.props.searchFilter].toLowerCase().indexOf(this.props.search) !== -1).length);
+      // (this.props.searchFilter === 'url' || this.props.searchFilter === 'title') && console.log('results count: ', this.arrHashedFlatBm.filter(bm => !!bm.data[this.props.searchFilter] && bm.data[this.props.searchFilter].toLowerCase().indexOf(this.props.search) !== -1).length);
+
     // (this.props.searchFilter==='url' || this.props.searchFilter==='title') && this.setState({count: this.arrHashedFlatBm.filter(bm => bm.data[this.props.searchFilter] !== undefined && bm.data[this.props.searchFilter].toLowerCase().indexOf(this.props.search) !== -1).length});
   }
 
   render() {
-    console.log(this.arrHashedFlatBm.length);
-    console.log(this.arrHashedFlatBm);
+    // console.log(this.arrHashedFlatBm.length);
+    // console.log(this.arrHashedFlatBm);
     return (
       <>
         <h3>Search Results</h3>
