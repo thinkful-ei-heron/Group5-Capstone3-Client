@@ -113,7 +113,7 @@ export default class Info extends Component {
             <input
               type='submit'
               value='Save'
-              className='btn infoSubmit'
+              className='btn btnPrimary infoSubmit'
             />
             { this.props.selectedNodes &&
               this.props.selectedNodes.length === 1 &&

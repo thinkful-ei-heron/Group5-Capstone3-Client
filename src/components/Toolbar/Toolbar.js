@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import BookmarkContext from '../../contexts/BookmarkContext';
-import bmParser from '../../helpers/bookmarks-parser';
-import './Toolbar.css';
 import PersistApiService from '../../services/persist-api-service';
+import bmParser from '../../helpers/bookmarks-parser';
+import BookmarkContext from '../../contexts/BookmarkContext';
+import './Toolbar.css';
+
 import RemoteListChooser from '../RemoteListChooser/RemoteListChooser';
 import ImportBookmarks from '../ImportBookmarks/ImportBookmarks';
+
 export default class Toolbar extends Component {
   static contextType = BookmarkContext;
   constructor(props, context) {
@@ -21,7 +23,6 @@ export default class Toolbar extends Component {
       listName: this.context.listName || ''
     };
   }
-
 
   save = listId => {
     const { bookmarks } = this.context;
@@ -57,11 +58,6 @@ export default class Toolbar extends Component {
       listName: this.context.listName || ''
     });
   };
-
-  // will get refactored into context
-  // exportHandler = () => {
-  //   exportHTML(this.context.bookmarks);
-  // };
 
   updateSearchFilter = searchFilter => {
     this.setState({ searchFilter });
@@ -155,7 +151,7 @@ export default class Toolbar extends Component {
       return (
         <div className='toolbar'>
           <div className='btnBlock toolbarRow'>
-            <button className='btn' onClick={this.saveList}>
+            <button className='btn btnPrimary' onClick={this.saveList}>
               Save
             </button>
             <button className='btn' onClick={this.beginSaveAs}>
@@ -213,13 +209,13 @@ export default class Toolbar extends Component {
                 placeholder="Type search..."
                 onChange={e => this.updateSearch(e.target.value)}
               />
-              <input className="btn" type="submit" value="Search"></input>
+              <input className="btn btnPrimary" type="submit" value="Search"></input>
             </form>
           </div>
           <div className="filterRow">
             <form className="filterBlock">
               <select
-                className="selectInput"
+                className="selectInput btnPrimary"
                 onChange={e => this.updateFilter(e.target.value)}
               >
                 <option value="">No filter</option>
