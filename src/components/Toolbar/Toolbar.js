@@ -173,7 +173,7 @@ export default class Toolbar extends Component {
             </label>
             <input
               type='file'
-              className='btn inputFile'
+              className='inputFile'
               tabIndex='-1'
               name='bookmarkFile'
               id='bookmarkFile'
@@ -186,7 +186,7 @@ export default class Toolbar extends Component {
           <div className="searchRow">
             <form className="searchFilterBlock">
               <select
-                className="selectInput"
+                className="btn selectInput"
                 onChange={e => this.updateSearchFilter(e.target.value)}
               >
                 <option value="any">Any</option>
@@ -216,10 +216,10 @@ export default class Toolbar extends Component {
               <input className="btn" type="submit" value="Search"></input>
             </form>
           </div>
-          <div className="filterRow">
+          <div className="filterRow mobileHiddenFilter">
             <form className="filterBlock">
               <select
-                className="selectInput"
+                className="btn selectInput"
                 onChange={e => this.updateFilter(e.target.value)}
               >
                 <option value="">No filter</option>
