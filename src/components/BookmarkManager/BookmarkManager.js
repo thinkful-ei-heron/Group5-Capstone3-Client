@@ -296,6 +296,8 @@ export default class BookmarkManager extends Component {
                     registerNode={this.registerNode}
                     generateTree={this.generateTree}
                     handleSelect={this.handleSelect}
+                    handleOnDragStart={this.handleOnDragStart}
+                    handleOnDragEnd={this.handleOnDragEnd}
                   />
                 </div>
               )}
