@@ -217,6 +217,7 @@ export default class BookmarkManager extends Component {
                   onDragEnd={this.handleOnDragEnd}
                   selectedItems={this.context.selectedNodes}
                   moving={this.state.moving}
+                  deselect={this.clearSelect}
                 />
               )}
               {this.state.moving && `Click a folder to move selected items`}
