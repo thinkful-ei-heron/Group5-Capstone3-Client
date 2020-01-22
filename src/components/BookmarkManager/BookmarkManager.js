@@ -268,36 +268,36 @@ export default class BookmarkManager extends Component {
             </div>
 
             <div className="columnRight SearchInfoView">
-              {selectedNode && (
-                <div className='infoblock'>
-                  <Info
-                    selectedNode={selectedNode}
-                    selectedNodes={this.context.selectedNodes}
-                    clearSelect={this.clearSelect}
-                  />
-                </div>
-              )}
-              {this.context.selectedNodes.length > 1 && (
-                <div className='infoblock'>
-                  <MultiInfo
-                    selectedNodes={this.context.selectedNodes}
-                    clearSelect={this.clearSelect}
-                  />
-                </div>
-              )}
-              {this.state.search !== '' && (
-                <div className='searchresults'>
-                  <Search
-                    flat={this.state.flat}
-                    search={this.state.search}
-                    searchFilter={this.state.searchFilter}
-                    hashedFlatBm={this.hashedFlatBm}
-                    registerNode={this.registerNode}
-                    generateTree={this.generateTree}
-                    handleSelect={this.handleSelect}
-                  />
-                </div>
-              )}
+              <div className="rowL2">
+                  <div className='infoblock columnLeftL2'>
+                    {selectedNode && 
+                      <Info
+                        selectedNode={selectedNode}
+                        selectedNodes={this.context.selectedNodes}
+                        clearSelect={this.clearSelect}
+                      />}
+                      {this.context.selectedNodes.length > 1 && (
+                      <MultiInfo
+                        selectedNodes={this.context.selectedNodes}
+                        clearSelect={this.clearSelect}
+                      />
+                    )}
+                  </div>
+
+                  <div className='searchresults columnRightL2'>
+                    {this.state.search !== '' && (
+                      <Search
+                        flat={this.state.flat}
+                        search={this.state.search}
+                        searchFilter={this.state.searchFilter}
+                        hashedFlatBm={this.hashedFlatBm}
+                        registerNode={this.registerNode}
+                        generateTree={this.generateTree}
+                        handleSelect={this.handleSelect}
+                      />
+                    )}
+                  </div>
+              </div>
             </div>
           </div>
         </div>
