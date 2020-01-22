@@ -236,7 +236,8 @@ export default class BookmarkManager extends Component {
                         handleSelect={this.handleSelect}
                         order={i}
                         path={[bm.id]}
-                        expanded={this.context.expandedNodes.includes(bm.id)}
+                        expanded={true}
+                        // expanded={this.context.expandedNodes.includes(bm.id)}
                         handleOnDragStart={this.handleOnDragStart}
                         handleOnDragEnd={this.handleOnDragEnd}
                         registerNode={this.registerNode}
@@ -253,7 +254,8 @@ export default class BookmarkManager extends Component {
                         handleSelect={this.handleSelect}
                         order={i}
                         path={[bm.id]}
-                        expanded={this.context.expandedNodes.includes(bm.id)}
+                        expanded={true}
+                        // expanded={this.context.expandedNodes.includes(bm.id)}
                         handleOnDragStart={this.handleOnDragStart}
                         handleOnDragEnd={this.handleOnDragEnd}
                         registerNode={this.registerNode}
