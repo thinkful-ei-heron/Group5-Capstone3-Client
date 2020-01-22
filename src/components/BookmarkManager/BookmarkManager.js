@@ -4,7 +4,6 @@ import BookmarkContext from '../../contexts/BookmarkContext';
 import './BookmarkManager.css';
 
 import Tree from '../Tree/Tree';
-// import ImportBookmarks from '../ImportBookmarks/ImportBookmarks';
 import DragDrop from '../DragDrop/DragDrop';
 import Toolbar from '../Toolbar/Toolbar';
 import Info from '../Info/Info';
@@ -23,23 +22,85 @@ export default class BookmarkManager extends Component {
     filter: '',
     searchFilter: 'any',
     search: '',
-    finalSearch: ''
+    finalSearch: '',
+    results: []
   };
 
-  hashedFlatBm = {};
+  search(search, searchFilter, filter) {
+    const { bookmarks } = this.context;
+    if (!bookmarks) return;
+    // return;
+    search = search.toLowerCase();
+    console.log({ search, searchFilter, filter });
+    const results = this.innerSearch(search, searchFilter, filter, [
+      ...this.context.bookmarks
+    ]);
 
-  orderedTreeBm = [];
+    this.setState({ results });
+  }
+
+  innerSearch(term, field, type, nodes) {
+    let results = [];
+    const recurse = [];
+    const keys = field === 'any' ? ['title', 'url', 'tags'] : [field];
+    let filter;
+    switch (type) {
+      case 'bookmark':
+        filter = node => !node.contents;
+        break;
+      case 'folder':
+        filter = node => !node.contents;
+        break;
+      default:
+        filter = _ => true;
+    }
+    nodes.forEach(node => {
+      if (!filter(node)) return; //skip to next node
+      // eslint does not detect node[key] as a use of key
+      // eslint-disable-next-line no-unused-vars
+      for (const key of keys) {
+        // console.log(key);
+        // console.log(node);
+        if (key !== 'tags') {
+          // node[key] && console.log(node[key].toLowerCase());
+          if (node[key] && node[key].toLowerCase().includes(term)) {
+            results.push(node);
+            break; //don't push multiple times if multiple keys match
+          }
+        } else {
+          if (key === 'tags') {
+            if (
+              node.tags &&
+              node.tags.some(tag => tag.toLowerCase().includes(term))
+            ) {
+              results.push(node);
+              break;
+            }
+          }
+        }
+      }
+      if (node.contents && node.contents.length > 0) {
+        recurse.push(node); //search entire folder before recursing
+      }
+    });
+    recurse.forEach(node => {
+      results = results.concat(
+        this.innerSearch(term, field, type, node.contents)
+      );
+    });
+    return results;
+  }
 
   handleOnDragStart = (e, node) => {
-    if (!this.context.selectedNodes.includes(node)) {
+    if (!this.context.selectedNodes.has(node)) {
       node.setState({ selected: true }, () => {
-        this.context.setSelectedNodes([...this.context.selectedNodes, node])
-        this.setState({ moving: true })
-      })
+        this.context.addSelectedNode(node.id);
+        this.setState({ moving: true });
+      });
     } else {
-      this.setState({ moving: true })
+      this.setState({ moving: true });
     }
-  }
+  };
 
   componentDidMount() {
     this.setState({ flat: this.hashedFlatBm });
@@ -49,9 +110,9 @@ export default class BookmarkManager extends Component {
     e.preventDefault();
   };
 
-  handleExpand = (node) => {
-    this.context.setExpandedNodes([...this.context.expandedNodes, node])
-  }
+  handleExpand = node => {
+    this.context.setExpandedNodes([...this.context.expandedNodes, node]);
+  };
 
   handleOnDragEnd = e => {
     this.setState({ moving: false });
@@ -70,122 +131,73 @@ export default class BookmarkManager extends Component {
   };
 
   clearSelect = () => {
-    this.context.setSelectedNodes([]);
+    this.context.removeAllSelectedNodes();
   };
 
-  handleSelect = (node, moving = this.state.moving) => {
+  handleSelect = (tree, moving = this.state.moving) => {
+    const node = tree.props.data;
     //Check if selecting items or selecting folder to move items
     if (moving) {
-      node.setState({ selected: false });
-      this.setState({ moveToNode: node }, () => {
-        this.moveNodesToFolder(this.context.selectedNodes, this.state.moveToNode);
+      tree.setState({ selected: false });
+      this.setState({ moveToNode: tree.props.data }, () => {
+        this.moveNodesToFolder(
+          this.context.getSelectedNodesArray(),
+          this.state.moveToNode
+        );
       });
     } else {
-      if (this.context.selectedNodes.includes(node)) {
-        let idx = this.context.selectedNodes.findIndex(item => item === node);
-        this.context.selectedNodes.splice(idx, 1);
-        this.context.setSelectedNodes(this.context.selectedNodes);
+      if (this.context.selectedNodes.has(node.id)) {
+        this.context.removeSelectedNode(node.id);
       } else {
-        this.context.setSelectedNodes([...this.context.selectedNodes, node]);
+        this.context.addSelectedNode(node.id);
       }
     }
   };
 
   moveNodesToFolder = (moveNodes, newTargetNode) => {
-    this.context.setSelectedNodes([])
+    this.context.removeAllSelectedNodes();
     this.setState(
       {
         moving: false,
-        moveToNode: null,
+        moveToNode: null
       },
       () => {
-        let nodes = [...this.context.bookmarks];
-        moveNodes.forEach(node => {
-          try {
-            node.setState({ selected: false });
-            if (newTargetNode.props.path.find(item=>item === node.props.id)) {
-              return
-            }
-            let parent = this.recursiveFind(node.props.parentId, nodes);
-            if (parent) {
-              let childIdx = parent.contents.findIndex(
-                item => item.id === node.props.id
-              );
-              parent.contents.splice(childIdx, 1);
+        const isFolder = !!newTargetNode.contents;
+        const parent = isFolder
+          ? newTargetNode
+          : this.context.findParentNode(newTargetNode.id);
+        if (!parent) {
+          return;
+        }
+        let contents = parent.contents;
+        const moveAcceptable = this.context.checkParents(
+          moveNodes,
+          newTargetNode
+        );
+        if (!moveAcceptable) {
+          return;
+        }
+        //in case we are moving around within the same folder
+        contents = contents.filter(
+          node => !moveNodes.some(moveNode => moveNode.id === node.id)
+        );
+        //don't leave the old ones behind
+        for (const node of moveNodes) {
+          this.context.deleteNodeById(node.id);
+        }
+        const insertIdx = isFolder
+          ? 0
+          : contents.findIndex(node => node.id === newTargetNode.id) + 1;
+        contents.splice(insertIdx, 0, ...moveNodes);
 
-              if (
-                newTargetNode.props.data.type === 'folder' ||
-                newTargetNode.props.data.contents
-              ) {
-                let newParent = this.recursiveFind(
-                  newTargetNode.props.id,
-                  nodes
-                );
-                newParent.contents.splice(0, 0, node.props.data);
-              } else if (newTargetNode.props.data.type === 'bookmark') {
-                let newParent = this.recursiveFind(
-                  newTargetNode.props.parentId,
-                  nodes
-                );
-                newParent.contents.splice(
-                  newTargetNode.props.order,
-                  0,
-                  node.props.data
-                );
-              }
-            } else {
-              let idx = nodes.findIndex(item => item.id === node.props.id);
-              nodes.splice(idx, 1);
-              nodes = [node.props.data, ...nodes];
-            }
-          } catch (e) {
-            this.setState({ error: e });
-          }
-        });
-        this.context.setBookmarks(nodes);
+        if (parent.id === -1) {
+          //root node constructed for FindParent
+          this.context.setBookmarks(contents);
+        } else {
+          this.context.updateNode(parent.id, { contents });
+        }
       }
     );
-  };
-
-  recursiveFind(id, nodes) {
-    for (const node of nodes) {
-      if (node.id === id) {
-        return node;
-      }
-      if (node.contents) {
-        const foo = this.recursiveFind(id, node.contents);
-        if (foo) return foo;
-      }
-    }
-  }
-
-  registerNode = node => {
-    if (node.id === null || undefined) {
-      node.props.id = uuid();
-    }
-    this.hashedFlatBm[node.state.id] = {
-      node: node,
-      id: node.props.id,
-      parentId: node.props.parentId,
-      data: node.props.data,
-      path: node.props.path,
-      selected: node.state.selected
-    };
-  };
-
-  generateTree = (node, sourceObj = this.orderedTreeBm) => {
-    //re-render tree object from flat
-    if (!node.props.parentId && Array.isArray(sourceObj)) {
-      sourceObj.push({
-        id: node.props.id,
-        parentId: node.props.parentId,
-        title: node.props.data.title,
-        contents: node.props.data.contents,
-        type: node.props.data.type,
-        add_date: node.props.data.add_date,
-        last_modified: node.props.data.last_modified
-      });
-    }
   };
 
   updateFinalSearch = (ev, search, searchFilter, filter) => {
@@ -195,13 +207,15 @@ export default class BookmarkManager extends Component {
       searchFilter,
       filter
     });
+    this.search(search, searchFilter, filter);
   };
 
   render() {
-    const selectedNode =
-      this.context.selectedNodes.length === 1
-        ? this.context.selectedNodes[0].state.data
-        : null;
+    let selectedNode = null;
+    if (this.context.selectedNodes.size === 1) {
+      let selectedNodeId = this.context.selectedNodes.values().next().value;
+      selectedNode = this.context.findNodeById(selectedNodeId);
+    }
     return (
       <>
         <Toolbar updateFinalSearch={this.updateFinalSearch} />
@@ -209,12 +223,14 @@ export default class BookmarkManager extends Component {
         <div className="BookmarkManager">
           <div className="row">
             <div className="columnLeft BookmarkView">
-              {this.context.selectedNodes.length > 0 && (
+              {this.context.selectedNodes.size > 0 && (
                 <DragDrop
-                  onDragStart={()=>{this.setState({moving:true})}}
+                  onDragStart={() => {
+                    this.setState({ moving: true });
+                  }}
                   onDrag={this.handleOnDrag}
                   onDragEnd={this.handleOnDragEnd}
-                  selectedItems={this.context.selectedNodes}
+                  selectedItems={this.context.getSelectedNodesArray()}
                   moving={this.state.moving}
                 />
               )}
@@ -235,11 +251,9 @@ export default class BookmarkManager extends Component {
                         handleSelect={this.handleSelect}
                         order={i}
                         path={[bm.id]}
-                        expanded={this.context.expandedNodes.includes(bm.id)}
+                        expanded={this.context.expandedNodes.has(bm.id)}
                         handleOnDragStart={this.handleOnDragStart}
                         handleOnDragEnd={this.handleOnDragEnd}
-                        registerNode={this.registerNode}
-                        generateTree={this.generateTree}
                       />
                     );
                   }
@@ -252,21 +266,18 @@ export default class BookmarkManager extends Component {
                         handleSelect={this.handleSelect}
                         order={i}
                         path={[bm.id]}
-                        expanded={this.context.expandedNodes.includes(bm.id)}
+                        expanded={this.context.expandedNodes.has(bm.id)}
                         handleOnDragStart={this.handleOnDragStart}
                         handleOnDragEnd={this.handleOnDragEnd}
-                        registerNode={this.registerNode}
-                        generateTree={this.generateTree}
                       />
                     );
                   }
                 })}
-
             </div>
 
             <div className="columnRight SearchInfoView">
               {selectedNode && (
-                <div className='infoblock'>
+                <div className="infoblock">
                   <Info
                     selectedNode={selectedNode}
                     selectedNodes={this.context.selectedNodes}
@@ -274,8 +285,8 @@ export default class BookmarkManager extends Component {
                   />
                 </div>
               )}
-              {this.context.selectedNodes.length > 1 && (
-                <div className='infoblock'>
+              {this.context.selectedNodes.size > 1 && (
+                <div className="infoblock">
                   <MultiInfo
                     selectedNodes={this.context.selectedNodes}
                     clearSelect={this.clearSelect}
@@ -283,14 +294,9 @@ export default class BookmarkManager extends Component {
                 </div>
               )}
               {this.state.search !== '' && (
-                <div className='searchresults'>
+                <div className="searchresults">
                   <Search
-                    flat={this.state.flat}
-                    search={this.state.search}
-                    searchFilter={this.state.searchFilter}
-                    hashedFlatBm={this.hashedFlatBm}
-                    registerNode={this.registerNode}
-                    generateTree={this.generateTree}
+                    results={this.state.results}
                     handleSelect={this.handleSelect}
                   />
                 </div>

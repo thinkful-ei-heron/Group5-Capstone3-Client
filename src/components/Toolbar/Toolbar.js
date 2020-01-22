@@ -22,7 +22,6 @@ export default class Toolbar extends Component {
     };
   }
 
-
   save = listId => {
     const { bookmarks } = this.context;
     const { listName } = this.state;
@@ -164,29 +163,21 @@ export default class Toolbar extends Component {
             <button className="btn" onClick={this.loadList}>
               Load...
             </button>
-            <label className="btn inputfilelabel" htmlFor="bookmarkfile">Import...</label>
-            <input 
-              type="file" 
-              className="btn inputfile" 
-              name="bookmarkfile" 
-              id="bookmarkfile" 
-              onChange={this.importFile}>
-            </input>
+            <label className="btn inputfilelabel" htmlFor="bookmarkfile">
+              Import...
+            </label>
+            <input
+              type="file"
+              className="btn inputfile"
+              name="bookmarkfile"
+              id="bookmarkfile"
+              onChange={this.importFile}
+            ></input>
             <button className="btn" onClick={this.exportFile}>
               Export...
             </button>
           </div>
-          <form className="filterBlock">
-            <select
-              className="selectInput"
-              onChange={e => this.updateSearchFilter(e.target.value)}
-            >
-              <option value="any">Any</option>
-              <option value="title">Name</option>
-              <option value="url">URL</option>
-              <option value="tag">Tag</option>
-            </select>
-          </form>
+
           <form
             className="searchBlock"
             onSubmit={e =>
@@ -198,6 +189,15 @@ export default class Toolbar extends Component {
               )
             }
           >
+            <select
+              className="selectInput"
+              onChange={e => this.updateSearchFilter(e.target.value)}
+            >
+              <option value="any">Any</option>
+              <option value="title">Name</option>
+              <option value="url">URL</option>
+              <option value="tag">Tag</option>
+            </select>
             <input
               type="text"
               className="searchInput"
@@ -206,9 +206,7 @@ export default class Toolbar extends Component {
               onChange={e => this.updateSearch(e.target.value)}
             />
             <input className="btn" type="submit" value="Search"></input>
-          </form>
 
-          <form className="filterBlock">
             <select
               className="selectInput"
               onChange={e => this.updateFilter(e.target.value)}
