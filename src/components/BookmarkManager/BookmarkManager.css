@@ -55,9 +55,6 @@
 
 .columnLeftL2, .columnRightL2 {
   overflow: auto;
-  height: auto;
-  height: 100vh;
-  width: 100vw;
 }
 
 
@@ -68,6 +65,7 @@
 }
 
 .searchresults {
+  width: 35%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
