@@ -22,7 +22,7 @@ export default class Tree extends Component {
     path: [],
     level: null,
     order: null,
-    expanded: false,
+    expanded: true,
     selected: false,
     registerNode: () => { },
     generateTree: () => { },
@@ -121,7 +121,8 @@ export default class Tree extends Component {
                   level={this.props.level + 1}
                   order={i}
                   path={[...this.props.path, this.props.id]}
-                  expanded={this.context.expandedNodes.includes(data.id)}
+                  expanded={true}
+                  // expanded={this.context.expandedNodes.includes(data.id)}
                   registerNode={this.props.registerNode}
                   sortByFunc={this.props.sortByFunc}
                   handleSelect={this.props.handleSelect}
