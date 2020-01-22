@@ -51,13 +51,13 @@ export default class DragDrop extends Component {
         style={{
           position: this.props.moving ? 'fixed' : 'fixed',
           zIndex: this.props.moving ? '1' : '2',
-          opacity: this.props.moving ? 20 : 70,
+          opacity: this.props.moving ? 30 : 50,
           right: '200px',
           bottom: '10px',
         }}
       >
         <div className="top">
-          Selected Bookmarks:
+          {this.state.moving ? 'Moving...' : 'Selected - Drag to move'}
           <button
             onClick={this.props.deselect}
             className="deselect">
