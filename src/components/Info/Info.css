@@ -4,8 +4,17 @@
 
 .infoInput {
   margin: 6px;
+  width: 55%;
 }
 
 .previewImg {
-	margin: 16px auto
+  margin: 16px auto;
+  width: 98%; 
+}
+
+.infoBtnRow {
+  width: 70%;
+  margin: 10px auto;
+  display: flex;
+  justify-content: space-evenly;
 }

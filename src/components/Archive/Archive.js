@@ -63,7 +63,7 @@ export default class Archive extends Component {
 
   renderWayback() {
     if (this.state.waybackOk === null) {
-      return <div>Checking the Internet Archive...</div>;
+      return <p>Checking the Internet Archive...</p>;
     } else if (this.state.waybackOk) {
       return (
         <div>
@@ -78,21 +78,21 @@ export default class Archive extends Component {
         </div>
       );
     } else {
-      return <div>The Wayback Machine doesn't have this archived.</div>;
+      return <p>The Wayback Machine doesn't have this archived.</p>;
     }
   }
 
   renderAll() {
     if (this.state.mementoStatus === null) {
-      return <div>Checking the Memento Project...</div>;
+      return <p>Checking the Memento Project...</p>;
     }
     if (this.state.mementoStatus) {
       if (this.state.archives.length === 0) {
-        return <div>Unable to find any archives of this URL</div>;
+        return <p>Unable to find any archives of this URL</p>;
       }
       return <ul>{this.state.archives.map(this.displayArchive)}</ul>;
     }
-    return <div>An error occurred when checking for other archives.</div>;
+    return <p>An error occurred when checking for other archives.</p>;
   }
 
   checkArchives = () => {
@@ -167,7 +167,7 @@ export default class Archive extends Component {
 
     if (this.state.showAll) {
       return (
-        <div className='archiveBlock'>
+        <div>
           <button
             type='button'
             onClick={() => {
@@ -181,7 +181,7 @@ export default class Archive extends Component {
       );
     }
     return (
-      <div className='archiveBlock'>
+      <div>
         <button
           className='btn'
           type='button'

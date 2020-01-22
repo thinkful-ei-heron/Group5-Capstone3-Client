@@ -101,14 +101,18 @@ export default class Info extends Component {
               onChange={e => this.updateTags(e.target.value)}
             />
           </div>
-          <input
-            type='submit'
-            value='Save'
-            className='btn infoSubmit'
-          />
-          {this.props.selectedNodes.length === 1 &&
-            <NodeManager clearSelect={this.props.clearSelect} node={this.props.selectedNode} />
-          }
+
+          <div className='infoBtnRow'>
+            <input
+              type='submit'
+              value='Save'
+              className='btn infoSubmit'
+            />
+            {this.props.selectedNodes.length === 1 &&
+              <NodeManager clearSelect={this.props.clearSelect} node={this.props.selectedNode} />
+            }
+          </div>
+
         </form>
 
         <div className={this.state.selectedNode.type === 'folder' ? 'hidden' : ''}>
