@@ -7,6 +7,13 @@ import Archive from '../Archive/Archive';
 
 export default class Info extends Component {
   static contextType = BookmarkContext;
+  static defaultProps = {
+    selectedNode: {
+      title: null,
+      url: null,
+      tags: null,
+    },
+  }
   state = {
     selectedNode: this.props.selectedNode,
     title: {
@@ -108,7 +115,8 @@ export default class Info extends Component {
               value='Save'
               className='btn infoSubmit'
             />
-            {this.props.selectedNodes.length === 1 &&
+            { this.props.selectedNodes &&
+              this.props.selectedNodes.length === 1 &&
               <NodeManager clearSelect={this.props.clearSelect} node={this.props.selectedNode} />
             }
           </div>

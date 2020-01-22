@@ -18,7 +18,7 @@ export default class Tree extends Component {
   static defaultProps = {
     id: null,
     parentId: null,
-    data: null,
+    data: {id: null},
     path: [],
     level: null,
     order: null,
@@ -27,6 +27,8 @@ export default class Tree extends Component {
     registerNode: () => { },
     generateTree: () => { },
     handleSelect: () => { },
+    handleOnDragStart: () => { },
+    handleOnDragEnd: () => { },
     sortByFunc: null,
   }
 
