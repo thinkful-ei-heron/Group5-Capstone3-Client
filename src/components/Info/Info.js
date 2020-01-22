@@ -106,7 +106,7 @@ export default class Info extends Component {
             <input
               type='submit'
               value='Save'
-              className='btn infoSubmit'
+              className='btn btnPrimary infoSubmit'
             />
             {this.props.selectedNodes.length === 1 &&
               <NodeManager clearSelect={this.props.clearSelect} node={this.props.selectedNode} />
