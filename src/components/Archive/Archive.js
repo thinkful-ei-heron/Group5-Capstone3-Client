@@ -7,7 +7,7 @@ import BookmarkContext from '../../contexts/BookmarkContext';
  * node
  * editNodeArchive: function (archive_url, archive_date) => update the node in the context
  */
-export class Archive extends Component {
+export default class Archive extends Component {
   constructor(props) {
     super(props);
     const favoredArchiveUrl = props.node ? props.node.archive_url : null;
@@ -25,6 +25,10 @@ export class Archive extends Component {
   }
 
   static contextType = BookmarkContext;
+
+  componentDidMount() {
+    this.getWayback();
+  }
 
   getWayback = async () => {
     const url = this.props.node.url;
@@ -46,15 +50,11 @@ export class Archive extends Component {
     this.setState({ archives, mementoStatus: true });
   };
 
-  componentDidMount() {
-    this.getWayback();
-  }
-
   displayArchive = url => {
     const host = url.split('/')[2];
     return (
       <li key={url}>
-        <a href={url} target="_blank" rel="noopener noreferrer">
+        <a href={url} target='_blank' rel='noopener noreferrer'>
           {host}
         </a>
       </li>
@@ -70,8 +70,8 @@ export class Archive extends Component {
           Visit{' '}
           <a
             href={this.state.waybackUrl}
-            target="_blank"
-            rel="noopener noreferrer"
+            target='_blank'
+            rel='noopener noreferrer'
           >
             archive on the Wayback Machine
           </a>
@@ -127,28 +127,28 @@ export class Archive extends Component {
     const date = this.state.favoredArchiveDate;
     return (
       <form onSubmit={this.editFavoredArchive}>
-        <label htmlFor="fav-archive-url">Archive URL: </label>
+        <label htmlFor='fav-archive-url'>Archive URL: </label>
         <input
-          type="text"
-          id="fav-archive-url"
+          type='text'
+          id='fav-archive-url'
           defaultValue={this.state.favoredArchiveUrl}
-          placeholder="https://web.archive.org/web/20000229040250/http://www.google.com/"
+          placeholder='https://web.archive.org/web/20000229040250/http://www.google.com/'
         />
         <label htmlFor="fav-archive=date">Archive date: </label>
         <input
-          type="date"
-          id="fav-archive-date"
+          type='date'
+          id='fav-archive-date'
           defaultValue={date ? this.formatDate(date) : null}
         />
         <button
-          type="button"
+          type='button'
           onClick={() =>
             (document.getElementById('fav-archive-date').value = null)
           }
         >
           clear date
         </button>
-        <button type="submit">Save</button>
+        <button type='submit'>Save</button>
       </form>
     );
   };
@@ -157,18 +157,19 @@ export class Archive extends Component {
     const date = new Date(timestamp);
     return `${date.getFullYear()}-${
       date.getMonth() >= 9 ? '' : '0'
-    }${date.getMonth() + 1}-${
+      }${date.getMonth() + 1}-${
       date.getDate() >= 10 ? '' : '0'
-    }${date.getDate()}`;
+      }${date.getDate()}`;
   }
 
   render() {
     const { favoredArchiveUrl, favoredArchiveDate } = this.state;
+
     if (this.state.showAll) {
       return (
-        <div>
+        <div className='archiveBlock'>
           <button
-            type="button"
+            type='button'
             onClick={() => {
               this.setState({ showAll: false });
             }}
@@ -178,35 +179,40 @@ export class Archive extends Component {
           {this.renderAll()}
         </div>
       );
-    } else {
-      return (
-        <div>
-          <button type="button" onClick={this.checkArchives}>
-            Check other archives
-          </button>
-          {!!favoredArchiveUrl ? (
-            <>
-              <p>
-                You have saved an archive link for this bookmark.{' '}
-                <a
-                  href={favoredArchiveUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Visit this archive{' '}
-                  {favoredArchiveDate &&
-                    `(snapshot date: ${this.formatDate(favoredArchiveDate)})`}
-                </a>
-              </p>
-            </>
-          ) : (
+    }
+    return (
+      <div className='archiveBlock'>
+        <button
+          className='btn'
+          type='button'
+          onClick={this.checkArchives}
+        >
+          Check other archives
+        </button>
+        {!!favoredArchiveUrl ? (
+          <>
+            <p>
+              You have saved an archive link for this bookmark.{' '}
+              <a
+                href={favoredArchiveUrl}
+                target='_blank'
+                rel='noopener noreferrer'
+              >
+                Visit this archive{' '}
+                {favoredArchiveDate &&
+                  `(snapshot date: ${this.formatDate(favoredArchiveDate)})`}
+              </a>
+            </p>
+          </>
+        ) : (
             <p>You have not saved an archive link for this bookmark.</p>
           )}
-          {this.state.editFavoredArchive ? (
-            this.favoredArchiveEditor()
-          ) : (
+        {this.state.editFavoredArchive ? (
+          this.favoredArchiveEditor()
+        ) : (
             <button
-              type="button"
+              type='button'
+              className='btn'
               onClick={() => this.setState({ editFavoredArchive: true })}
             >
               {!!favoredArchiveUrl
@@ -214,11 +220,8 @@ export class Archive extends Component {
                 : 'Save an archive link '}
             </button>
           )}
-          {this.renderWayback()}
-        </div>
-      );
-    }
+        {this.renderWayback()}
+      </div>
+    );
   }
 }
-
-export default Archive;
