@@ -43,12 +43,12 @@ a {
 }
 
 input {
-  margin: 6px;
+  padding: 6px;
+  border-radius: var(--btn-corners);
 }
 
 .unloggedInput {
-  padding: 6px;
-  border-radius: var(--btn-corners);
+  margin: 6px;
 }
 
 .container {
