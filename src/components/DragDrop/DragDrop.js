@@ -64,8 +64,8 @@ export default class DragDrop extends Component {
             x
           </button>
         </div>
-        <div>
-          <ul className="selected-list">
+        <div className="selected-list">
+          <ul>
             {this.props.selectedItems &&
               this.props.selectedItems.map(item => {
                 return (
