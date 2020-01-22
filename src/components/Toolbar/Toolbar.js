@@ -176,48 +176,51 @@ export default class Toolbar extends Component {
               Export...
             </button>
           </div>
-          <form className="filterBlock">
-            <select
-              className="selectInput"
-              onChange={e => this.updateSearchFilter(e.target.value)}
+          <div className="searchRow">
+            <form className="searchFilterBlock">
+              <select
+                className="selectInput"
+                onChange={e => this.updateSearchFilter(e.target.value)}
+              >
+                <option value="any">Any</option>
+                <option value="title">Name</option>
+                <option value="url">URL</option>
+                <option value="tag">Tag</option>
+              </select>
+            </form>
+            <form
+              className="searchBlock"
+              onSubmit={e =>
+                this.props.updateFinalSearch(
+                  e,
+                  this.state.search,
+                  this.state.searchFilter,
+                  this.state.filter
+                )
+              }
             >
-              <option value="any">Any</option>
-              <option value="title">Name</option>
-              <option value="url">URL</option>
-              <option value="tag">Tag</option>
-            </select>
-          </form>
-          <form
-            className="searchBlock"
-            onSubmit={e =>
-              this.props.updateFinalSearch(
-                e,
-                this.state.search,
-                this.state.searchFilter,
-                this.state.filter
-              )
-            }
-          >
-            <input
-              type="text"
-              className="searchInput"
-              name="search"
-              placeholder="Type search..."
-              onChange={e => this.updateSearch(e.target.value)}
-            />
-            <input className="btn" type="submit" value="Search"></input>
-          </form>
-
-          <form className="filterBlock">
-            <select
-              className="selectInput"
-              onChange={e => this.updateFilter(e.target.value)}
-            >
-              <option value="">No filter</option>
-              <option value="bookmark">Only Bookmarks</option>
-              <option value="folder">Only Folders</option>
-            </select>
-          </form>
+              <input
+                type="text"
+                className="searchInput"
+                name="search"
+                placeholder="Type search..."
+                onChange={e => this.updateSearch(e.target.value)}
+              />
+              <input className="btn" type="submit" value="Search"></input>
+            </form>
+          </div>
+          <div className="filterRow">
+            <form className="filterBlock">
+              <select
+                className="selectInput"
+                onChange={e => this.updateFilter(e.target.value)}
+              >
+                <option value="">No filter</option>
+                <option value="bookmark">Only Bookmarks</option>
+                <option value="folder">Only Folders</option>
+              </select>
+            </form>
+          </div>
         </div>
       );
     }

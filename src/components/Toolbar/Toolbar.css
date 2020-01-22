@@ -3,8 +3,7 @@
 	padding: 5px 2px;
 	border-bottom: 1px solid black;
 	display: flex;
-	flex-direction: column;
-	justify-content: space-evenly;
+	justify-content: flex-start;
 	position: fixed;
 	top: 46px;
 	width: 100vw;
@@ -12,9 +11,22 @@
 }
 
 .toolbarRow {
+	margin: 0;
+	padding: 0;
 	display: flex;
+	flex: 0 0 28%;
 	flex-direction: row;
-	justify-content: space-evenly;
+	justify-content: space-between;
+}
+
+.searchRow {
+	flex: 0 0 35%;
+	display: flex;
+	justify-content: center
+}
+
+.filterRow {
+	flex: 0 0 35%;
 }
 
 .searchInput {
