@@ -182,7 +182,7 @@ export default class Toolbar extends Component {
           <div className="searchRow">
             <form className="searchFilterBlock">
               <select
-                className="btn selectInput"
+                className="selectInput btn"
                 onChange={e => this.updateSearchFilter(e.target.value)}
               >
                 <option value="any">Any</option>
