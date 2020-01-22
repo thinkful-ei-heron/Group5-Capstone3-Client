@@ -52,12 +52,17 @@ export default class DragDrop extends Component {
           position: this.props.moving ? 'fixed' : 'fixed',
           zIndex: this.props.moving ? '1' : '2',
           opacity: this.props.moving ? 20 : 70,
-          right: '100px',
+          right: '200px',
           bottom: '10px',
         }}
       >
         <div className="top">
-
+          Selected Bookmarks:
+          <button
+            onClick={this.props.deselect}
+            className="deselect">
+            x
+          </button>
         </div>
         <div>
           <ul className="selected-list">

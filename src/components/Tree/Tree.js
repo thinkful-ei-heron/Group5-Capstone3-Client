@@ -81,7 +81,7 @@ export default class Tree extends Component {
           }
 
           <div
-            className={`Tree-info ${this.state.selected && ` selected`}`}
+            className={`Tree-info ${this.context.selectedNodes.includes(this) && ` selected`}`}
             draggable
             onDragStart={this.onDragStart}
             onDragEnd={this.props.handleOnDragEnd}
