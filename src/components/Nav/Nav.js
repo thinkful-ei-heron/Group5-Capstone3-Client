@@ -64,7 +64,7 @@ export default withRouter(class Nav extends React.Component {
       <nav>
         <Link
           to={'/list'}
-          className={this.props.location.pathname === '/list' ? 'tab activeTab' : 'tab'}
+          className={this.props.location.pathname === '/list' ? 'tab tabList activeTab' : 'tab tabList'}
           id={'tab-list'}
         >
           List

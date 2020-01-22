@@ -1,5 +1,6 @@
 .BookmarkManager {
   position: relative;
+  top: -3px;
   left: -25px;
   width: 101.5vw;
 }
@@ -16,8 +17,6 @@
 .columnLeft {
   flex: 0 0 35%;
   justify-content: flex-start;
-  border-right: solid 1px black;
-  border-bottom: solid 1px black;
   height: 100vh;
 }
 
@@ -44,13 +43,12 @@
 .columnLeftL2 {
   flex: 0 0 50%;
   justify-content: flex-start;
-  border-right: solid 1px black;
-  border-bottom: solid 1px black;
+  border-left: solid 1px var(--color-border);
+  border-right: solid 1px var(--color-border);
 }
 
 .columnRightL2 {
   flex: 0 0 50%;
-  border-bottom: solid 1px black;
 }
 
 .columnLeftL2, .columnRightL2 {
@@ -59,7 +57,7 @@
 
 
 .infoblock {
-  border-right: solid 1px black;
+  /* border-right: solid 1px black; */
   height: 100vh;
   width: 30%;
 }

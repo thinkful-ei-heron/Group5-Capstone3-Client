@@ -271,7 +271,7 @@ export default class BookmarkManager extends Component {
             <div className="columnRight SearchInfoView">
               <div className="rowL2">
                   <div className='infoblock columnLeftL2'>
-                    {selectedNode && 
+                    {selectedNode &&
                       <Info
                         selectedNode={selectedNode}
                         selectedNodes={this.context.selectedNodes}
@@ -295,6 +295,8 @@ export default class BookmarkManager extends Component {
                         registerNode={this.registerNode}
                         generateTree={this.generateTree}
                         handleSelect={this.handleSelect}
+                        handleOnDragStart={this.handleOnDragStart}
+                        handleOnDragEnd={this.handleOnDragEnd}
                       />
                     )}
                   </div>

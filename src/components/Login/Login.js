@@ -58,7 +58,7 @@ export default class Login extends React.Component {
           required
         />
         <br />
-        <input type='submit' value='Submit' className='btn' />
+        <input type='submit' value='Submit' className='btn btnPrimary' />
         <input type='reset' value='Reset' className='btn' />
       </form>
     );

@@ -57,7 +57,9 @@ export class NodeManager extends Component {
               <button>Add Tags</button>
             </form> */}
 
-        {this.props.node.contents && !this.state.add && (
+        { this.props.node &&
+          this.props.node.contents &&
+          !this.state.add && (
           <button type="button" onClick={this.toggleAdd} className="btn">
             +
           </button>

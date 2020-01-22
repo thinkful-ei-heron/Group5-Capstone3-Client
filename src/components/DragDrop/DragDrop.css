@@ -9,17 +9,20 @@
   margin: 0;
   padding: 0;
   border: 1px solid blue;
+
 }
 
 .DragDrop .selected-list {
+  max-height: 400px;
+  overflow-y: scroll;
+}
+
+.DragDrop ul {
   display: flex;
   flex-direction: column;
   list-style: none;
   padding: none;
   overflow-x: hidden;
-}
-
-.DragDrop ul {
   padding: 0;
   margin: 0;
 }
