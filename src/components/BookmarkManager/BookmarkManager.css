@@ -1,0 +1,50 @@
+.BookmarkManager {
+  position: relative;
+  left: -25px;
+  width: 101.5vw;
+}
+
+.row {
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+  height: 100vh;
+  backface-visibility: hidden;
+  will-change: overflow;
+}
+
+.columnLeft {
+  flex: 0 0 30%;
+  justify-content: flex-start;
+  border-right: solid 1px black;
+  border-bottom: solid 1px black;
+  height: 100vh;
+}
+
+.columnRight {
+  flex: 0 0 70%;
+  border-bottom: solid 1px black;
+}
+
+.columnLeft, .columnRight {
+  overflow: auto;
+  height: auto;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: none;
+  height: 100vh;
+}
+
+.infoblock {
+  position: fixed;
+  left: 30%;
+  border-right: solid 1px black;
+  height: 100vh;
+}
+
+.searchresults {
+  position: relative;
+  right: 18%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}

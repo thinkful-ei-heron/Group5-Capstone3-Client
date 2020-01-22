@@ -1,77 +1,138 @@
-import React, { Component } from 'react'
-import './Tree.css'
+import React, { Component } from 'react';
+import './Tree.css';
+import BookmarkContext from '../../contexts/BookmarkContext'
 
 export default class Tree extends Component {
-  state = {
-    expanded: true,
+  static contextType = BookmarkContext
+  constructor(props) {
+    super(props);
+    this.state = {
+      expanded: props.expanded,
+      selected: false,
+      parentId: props.parentId,
+      data: props.data,
+      id: props.data.id
+    }
   }
 
   static defaultProps = {
-    tree: null,
+    id: null,
+    parentId: null,
+    data: null,
+    path: [],
     level: null,
+    order: null,
+    expanded: true,
+    selected: false,
+    registerNode: () => { },
+    generateTree: () => { },
+    handleSelect: () => { },
+    sortByFunc: null,
   }
 
-  addChild() {
-
+  onDragStart = (e) => {
+    this.props.handleOnDragStart(e, this)
   }
 
-  removeChild() {
+  handleExpand = e => {
+    this.setState({ expanded: !this.state.expanded }, () => {
+      if (this.state.expanded && !this.context.expandedNodes.includes(this.props.id)) {
+        this.context.setExpandedNodes([...this.context.expandedNodes, this.props.id])
+      } else if (!this.state.expanded && this.context.expandedNodes.includes(this.props.id)) {
+        let idx = this.context.expandedNodes.findIndex(item => item === this.props.id);
+        this.context.expandedNodes.splice(idx, 1);
+        this.context.setExpandedNodes(this.context.expandedNodes);
+      }
+    });
 
+  };
+
+  toggleSelect = () => {
+    this.setState({ selected: !this.state.selected }, () => {
+      this.props.handleSelect(this)
+    })
   }
 
-  handleExpand = (e) => {
-    this.setState({expanded: !this.state.expanded})
+  componentDidMount() {
+    this.props.registerNode(this)
   }
+
+  componentDidUpdate(prevProps, prevState) {
+    this.props.registerNode(this)
+  }
+
   render() {
-    const indent = this.props.level * 10
+    let contents = this.props.data.contents;
+
+    if (this.props.sortByFunc) {
+      contents = this.props.sortByFunc(contents);
+    }
+
     return (
       <div
         className="Tree"
-        style={{
-          position: "relative", left: `${indent}px`
-        }}>
-
-        <div className="Tree-info">
-          {this.props.tree.icon &&
-            <img
-              className="Tree-icon"
-              src={this.props.tree.icon}
-              alt="icon"
-            />
+        style={{ left: `${contents ? '28' : '46'}px` }}
+      >
+        <div className='itemRow'>
+          {contents &&
+            <button className='expand-button' onClick={this.handleExpand}>
+              {this.state.expanded ? '▼' : '►'}
+            </button>
           }
-          <div className="Tree-detail">
-            {this.props.tree.title &&
-              <span className="Tree-title">
-                {this.props.tree.title}</span>
-            }
-            {this.props.tree.url &&
-              <a
-                className="Tree-url"
-                href={this.props.tree.url}
-                target="_blank"
-              >
-                {this.props.tree.url}</a>
-            }
+
+          <div
+            className={`Tree-info ${this.state.selected && ` selected`}`}
+            draggable
+            onDragStart={this.onDragStart}
+            onDragEnd={this.props.handleOnDragEnd}
+            onClick={this.toggleSelect}
+            onDrop={this.toggleSelect}
+            onDragOver={(e) => { e.preventDefault() }}
+          >
+            {this.props.data.icon && <img className='Tree-icon' src={this.props.data.icon} alt='icon' />}
+
+            <div className="Tree-detail">
+              {/* <NodeManager node={this.props.data} /> */}
+              {this.props.data.title &&
+                <div className='Tree-title'>
+                  {this.props.data.contents
+                    ? <>
+                      <span className='folderIcon'><i className={`far ${this.state.expanded ? 'fa-folder-open' : 'fa-folder'}`} /></span>
+                      {' '}
+                      <span className='folderText'>{this.props.data.title}</span>
+                    </>
+                    : <>{this.props.data.title}</>
+                  }
+                </div>
+              }
+              {this.props.data.url && <span className='Tree-url'>{this.props.data.url}</span>}
+            </div>
           </div>
         </div>
 
-        {/* {this.props.tree.last_modified &&
-          <span className="Tree-modified">
-            Last_modified: {this.props.tree.last_modified}</span>} */}
-
-        {(this.props.tree.type === 'folder') &&
-          <button className="expand-button" onClick={this.handleExpand}>
-            {this.state.expanded ? '-' : '+'}
-          </button>
-          // : <span>Type: {this.props.tree.type}</span>
-        }
-
-        {this.props.tree.contents &&
-          this.state.expanded &&
-            this.props.tree.contents.map(node =>
-              <Tree tree={node} level={this.props.level + 1}></Tree>
-            )}
+        {contents && this.state.expanded &&
+          contents.map((data, i) => {
+              return (
+                <Tree
+                  id={data.id}
+                  parentId={this.props.data.id}
+                  key={data.id}
+                  data={data}
+                  level={this.props.level + 1}
+                  order={i}
+                  path={[...this.props.path, this.props.id]}
+                  expanded={true}
+                  // expanded={this.context.expandedNodes.includes(data.id)}
+                  registerNode={this.props.registerNode}
+                  sortByFunc={this.props.sortByFunc}
+                  handleSelect={this.props.handleSelect}
+                  handleOnDragStart={this.props.handleOnDragStart}
+                  handleOnDragEnd={this.props.handleOnDragEnd}
+                />
+              )
+            }
+        )}
       </div>
-    )
+    );
   }
 }

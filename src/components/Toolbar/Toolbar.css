@@ -1,9 +1,14 @@
 .toolbar {
-	padding: 6px 2px;
+	background-color: rgb(222, 222, 222);
+	padding: 5px 2px;
 	border-bottom: 1px solid black;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-evenly;
+	position: fixed;
+	top: 46px;
+	width: 100vw;
+	z-index: 5;
 }
 
 .toolbarRow {
@@ -12,14 +17,16 @@
 	justify-content: space-evenly;
 }
 
-.toolbarInput {
-	height: 26px;
-	margin: 0 2px;
-	border: 1px solid black;
-}
-
 .searchInput {
 	width: 150px;
+}
+
+.selectInput {
+	/* THIS IS FOR THE SELECT DROP DOWN STYLING */
+	font-size: 16px;
+	padding: 4px;
+	margin: 0 4px;
+
 }
 
 .filterBlock {
@@ -28,6 +35,21 @@
 
 .searchBlock, .filterBlock {
 	vertical-align: middle;
+}
+
+.inputfile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.inputfilelabel {
+	font-family: Arial, Helvetica, sans-serif;
+	display: flex;
+	align-items: center;
 }
 
 @media only screen and (min-width: 500px) {

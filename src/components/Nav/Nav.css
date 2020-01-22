@@ -3,3 +3,24 @@ nav {
 	padding: 0;
 	margin: 0;
 }
+
+.tab {
+	font-size: 14px;
+	padding: 4px 8px;
+	margin: 0 3px;
+	border: 1px solid black;
+	border-radius: var(--btn-corners) var(--btn-corners) 0 0;
+	background-color: var(--color-background);
+	position: relative;
+	top: 7px;
+}
+
+.tab:hover {
+	text-decoration: underline;
+	text-decoration-style: double;
+	text-decoration-color: var(--color-user);
+}
+
+.activeTab {
+	border-bottom: var(--color-background);
+}

@@ -1,19 +1,36 @@
 :root {
+  /* --color-user: #7F7F7F; */
+  --color-user: blue;
   --color-text: black;
+  --color-background: rgb(240, 240, 240);
+  --btn-corners: 2.5px;
 }
 
 .App {
   text-align: center;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Open Sans', Helvetica, sans-serif;
   color: var(--color-text);
 }
 
-.btn {
+body {
+  overflow-y: hidden;
+  background-color: var(--color-background);
+  position: relative;
+  top: 32px;
+}
+
+main {
+  top: 40px;
+  width: 100vw;
+}
+
+.btn, select {
   font-size: 14px;
   padding: 4px;
   margin: 0 2px;
   border: 1px solid black;
-  border-radius: 3px;
+  background-color: var(--color-background);
+  border-radius: var(--btn-corners);
 }
 
 .btn:hover {
@@ -29,9 +46,15 @@ input {
   margin: 6px;
 }
 
+.unloggedInput {
+  padding: 6px;
+  border-radius: var(--btn-corners);
+}
+
 .container {
   border: 1px solid black;
-  border-radius: 4px;
+  background-color: white;
+  border-radius: 3px;
   margin: 0 auto;
   padding: 16px;
   max-width: 80%;

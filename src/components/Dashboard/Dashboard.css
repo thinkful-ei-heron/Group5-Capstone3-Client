@@ -1,0 +1,21 @@
+.listManager {
+  margin-bottom: 24px;
+}
+
+.delete {
+  transition: opacity 0.5s;
+  opacity: 1;
+}
+.delete.hide {
+  opacity: 0;
+  pointer-events:none;
+}
+
+.save {
+  transition: opacity 0.5s;
+  opacity: 1;
+}
+.save.hide {
+  opacity: 0;
+  pointer-events:none;
+}

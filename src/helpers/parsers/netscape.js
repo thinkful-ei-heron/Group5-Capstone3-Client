@@ -1,4 +1,5 @@
 import { JSDOM } from 'jsdom';
+import uuid from 'uuid'
 
 export const name = "netscape";
 
@@ -31,7 +32,9 @@ export function parse(html, callback) {
     // node is a DT element
     function _getNodeData( node ){
 
-      var data = {};
+      var data = {
+        id: uuid()
+      };
 
       for( var i = 0; i != node.childNodes.length; i++ ){
         if( node.childNodes[i].tagName == "A" ){
@@ -116,7 +119,8 @@ export function parse(html, callback) {
               menuRoot = {
                 title: "Menu",
                 contents: [],
-                ns_root: 'menu'
+                ns_root: 'menu',
+                id: uuid(),
               };
             }
             if( itemData.type == "folder" && itemData.__dir_dl ){

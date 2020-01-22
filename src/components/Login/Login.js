@@ -15,8 +15,8 @@ export default class Login extends React.Component {
 
   submitHandler = ev => {
     ev.preventDefault();
+    this.setState({ error: null })
     const { username, password } = ev.target
-
     AuthApiService.postLogin({
       username: username.value,
       password: password.value,
@@ -44,6 +44,7 @@ export default class Login extends React.Component {
         <input
           type='text'
           name='username' id='username'
+          className='unloggedInput'
           required
           autoFocus
         />
@@ -53,6 +54,7 @@ export default class Login extends React.Component {
         <input
           type='password'
           name='password' id='password'
+          className='unloggedInput'
           required
         />
         <br />
