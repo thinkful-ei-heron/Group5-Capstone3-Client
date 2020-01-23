@@ -8,10 +8,15 @@ header {
 	top: 0;
 	width: 100vw;
 	z-index: 5;
-	height: 45.67px;
 }
 
 h1 {
 	font-size: 24px;
 	margin: 0;
+}
+
+@media only screen and (max-width: 830px) {
+	header {
+		height: 33px;
+	}
 }

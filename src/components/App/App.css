@@ -47,7 +47,7 @@ a {
 }
 
 h3 {
-  margin: 6px;
+  margin: 6px auto;
 }
 
 input {
@@ -85,6 +85,11 @@ input {
 @media only screen and (max-width: 830px) {
 	.mobileHiddenFilter {
 		display: none;
+  }
+
+  h3 {
+    font-size: 16px;
+    margin-bottom: 0
   }
 }
 
