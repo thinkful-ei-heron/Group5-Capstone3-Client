@@ -241,7 +241,6 @@ export default class BookmarkManager extends Component {
       <>
         <Toolbar updateFinalSearch={this.updateFinalSearch} />
         <div className='MobileContainer'>
-
           {this.context.selectedNodes.length > 0 &&
             this.props.isMobile &&
             (
@@ -249,7 +248,6 @@ export default class BookmarkManager extends Component {
               {!this.state.moving ? 'Move to' : 'Cancel'}
             </button>
             )}
-
           {this.state.search === '' ?
             <div className='BookmarkManagerMobile'>
               {this.context.bookmarks &&
