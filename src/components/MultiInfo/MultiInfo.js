@@ -63,8 +63,8 @@ export default class MultiInfo extends Component {
               </div>
                 <h2>Apply Tags</h2>
                 <form onSubmit={this.handleSubmit}>
-                  <label htmlFor="multi-tags">Add Tags:</label>
-                  <input type="text" name="multi-tags" defaultValue='' onChange={e => this.updateMultiTags(e.target.value)}></input>
+                  <label htmlFor="multi-tags">Add Tags: </label>
+                  <input type="text" className="infoInput" name="multi-tags" defaultValue='' onChange={e => this.updateMultiTags(e.target.value)}></input>
                   <br></br>
                   <input type='submit' value='Save' className='btn' />
                 </form>

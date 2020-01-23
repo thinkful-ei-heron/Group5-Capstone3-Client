@@ -13,3 +13,8 @@
 .close:after {
   content: 'X';
 }
+
+.infoInput {
+  margin: 6px;
+  width: 55%;
+}
