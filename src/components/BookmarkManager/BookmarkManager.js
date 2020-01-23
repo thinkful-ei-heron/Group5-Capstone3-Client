@@ -302,7 +302,7 @@ export default class BookmarkManager extends Component {
                         flat={this.context.flat}
                         search={this.state.search}
                         searchFilter={this.state.searchFilter}
-                        hashedFlatBm={this.hashedFlatBm}
+                        // hashedFlatBm={this.hashedFlatBm}
                         registerNode={this.registerNode}
                         generateTree={this.generateTree}
                         handleSelect={this.handleSelect}

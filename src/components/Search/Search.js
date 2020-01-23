@@ -8,8 +8,8 @@ export default class Search extends Component {
   }
   static contextType = BookmarkContext
 
-  hashedFlatBm = this.props.hashedFlatBm;
-  arrHashedFlatBm = this.hashedFlatBm? Object.values(this.hashedFlatBm): [];
+  // hashedFlatBm = this.context.flat;
+  arrHashedFlatBm = this.props.flat? Object.values(this.props.flat): [];
 
   orderedTreeBm = [];
 
@@ -33,8 +33,8 @@ export default class Search extends Component {
     return (
       <>
         <h3>Search Results</h3>
-        {(this.arrHashedFlatBm && this.props.searchFilter==='title') &&
-          this.arrHashedFlatBm.filter(bm => !!bm.data.title && bm.data.title.toLowerCase().indexOf(this.props.search) !== -1).map(bm => {
+        {(this.props.flat && this.props.searchFilter==='title') &&
+          Object.values(this.props.flat).filter(bm => !!bm.data.title && bm.data.title.toLowerCase().indexOf(this.props.search) !== -1).map(bm => {
             return (
               <Tree
                 id={bm.data.id}
@@ -51,8 +51,8 @@ export default class Search extends Component {
               />
             )
           })}
-        {(this.arrHashedFlatBm && this.props.searchFilter==='url') &&
-          this.arrHashedFlatBm.filter(bm => (!!bm.data.url && bm.data.url.toLowerCase().indexOf(this.props.search) !== -1)).map(bm => {
+        {(this.props.flat && this.props.searchFilter==='url') &&
+          Object.values(this.props.flat).filter(bm => (!!bm.data.url && bm.data.url.toLowerCase().indexOf(this.props.search) !== -1)).map(bm => {
             return (
               <Tree
                 id={bm.data.id}
@@ -69,8 +69,8 @@ export default class Search extends Component {
               />
             )
           })}
-        {(this.arrHashedFlatBm && this.props.searchFilter==='tag') &&
-          this.arrHashedFlatBm.filter(bm => (!!bm.data.tags && bm.data.tags.join(', ').toLowerCase().indexOf(this.props.search) !== -1)).map(bm => {
+        {(this.props.flat && this.props.searchFilter==='tag') &&
+          Object.values(this.props.flat).filter(bm => (!!bm.data.tags && bm.data.tags.join(', ').toLowerCase().indexOf(this.props.search) !== -1)).map(bm => {
             return (
               <Tree
                 id={bm.data.id}
@@ -87,8 +87,8 @@ export default class Search extends Component {
               />
             )
           })}
-        {(this.arrHashedFlatBm && this.props.searchFilter==='any') &&
-          this.arrHashedFlatBm.filter(bm => ( (!!bm.data.tags && bm.data.tags.join(', ').toLowerCase().indexOf(this.props.search) !== -1) || (!!bm.data.url && bm.data.url.toLowerCase().indexOf(this.props.search) !== -1)) || (!!bm.data.title && bm.data.title.toLowerCase().indexOf(this.props.search) !== -1)).map(bm => {
+        {(this.props.flat && this.props.searchFilter==='any') &&
+          Object.values(this.props.flat).filter(bm => ( (!!bm.data.tags && bm.data.tags.join(', ').toLowerCase().indexOf(this.props.search) !== -1) || (!!bm.data.url && bm.data.url.toLowerCase().indexOf(this.props.search) !== -1)) || (!!bm.data.title && bm.data.title.toLowerCase().indexOf(this.props.search) !== -1)).map(bm => {
             return (
               <Tree
                 id={bm.data.id}

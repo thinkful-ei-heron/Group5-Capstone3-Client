@@ -63,6 +63,10 @@ export default class Tree extends Component {
     this.props.registerNode(this)
   }
 
+  componentWillUnmount() {
+    delete this.context.flat[this.props.id]
+  }
+
   render() {
     let contents = this.props.data.contents;
 
