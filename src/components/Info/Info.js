@@ -60,7 +60,7 @@ export default class Info extends Component {
   handleSubmit = ev => {
     ev.preventDefault();
     let { title, url, tags, selectedNode } = this.state;
-    if (!!tags && tags.value.length > 0) {
+    if (!!tags && typeof tags.value === "string") {
       tags.value = tags.value.split(',').map(tag => tag.trim());
     }
     title = title.value;
