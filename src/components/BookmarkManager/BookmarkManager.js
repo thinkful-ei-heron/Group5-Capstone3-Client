@@ -241,9 +241,15 @@ export default class BookmarkManager extends Component {
       <>
         <Toolbar updateFinalSearch={this.updateFinalSearch} />
         <div className='MobileContainer'>
+          {this.context.selectedNodes.length > 0 &&
+            this.props.isMobile &&
+            (
+            <button onClick={() => { this.setState({ moving: !this.state.moving }) }}>
+              {!this.state.moving ? 'Move to' : 'Cancel'}
+            </button>
+            )}
           {this.state.search === '' ?
             <div className='BookmarkManagerMobile'>
-              {this.state.moving && `Click a folder to move selected items`}
               {this.context.bookmarks &&
                 this.context.bookmarks.map((bm, i) => {
                   if (
@@ -284,7 +290,9 @@ export default class BookmarkManager extends Component {
         <div className='BookmarkManager'>
           <div className='row'>
             <div className='columnLeft BookmarkView'>
-              {this.context.selectedNodes.length > 0 && (
+              {this.context.selectedNodes.length > 0 &&
+                !this.props.isMobile &&
+              (
                 <DragDrop
                   onDragStart={() => { this.setState({ moving: true }) }}
                   onDrag={this.handleOnDrag}
@@ -292,9 +300,9 @@ export default class BookmarkManager extends Component {
                   selectedItems={this.context.selectedNodes}
                   moving={this.state.moving}
                   deselect={this.clearSelect}
+                  isMobile={this.props.isMobile}
                 />
               )}
-              {this.state.moving && `Click a folder to move selected items`}
 
               {this.context.bookmarks && this.context.bookmarks.map((bm, i) => {
                 if (this.state.filter !== '' && bm.type === this.state.filter) {
