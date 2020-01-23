@@ -244,7 +244,7 @@ export default class BookmarkManager extends Component {
           {this.context.selectedNodes.length > 0 &&
             this.props.isMobile &&
             (
-            <button onClick={() => { this.setState({ moving: !this.state.moving }) }}>
+            <button className="btn move" onClick={() => { this.setState({ moving: !this.state.moving }) }}>
               {!this.state.moving ? 'Move to' : 'Cancel'}
             </button>
             )}
