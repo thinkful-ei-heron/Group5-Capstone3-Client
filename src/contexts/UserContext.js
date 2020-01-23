@@ -1,13 +1,14 @@
 import React from 'react';
 import AuthApiService from '../services/auth-api-service';
 import TokenService from '../services/token-service';
+import UserService from '../services/user-service';
 
 const UserContext = React.createContext({
   user: {},
   error: null,
   setError: () => {},
   clearError: () => {},
-
+  setSettings: () => {},
   setUser: () => {},
   processLogin: () => {},
   processLogout: () => {}
@@ -18,7 +19,11 @@ export default UserContext;
 export class UserProvider extends React.Component {
   constructor(props) {
     super(props);
-    const state = { user: {}, error: null };
+    const state = { 
+      user: {}, 
+      error: null,
+      settings: {}
+  };
 
     const jwtPayload = TokenService.parseAuthToken();
 
@@ -28,7 +33,6 @@ export class UserProvider extends React.Component {
         name: jwtPayload.name,
         username: jwtPayload.sub
       };
-
     this.state = state;
   }
 
@@ -42,6 +46,12 @@ export class UserProvider extends React.Component {
         TokenService.queueCallbackBeforeExpiry(() => {
           this.fetchRefreshToken();
         });
+        UserService.getUserSettings()
+          .then(settings => this.setSettings(settings[0]))
+          .then( () => {
+            const root = document.documentElement;
+            root.style.setProperty('--color-user', this.state.settings.color);
+          })
       } else {
         this.processLogout(); //dead token, just log out to avoid trouble
       }
@@ -65,7 +75,11 @@ export class UserProvider extends React.Component {
     this.setState({ user });
   };
 
-  processLogin = authToken => {
+  setSettings = settings => {
+    this.setState({settings})
+  }
+
+  processLogin = (authToken) => {
     TokenService.saveAuthToken(authToken);
     const jwtPayload = TokenService.parseAuthToken();
     this.setUser({
@@ -73,6 +87,12 @@ export class UserProvider extends React.Component {
       name: jwtPayload.name,
       username: jwtPayload.sub
     });
+    UserService.getUserSettings()
+      .then(settings => this.setSettings(settings[0]))
+      .then( () => {
+        const root = document.documentElement;
+        root.style.setProperty('--color-user', this.state.settings.color);
+      })
     TokenService.queueCallbackBeforeExpiry(() => {
       this.fetchRefreshToken();
     });

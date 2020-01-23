@@ -29,20 +29,20 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 30%;
+  width: 18%;
 }
 
 .dash-label {
   text-align: right;
-  flex: 50%;
+  flex: 80%;
+  padding: 0 10px;
 }
 
 .dash-input {
-  flex: 50%;
-  text-align: left
+  flex: 20%;
 }
 
 .dash-color {
-  text-align: left;
-  flex: 50%;
+  flex: 20%;
 }
+
