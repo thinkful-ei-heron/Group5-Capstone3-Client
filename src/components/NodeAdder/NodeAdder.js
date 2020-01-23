@@ -82,8 +82,10 @@ export class NodeAdder extends Component {
                 onChange={this.handleUrlChange}
                 name="url"
               />
+              <br></br>
             </>
           )}
+          
           <label htmlFor="tags">Tags</label>
           <input
             type="text"
