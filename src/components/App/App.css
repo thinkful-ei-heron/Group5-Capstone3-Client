@@ -20,7 +20,6 @@ body {
 }
 
 main {
-  top: 40px;
   width: 100vw;
 }
 
@@ -89,8 +88,8 @@ input {
   }
 }
 
-@media only screen and (max-width: 456px) {
+@media only screen and (max-width: 499px) {
 	.headerTitle {
-		display: none;
+    display: none;
   }
 }

@@ -207,18 +207,18 @@ export default class BookmarkManager extends Component {
         <>
           <Toolbar updateFinalSearch={this.updateFinalSearch} />
           <div className="MobileContainer">
+            {this.context.selectedNodes.length > 0 && (
+              <DragDrop
+                onDragStart={()=>{this.setState({moving:true})}}
+                onDrag={this.handleOnDrag}
+                onDragEnd={this.handleOnDragEnd}
+                selectedItems={this.context.selectedNodes}
+                moving={this.state.moving}
+                deselect={this.clearSelect}
+              />
+            )}
             {this.state.search === '' ? 
               <div className="BookmarkManagerMobile">
-              {this.context.selectedNodes.length > 0 && (
-                <DragDrop
-                  onDragStart={()=>{this.setState({moving:true})}}
-                  onDrag={this.handleOnDrag}
-                  onDragEnd={this.handleOnDragEnd}
-                  selectedItems={this.context.selectedNodes}
-                  moving={this.state.moving}
-                  deselect={this.clearSelect}
-                />
-              )}
               {this.state.moving && `Click a folder to move selected items`}
               {this.context.bookmarks &&
               this.context.bookmarks.map((bm, i) => {

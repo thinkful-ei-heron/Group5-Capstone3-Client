@@ -8,9 +8,10 @@ header {
 	top: 0;
 	width: 100vw;
 	z-index: 5;
+	height: 45.67px;
 }
 
 h1 {
-	font-size:24px;
+	font-size: 24px;
 	margin: 0;
 }
