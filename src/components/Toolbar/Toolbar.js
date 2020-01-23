@@ -135,7 +135,7 @@ export default class Toolbar extends Component {
               value={this.state.listName}
               onChange={this.handleNameChange}
             />
-            <button type='submit' disabled={!this.state.listName}>
+            <button type='submit' className="btn btnPrimary" disabled={!this.state.listName}>
               Save
             </button>
             <button

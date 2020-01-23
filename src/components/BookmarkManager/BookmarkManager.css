@@ -8,7 +8,7 @@
   display: flex;
   width: 100vw;
   overflow: hidden;
-  height: 100vh;
+  height: 90vh;
   backface-visibility: hidden;
   will-change: overflow;
 }
@@ -25,14 +25,14 @@
 
 .columnLeft, .columnRight {
   overflow: auto;
-  height: 100vh;
+  height: 90vh;
   width: 100vw;
 }
 
 .rowL2 {
   display: flex;
   overflow: hidden;
-  height: 100vh;
+  height: 100%;
   backface-visibility: hidden;
   will-change: overflow;
 }
@@ -42,10 +42,12 @@
   justify-content: flex-start;
   border-left: solid 1px var(--color-border);
   border-right: solid 1px var(--color-border);
+  height: 90vh;
 }
 
 .columnRightL2 {
   flex: 0 0 50%;
+  height: 90vh;
 }
 
 .columnLeftL2, .columnRightL2 {
@@ -54,7 +56,7 @@
 
 .infoblock {
   /* border-right: solid 1px black; */
-  height: 100vh;
+  height: 100%;
   width: 30%;
 }
 
