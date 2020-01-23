@@ -15,6 +15,11 @@ h1 {
 	margin: 0;
 }
 
+a {
+	text-decoration: none;
+	color: var(--color-text);
+}
+
 @media only screen and (max-width: 830px) {
 	header {
 		height: 33px;

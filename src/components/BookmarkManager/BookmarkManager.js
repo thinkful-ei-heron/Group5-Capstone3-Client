@@ -267,20 +267,22 @@ export default class BookmarkManager extends Component {
               {this.renderSearch()}
             </div>
           }
-          <div className='InfoMobile'>
-            {selectedNode &&
-              <Info
-                selectedNode={selectedNode}
-                selectedNodes={this.context.selectedNodes}
-                clearSelect={this.clearSelect}
-              />}
-            {this.context.selectedNodes.length > 1 && (
-              <MultiInfo
-                selectedNodes={this.context.selectedNodes}
-                clearSelect={this.clearSelect}
-              />
-            )}
-          </div>
+          {!!this.context.selectedNodes && this.context.selectedNodes.length > 0 && 
+            <div className='InfoMobile'>
+              {selectedNode &&
+                <Info
+                  selectedNode={selectedNode}
+                  selectedNodes={this.context.selectedNodes}
+                  clearSelect={this.clearSelect}
+                />}
+              {this.context.selectedNodes.length > 1 && (
+                <MultiInfo
+                  selectedNodes={this.context.selectedNodes}
+                  clearSelect={this.clearSelect}
+                />
+              )}
+            </div>
+          }  
         </div>
       </>
     );

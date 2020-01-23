@@ -85,7 +85,7 @@ export default class Info extends Component {
         <div className="right">
           <button className="close" onClick={this.props.clearSelect}></button>
         </div>
-        <h3>Edit Info</h3>
+        {!!this.props.selectedNode ? <a className="bookmarkLink" href={this.props.selectedNode.url}>Visit Bookmark</a> : <h3>Edit Tags</h3>}
         <form onSubmit={this.handleSubmit}>
           <label htmlFor='title'>Title:</label>
           <input
