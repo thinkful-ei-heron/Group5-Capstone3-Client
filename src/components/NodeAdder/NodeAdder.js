@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import BookmarksContext from '../../contexts/BookmarkContext';
 import uuid from 'uuid/v4';
+import './NodeAdder.css'
 
 export class NodeAdder extends Component {
   static contextType = BookmarksContext;
@@ -59,14 +60,13 @@ export class NodeAdder extends Component {
     return (
       <form onSubmit={this.handleSubmit} className="add-form">
         <fieldset>
-          <legend>Add</legend>
           <select value={this.state.type} onChange={this.handleTypeChange}>
             <option value="folder">Folder</option>
             <option value="bookmark">Bookmark</option>
           </select>
           <br></br>
-          <label htmlFor="title">Title</label>
-          <input
+          <label htmlFor="title">Title: </label>
+          <input className="infoInput" 
             type="text"
             value={this.state.title}
             onChange={this.handleTitleChange}
@@ -75,8 +75,8 @@ export class NodeAdder extends Component {
           <br></br>
           {this.state.type === 'bookmark' && (
             <>
-              <label htmlFor="url">URL</label>
-              <input
+              <label htmlFor="url">URL: </label>
+              <input className="infoInput" 
                 type="text"
                 value={this.state.url}
                 onChange={this.handleUrlChange}
@@ -86,8 +86,8 @@ export class NodeAdder extends Component {
             </>
           )}
           
-          <label htmlFor="tags">Tags</label>
-          <input
+          <label htmlFor="tags">Tags: </label>
+          <input className="infoInput" 
             type="text"
             value={this.state.tagString}
             placeholder="tag1, tag2, ..."
@@ -96,7 +96,7 @@ export class NodeAdder extends Component {
           />
           <br></br>
           <button type="submit" className="btn">
-            Save
+            Add
           </button>
         </fieldset>
       </form>

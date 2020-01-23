@@ -9,7 +9,7 @@ export class NodeDeleter extends Component {
     const node = this.props.node;
     if (node.contents && node.contents.length > 0) {
       confirmRemoveChildren = window.confirm(
-        `This will delete ${node.title} and all contents!  Continue?`
+        `This will delete the folder ${node.title} and all its contents!  Continue?`
       );
     }
     if (confirmRemoveChildren) {

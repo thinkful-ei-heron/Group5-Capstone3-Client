@@ -19,6 +19,16 @@
   justify-content: space-evenly;
 }
 
+.AddNodeForm {
+  width: 70%;
+  margin: 10px auto;
+  margin-top: .625em;
+}
+
+.add {
+  border: 1px solid grey;
+}
+
 .thumbnail {
   width: inherit;
   max-width: 100%;

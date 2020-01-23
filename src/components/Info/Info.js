@@ -125,14 +125,15 @@ export default class Info extends Component {
             />
           </div>
         </form>
-        <div className='infoBtnRow'>
+        
+        <div className={this.state.add ? 'AddNodeForm add' : 'AddNodeForm'}>
           {this.props.selectedNodes && this.props.selectedNodes.length === 1 && this.props.selectedNode.type !== 'bookmark' &&  
             <button type="button" onClick={this.toggleAdd} className="btn">
-              Add
+              {this.state.add ? 'Cancel' : 'Add'}
             </button>
           }
+          {this.state.add && <NodeAdder toggleAdd={this.toggleAdd} parent={this.props.selectedNode}/>}
         </div>
-        {this.state.add && <NodeAdder toggleAdd={this.toggleAdd} parent={this.props.selectedNode}/>}
         <div className='infoBtnRow'>
           {this.props.selectedNodes &&
                 this.props.selectedNodes.length === 1 &&
