@@ -43,6 +43,7 @@ export default class BookmarkManager extends Component {
 
   componentDidMount() {
     this.setState({ flat: this.hashedFlatBm });
+    this.context.setFlat(this.hashedFlatBm)
   }
 
   handleOnDrag = e => {
@@ -161,10 +162,10 @@ export default class BookmarkManager extends Component {
   }
 
   registerNode = node => {
-    if (node.id === null || undefined) {
-      node.props.id = uuid();
-    }
-    this.hashedFlatBm[node.state.id] = {
+    // if (node.id === null || undefined) {
+    //   node.props.id = uuid();
+    // }
+    this.hashedFlatBm[node.props.id] = {
       node: node,
       id: node.props.id,
       parentId: node.props.parentId,
@@ -172,6 +173,16 @@ export default class BookmarkManager extends Component {
       path: node.props.path,
       selected: node.state.selected
     };
+    if (this.context.flat[node.props.id]) {
+      this.context.flat[node.props.id] = {
+        node: node,
+        id: node.props.id,
+        parentId: node.props.parentId,
+        data: node.props.data,
+        path: node.props.path,
+        selected: node.state.selected
+      };
+    }
   };
 
   generateTree = (node, sourceObj = this.orderedTreeBm) => {
@@ -236,7 +247,7 @@ export default class BookmarkManager extends Component {
                         data={bm}
                         handleSelect={this.handleSelect}
                         order={i}
-                        path={[bm.id]}
+                        path={['root', bm.id]}
                         expanded={true}
                         // expanded={this.context.expandedNodes.includes(bm.id)}
                         handleOnDragStart={this.handleOnDragStart}
@@ -254,7 +265,7 @@ export default class BookmarkManager extends Component {
                         data={bm}
                         handleSelect={this.handleSelect}
                         order={i}
-                        path={[bm.id]}
+                        path={['root', bm.id]}
                         expanded={true}
                         // expanded={this.context.expandedNodes.includes(bm.id)}
                         handleOnDragStart={this.handleOnDragStart}
@@ -288,7 +299,7 @@ export default class BookmarkManager extends Component {
                   <div className='searchresults columnRightL2'>
                     {this.state.search !== '' && (
                       <Search
-                        flat={this.state.flat}
+                        flat={this.context.flat}
                         search={this.state.search}
                         searchFilter={this.state.searchFilter}
                         hashedFlatBm={this.hashedFlatBm}
