@@ -148,7 +148,7 @@ export default class Archive extends Component {
         >
           clear date
         </button>
-        <button type='submit'>Save</button>
+        <button className='btn btnPrimary' type='submit'>Save</button>
       </form>
     );
   };

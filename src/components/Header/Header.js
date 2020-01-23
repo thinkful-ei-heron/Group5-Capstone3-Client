@@ -8,7 +8,7 @@ function Header() {
   return (
     <header>
       <Link to={'/'}>
-        <h1>Bookmark Organizer</h1>
+        <h1 className='headerTitle'>Bookmark Organizer</h1>
       </Link>
       <Nav />
     </header>
