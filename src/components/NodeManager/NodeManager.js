@@ -45,23 +45,14 @@ export class NodeManager extends Component {
   render() {
     return (
       <div>
-        {/* <button type="button" onClick={this.toggleEdit}>
-              Edit
-            </button> */}
         <button type="button" onClick={this.handleDelete} className="btn">
           Delete
         </button>
-
-        {/* <form onSubmit={this.handleAddTag}>
-              <input type="text" name="tags"></input>
-              <button>Add Tags</button>
-            </form> */}
-
         { this.props.node &&
           this.props.node.contents &&
           !this.state.add && (
           <button type="button" onClick={this.toggleAdd} className="btn">
-            +
+            Add
           </button>
         )}
         {this.state.add && (

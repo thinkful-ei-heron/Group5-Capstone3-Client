@@ -9,7 +9,8 @@ export class NodeAdder extends Component {
     tagString: ''
   };
 
-  handleSubmit = () => {
+  handleSubmit = ev => {
+    ev.preventDefault();
     const { title, type, url } = this.state;
     const id = uuid();
     const newNode = { id, title, type };
@@ -18,6 +19,8 @@ export class NodeAdder extends Component {
     if (this.state.tagString.length > 0) {
       const tags = this.state.tagString.split(', ');
       newNode.tags = tags;
+    } else {
+      newNode.tags = '';
     }
 
     this.props.done(newNode);
@@ -47,6 +50,7 @@ export class NodeAdder extends Component {
             <option value="folder">Folder</option>
             <option value="bookmark">Bookmark</option>
           </select>
+          <br></br>
           <label htmlFor="title">Title</label>
           <input
             type="text"
@@ -54,6 +58,7 @@ export class NodeAdder extends Component {
             onChange={this.handleTitleChange}
             name="title"
           />
+          <br></br>
           {this.state.type === 'bookmark' && (
             <>
               <label htmlFor="url">URL</label>
@@ -73,6 +78,7 @@ export class NodeAdder extends Component {
             onChange={this.handleTagChange}
             name="tags"
           />
+          <br></br>
           <button type="submit" className="btn">
             Save
           </button>

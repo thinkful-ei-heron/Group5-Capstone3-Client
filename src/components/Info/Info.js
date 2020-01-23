@@ -60,7 +60,7 @@ export default class Info extends Component {
   handleSubmit = ev => {
     ev.preventDefault();
     let { title, url, tags, selectedNode } = this.state;
-    if (!!tags && tags.value.length > 0) {
+    if (!!tags && tags.touched && tags.value.length > 0) {
       tags.value = tags.value.split(',').map(tag => tag.trim());
     }
     title = title.value;
@@ -115,13 +115,13 @@ export default class Info extends Component {
               value='Save'
               className='btn btnPrimary infoSubmit'
             />
-            { this.props.selectedNodes &&
-              this.props.selectedNodes.length === 1 &&
-              <NodeManager clearSelect={this.props.clearSelect} node={this.props.selectedNode} />
-            }
+
           </div>
         </form>
-
+        { this.props.selectedNodes &&
+              this.props.selectedNodes.length === 1 &&
+              <NodeManager clearSelect={this.props.clearSelect} node={this.props.selectedNode} />
+        }
         <div className={this.state.selectedNode.type === 'folder' ? 'hidden' : ''}>
           {this.state.selectedNode.type === 'bookmark' &&
             <img className="thumbnail"
