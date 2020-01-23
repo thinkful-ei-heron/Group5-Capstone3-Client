@@ -122,16 +122,20 @@ export default class Info extends Component {
             />
           </div>
         </form>
-        {this.props.selectedNodes && this.props.selectedNodes.length === 1 && this.props.selectedNode.type !== 'bookmark' &&  
-          <button type="button" onClick={this.toggleAdd} className="btn">
-            Add
-          </button>
-        }
+        <div className='infoBtnRow'>
+          {this.props.selectedNodes && this.props.selectedNodes.length === 1 && this.props.selectedNode.type !== 'bookmark' &&  
+            <button type="button" onClick={this.toggleAdd} className="btn">
+              Add
+            </button>
+          }
+        </div>
         {this.state.add && <NodeAdder toggleAdd={this.toggleAdd} parent={this.props.selectedNode}/>}
-        {this.props.selectedNodes &&
-              this.props.selectedNodes.length === 1 &&
-              <NodeDeleter clearSelect={this.props.clearSelect} node={this.props.selectedNode} />
-        }
+        <div className='infoBtnRow'>
+          {this.props.selectedNodes &&
+                this.props.selectedNodes.length === 1 &&
+                <NodeDeleter clearSelect={this.props.clearSelect} node={this.props.selectedNode} />
+          }
+        </div>
         <div className={this.state.selectedNode.type === 'folder' ? 'hidden' : ''}>
           {this.state.selectedNode.type === 'bookmark' &&
             <img className="thumbnail"
