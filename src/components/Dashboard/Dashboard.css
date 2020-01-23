@@ -19,3 +19,30 @@
   opacity: 0;
   pointer-events:none;
 }
+
+.savebtn {
+  margin: 5px;
+}
+
+.flex {
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30%;
+}
+
+.dash-label {
+  text-align: right;
+  flex: 50%;
+}
+
+.dash-input {
+  flex: 50%;
+  text-align: left
+}
+
+.dash-color {
+  text-align: left;
+  flex: 50%;
+}

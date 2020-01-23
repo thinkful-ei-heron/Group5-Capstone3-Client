@@ -241,19 +241,15 @@ export default class BookmarkManager extends Component {
       <>
         <Toolbar updateFinalSearch={this.updateFinalSearch} />
         <div className='MobileContainer'>
-          {this.context.selectedNodes.length > 0 && (
-            <DragDrop
-              onDragStart={() => { this.setState({ moving: true }) }}
-              onDrag={this.handleOnDrag}
-              onDragEnd={this.handleOnDragEnd}
-              selectedItems={this.context.selectedNodes}
-              moving={this.state.moving}
-              deselect={this.clearSelect}
-            />
-          )}
+          {this.context.selectedNodes.length > 0 &&
+            this.props.isMobile &&
+            (
+            <button className="btn move" onClick={() => { this.setState({ moving: !this.state.moving }) }}>
+              {!this.state.moving ? 'Move to' : 'Cancel'}
+            </button>
+            )}
           {this.state.search === '' ?
             <div className='BookmarkManagerMobile'>
-              {this.state.moving && `Click a folder to move selected items`}
               {this.context.bookmarks &&
                 this.context.bookmarks.map((bm, i) => {
                   if (
@@ -271,20 +267,22 @@ export default class BookmarkManager extends Component {
               {this.renderSearch()}
             </div>
           }
-          <div className='InfoMobile'>
-            {selectedNode &&
-              <Info
-                selectedNode={selectedNode}
-                selectedNodes={this.context.selectedNodes}
-                clearSelect={this.clearSelect}
-              />}
-            {this.context.selectedNodes.length > 1 && (
-              <MultiInfo
-                selectedNodes={this.context.selectedNodes}
-                clearSelect={this.clearSelect}
-              />
-            )}
-          </div>
+          {!!this.context.selectedNodes && this.context.selectedNodes.length > 0 && 
+            <div className='InfoMobile'>
+              {selectedNode &&
+                <Info
+                  selectedNode={selectedNode}
+                  selectedNodes={this.context.selectedNodes}
+                  clearSelect={this.clearSelect}
+                />}
+              {this.context.selectedNodes.length > 1 && (
+                <MultiInfo
+                  selectedNodes={this.context.selectedNodes}
+                  clearSelect={this.clearSelect}
+                />
+              )}
+            </div>
+          }  
         </div>
       </>
     );
@@ -294,7 +292,9 @@ export default class BookmarkManager extends Component {
         <div className='BookmarkManager'>
           <div className='row'>
             <div className='columnLeft BookmarkView'>
-              {this.context.selectedNodes.length > 0 && (
+              {this.context.selectedNodes.length > 0 &&
+                !this.props.isMobile &&
+              (
                 <DragDrop
                   onDragStart={() => { this.setState({ moving: true }) }}
                   onDrag={this.handleOnDrag}
@@ -302,9 +302,9 @@ export default class BookmarkManager extends Component {
                   selectedItems={this.context.selectedNodes}
                   moving={this.state.moving}
                   deselect={this.clearSelect}
+                  isMobile={this.props.isMobile}
                 />
               )}
-              {this.state.moving && `Click a folder to move selected items`}
 
               {this.context.bookmarks && this.context.bookmarks.map((bm, i) => {
                 if (this.state.filter !== '' && bm.type === this.state.filter) {
@@ -319,6 +319,7 @@ export default class BookmarkManager extends Component {
                 <div className='infoblock columnLeftL2'>
                   {selectedNode &&
                     <Info
+                      isMobile={this.props.isMobile}
                       selectedNode={selectedNode}
                       selectedNodes={this.context.selectedNodes}
                       clearSelect={this.clearSelect}
@@ -326,6 +327,7 @@ export default class BookmarkManager extends Component {
                   }
                   {this.context.selectedNodes.length > 1 &&
                     <MultiInfo
+                      isMobile={this.props.isMobile}
                       selectedNodes={this.context.selectedNodes}
                       clearSelect={this.clearSelect}
                     />

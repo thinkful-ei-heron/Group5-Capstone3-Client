@@ -1,0 +1,20 @@
+.right {
+  text-align: right;
+}
+
+.close {
+  color: black;
+  font: 14px/100% arial, sans-serif;
+  text-decoration: none;
+  text-shadow: 0 1px 0 #fff;
+  top: 5px;
+}
+
+.close:after {
+  content: 'X';
+}
+
+.infoInput {
+  margin: 6px;
+  width: 55%;
+}

@@ -114,7 +114,7 @@ export default class Toolbar extends Component {
       return (
         <div className='toolbar'>
           <RemoteListChooser done={this.doneLoading} />
-          <button className='btn cancel' onClick={this.doneLoading}>
+          <button className='btn btnPrimary cancel' onClick={this.doneLoading}>
             Cancel
           </button>
         </div>
@@ -135,10 +135,11 @@ export default class Toolbar extends Component {
               value={this.state.listName}
               onChange={this.handleNameChange}
             />
-            <button type='submit' disabled={!this.state.listName}>
+            <button type='submit' className="btn btnPrimary" disabled={!this.state.listName}>
               Save
             </button>
             <button
+              className='btn'
               type='button'
               onClick={() => this.setState({ renderListNamer: false })}
             >

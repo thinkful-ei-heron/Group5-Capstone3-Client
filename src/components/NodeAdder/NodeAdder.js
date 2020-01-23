@@ -1,15 +1,31 @@
 import React, { Component } from 'react';
+import BookmarksContext from '../../contexts/BookmarkContext';
 import uuid from 'uuid/v4';
+import './NodeAdder.css'
 
 export class NodeAdder extends Component {
+  static contextType = BookmarksContext;
+
   state = {
     title: '',
     type: 'folder',
     url: '',
-    tagString: ''
+    tagString: '',
   };
 
-  handleSubmit = () => {
+  addChild = newNode => {
+    const id = this.props.parent.id;
+    const folder = this.context.findNodeById(id);
+    const contents = folder.contents;
+    if (!Array.isArray(contents)) {
+      throw new Error('Attempted to add child node to a bookmark');
+    }
+    contents.push(newNode);
+    this.context.updateNode(id, { contents });
+  };
+
+  handleSubmit = ev => {
+    ev.preventDefault();
     const { title, type, url } = this.state;
     const id = uuid();
     const newNode = { id, title, type };
@@ -18,9 +34,11 @@ export class NodeAdder extends Component {
     if (this.state.tagString.length > 0) {
       const tags = this.state.tagString.split(', ');
       newNode.tags = tags;
+    } else {
+      newNode.tags = '';
     }
-
-    this.props.done(newNode);
+    this.addChild(newNode);
+    this.props.toggleAdd();
   };
 
   handleTitleChange = event => {
@@ -42,39 +60,43 @@ export class NodeAdder extends Component {
     return (
       <form onSubmit={this.handleSubmit} className="add-form">
         <fieldset>
-          <legend>Add</legend>
           <select value={this.state.type} onChange={this.handleTypeChange}>
             <option value="folder">Folder</option>
             <option value="bookmark">Bookmark</option>
           </select>
-          <label htmlFor="title">Title</label>
-          <input
+          <br></br>
+          <label htmlFor="title">Title: </label>
+          <input className="infoInput" 
             type="text"
             value={this.state.title}
             onChange={this.handleTitleChange}
             name="title"
           />
+          <br></br>
           {this.state.type === 'bookmark' && (
             <>
-              <label htmlFor="url">URL</label>
-              <input
+              <label htmlFor="url">URL: </label>
+              <input className="infoInput" 
                 type="text"
                 value={this.state.url}
                 onChange={this.handleUrlChange}
                 name="url"
               />
+              <br></br>
             </>
           )}
-          <label htmlFor="tags">Tags</label>
-          <input
+          
+          <label htmlFor="tags">Tags: </label>
+          <input className="infoInput" 
             type="text"
             value={this.state.tagString}
             placeholder="tag1, tag2, ..."
             onChange={this.handleTagChange}
             name="tags"
           />
+          <br></br>
           <button type="submit" className="btn">
-            Save
+            Add
           </button>
         </fieldset>
       </form>

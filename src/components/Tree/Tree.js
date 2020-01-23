@@ -73,7 +73,7 @@ export default class Tree extends Component {
     return (
       <div
         className="Tree"
-        style={{ left: `${contents && this.props.level === null ? '28' : '46'}px` }}
+        style={{ left: `${contents && this.props.level === null ? '0' : '40'}px` }}
       >
         <div className='itemRow'>
           {contents &&
@@ -95,7 +95,6 @@ export default class Tree extends Component {
             {this.props.data.icon && <img className='Tree-icon' src={this.props.data.icon} alt='icon' />}
 
             <div className="Tree-detail">
-              {/* <NodeManager node={this.props.data} /> */}
               {this.props.data.title &&
                 <div className='Tree-title'>
                   {this.props.data.contents

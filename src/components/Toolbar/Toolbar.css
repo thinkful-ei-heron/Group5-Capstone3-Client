@@ -9,6 +9,7 @@
 	top: 46px;
 	width: 100vw;
 	z-index: 5;
+	align-items: center;
 }
 
 .toolbarRow {
@@ -52,13 +53,15 @@
 	height: 28px;
 	font-family: Arial, sans-serif;
 	margin: 0 2px;
+}
 
+.cancel {
+	max-width: 65px;
 }
 
 @media only screen and (min-width: 830px) {
 	.toolbar {
 		flex-direction: row;
-		justify-content: space-evenly;
 	}
 }
 
