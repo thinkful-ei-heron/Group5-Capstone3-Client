@@ -252,7 +252,6 @@ export default class BookmarkManager extends Component {
 
           {this.state.search === '' ?
             <div className='BookmarkManagerMobile'>
-              {this.state.moving && `Click a folder to move selected items`}
               {this.context.bookmarks &&
                 this.context.bookmarks.map((bm, i) => {
                   if (
@@ -306,7 +305,6 @@ export default class BookmarkManager extends Component {
                   isMobile={this.props.isMobile}
                 />
               )}
-              {this.state.moving && `Click a folder to move selected items`}
 
               {this.context.bookmarks && this.context.bookmarks.map((bm, i) => {
                 if (this.state.filter !== '' && bm.type === this.state.filter) {
