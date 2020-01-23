@@ -8,13 +8,15 @@ export default class DragDrop extends Component {
     this.state = {
       selectedItems: props.selectedItems,
       moving: props.moving,
+      isMobile: props.isMobile,
       fade: true,
     }
   }
 
   static defaultProps = {
     moving: false,
-    selectedItems: null
+    selectedItems: null,
+    isMobile: false,
   }
 
   mousePos = {x: null, y: null}
