@@ -82,6 +82,9 @@ export default class Info extends Component {
   render() {
     return (
       <>
+        <div className="right">
+          <button className="close" onClick={this.props.clearSelect}></button>
+        </div>
         <h3>Edit Info</h3>
         <form onSubmit={this.handleSubmit}>
           <label htmlFor='title'>Title:</label>

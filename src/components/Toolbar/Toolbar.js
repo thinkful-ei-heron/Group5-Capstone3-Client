@@ -114,7 +114,7 @@ export default class Toolbar extends Component {
       return (
         <div className='toolbar'>
           <RemoteListChooser done={this.doneLoading} />
-          <button className='btn cancel' onClick={this.doneLoading}>
+          <button className='btn btnPrimary cancel' onClick={this.doneLoading}>
             Cancel
           </button>
         </div>
@@ -139,6 +139,7 @@ export default class Toolbar extends Component {
               Save
             </button>
             <button
+              className='btn'
               type='button'
               onClick={() => this.setState({ renderListNamer: false })}
             >

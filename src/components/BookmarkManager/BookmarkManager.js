@@ -319,6 +319,7 @@ export default class BookmarkManager extends Component {
                 <div className='infoblock columnLeftL2'>
                   {selectedNode &&
                     <Info
+                      isMobile={this.props.isMobile}
                       selectedNode={selectedNode}
                       selectedNodes={this.context.selectedNodes}
                       clearSelect={this.clearSelect}
@@ -326,6 +327,7 @@ export default class BookmarkManager extends Component {
                   }
                   {this.context.selectedNodes.length > 1 &&
                     <MultiInfo
+                      isMobile={this.props.isMobile}
                       selectedNodes={this.context.selectedNodes}
                       clearSelect={this.clearSelect}
                     />

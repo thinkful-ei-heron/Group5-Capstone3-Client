@@ -58,6 +58,9 @@ export default class MultiInfo extends Component {
     render() {
         return (
             <>
+              <div className="right">
+                <button className="close" onClick={this.props.clearSelect}></button>
+              </div>
                 <h2>Apply Tags</h2>
                 <form onSubmit={this.handleSubmit}>
                   <label htmlFor="multi-tags">Add Tags:</label>
