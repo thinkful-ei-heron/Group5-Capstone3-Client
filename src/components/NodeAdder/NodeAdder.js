@@ -1,12 +1,26 @@
 import React, { Component } from 'react';
+import BookmarksContext from '../../contexts/BookmarkContext';
 import uuid from 'uuid/v4';
 
 export class NodeAdder extends Component {
+  static contextType = BookmarksContext;
+
   state = {
     title: '',
     type: 'folder',
     url: '',
-    tagString: ''
+    tagString: '',
+  };
+
+  addChild = newNode => {
+    const id = this.props.parent.id;
+    const folder = this.context.findNodeById(id);
+    const contents = folder.contents;
+    if (!Array.isArray(contents)) {
+      throw new Error('Attempted to add child node to a bookmark');
+    }
+    contents.push(newNode);
+    this.context.updateNode(id, { contents });
   };
 
   handleSubmit = ev => {
@@ -22,8 +36,8 @@ export class NodeAdder extends Component {
     } else {
       newNode.tags = '';
     }
-
-    this.props.done(newNode);
+    this.addChild(newNode);
+    this.props.toggleAdd();
   };
 
   handleTitleChange = event => {

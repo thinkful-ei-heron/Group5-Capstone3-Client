@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import BookmarkContext from '../../contexts/BookmarkContext';
 import './Info.css';
-
-import NodeManager from '../NodeManager/NodeManager';
+import NodeAdder from '../NodeAdder/NodeAdder';
+import NodeDeleter from '../NodeDeleter/NodeDeleter';
 import Archive from '../Archive/Archive';
 
 export default class Info extends Component {
@@ -27,7 +27,8 @@ export default class Info extends Component {
     tags: {
       value: this.props.selectedNode.tags,
       touched: false
-    }
+    },
+    add: false
   };
 
   updateTitle(title) {
@@ -56,6 +57,10 @@ export default class Info extends Component {
       }
     });
   }
+
+  toggleAdd = () => {
+    this.setState({ add: !this.state.add });
+  };
 
   handleSubmit = ev => {
     ev.preventDefault();
@@ -115,12 +120,17 @@ export default class Info extends Component {
               value='Save'
               className='btn btnPrimary infoSubmit'
             />
-
           </div>
         </form>
-        { this.props.selectedNodes &&
+        {this.props.selectedNodes && this.props.selectedNodes.length === 1 && this.props.selectedNode.type !== 'bookmark' &&  
+          <button type="button" onClick={this.toggleAdd} className="btn">
+            Add
+          </button>
+        }
+        {this.state.add && <NodeAdder toggleAdd={this.toggleAdd} parent={this.props.selectedNode}/>}
+        {this.props.selectedNodes &&
               this.props.selectedNodes.length === 1 &&
-              <NodeManager clearSelect={this.props.clearSelect} node={this.props.selectedNode} />
+              <NodeDeleter clearSelect={this.props.clearSelect} node={this.props.selectedNode} />
         }
         <div className={this.state.selectedNode.type === 'folder' ? 'hidden' : ''}>
           {this.state.selectedNode.type === 'bookmark' &&
