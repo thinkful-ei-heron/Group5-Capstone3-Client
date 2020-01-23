@@ -69,3 +69,26 @@
   align-items: flex-start;
   margin: 0;
 }
+
+.MobileContainer {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.BookmarkManagerMobile {
+  flex: 1;
+  backface-visibility: hidden;
+  will-change: overflow;
+  overflow: auto;
+
+}
+
+.InfoMobile {
+  flex: 1;
+  backface-visibility: hidden;
+  will-change: overflow;
+  overflow: auto;
+}

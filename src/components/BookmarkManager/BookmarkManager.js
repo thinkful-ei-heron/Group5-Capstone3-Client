@@ -4,7 +4,6 @@ import BookmarkContext from '../../contexts/BookmarkContext';
 import './BookmarkManager.css';
 
 import Tree from '../Tree/Tree';
-// import ImportBookmarks from '../ImportBookmarks/ImportBookmarks';
 import DragDrop from '../DragDrop/DragDrop';
 import Toolbar from '../Toolbar/Toolbar';
 import Info from '../Info/Info';
@@ -203,13 +202,13 @@ export default class BookmarkManager extends Component {
       this.context.selectedNodes.length === 1
         ? this.context.selectedNodes[0].state.data
         : null;
-    return (
-      <>
-        <Toolbar updateFinalSearch={this.updateFinalSearch} />
-        {/* <ImportBookmarks /> */}
-        <div className="BookmarkManager">
-          <div className="row">
-            <div className="columnLeft BookmarkView">
+    if (this.props.isMobile) {
+      return (
+        <>
+          <Toolbar updateFinalSearch={this.updateFinalSearch} />
+          <div className="MobileContainer">
+            {this.state.search === '' ? 
+              <div className="BookmarkManagerMobile">
               {this.context.selectedNodes.length > 0 && (
                 <DragDrop
                   onDragStart={()=>{this.setState({moving:true})}}
@@ -221,90 +220,183 @@ export default class BookmarkManager extends Component {
                 />
               )}
               {this.state.moving && `Click a folder to move selected items`}
-
               {this.context.bookmarks &&
-                this.context.bookmarks.map((bm, i) => {
-                  if (
-                    this.state.filter !== '' &&
-                    bm.type === this.state.filter
-                  ) {
-                    console.log('this.state.filter ===', this.state.filter);
-                    return (
-                      <Tree
-                        id={bm.id}
-                        key={bm.title}
-                        data={bm}
-                        handleSelect={this.handleSelect}
-                        order={i}
-                        path={[bm.id]}
-                        expanded={true}
-                        // expanded={this.context.expandedNodes.includes(bm.id)}
-                        handleOnDragStart={this.handleOnDragStart}
-                        handleOnDragEnd={this.handleOnDragEnd}
-                        registerNode={this.registerNode}
-                        generateTree={this.generateTree}
-                      />
-                    );
-                  }
-                  if (this.state.filter === '') {
-                    return (
-                      <Tree
-                        id={bm.id}
-                        key={bm.title}
-                        data={bm}
-                        handleSelect={this.handleSelect}
-                        order={i}
-                        path={[bm.id]}
-                        expanded={true}
-                        // expanded={this.context.expandedNodes.includes(bm.id)}
-                        handleOnDragStart={this.handleOnDragStart}
-                        handleOnDragEnd={this.handleOnDragEnd}
-                        registerNode={this.registerNode}
-                        generateTree={this.generateTree}
-                      />
-                    );
-                  }
-                })}
-
+              this.context.bookmarks.map((bm, i) => {
+                if (
+                  this.state.filter !== '' &&
+                  bm.type === this.state.filter
+                ) {
+                  console.log('this.state.filter ===', this.state.filter);
+                  return (
+                    <Tree
+                      id={bm.id}
+                      key={bm.title}
+                      data={bm}
+                      handleSelect={this.handleSelect}
+                      order={i}
+                      path={[bm.id]}
+                      expanded={true}
+                      // expanded={this.context.expandedNodes.includes(bm.id)}
+                      handleOnDragStart={this.handleOnDragStart}
+                      handleOnDragEnd={this.handleOnDragEnd}
+                      registerNode={this.registerNode}
+                      generateTree={this.generateTree}
+                    />
+                  );
+                }
+                if (this.state.filter === '') {
+                  return (
+                    <Tree
+                      id={bm.id}
+                      key={bm.title}
+                      data={bm}
+                      handleSelect={this.handleSelect}
+                      order={i}
+                      path={[bm.id]}
+                      expanded={true}
+                      // expanded={this.context.expandedNodes.includes(bm.id)}
+                      handleOnDragStart={this.handleOnDragStart}
+                      handleOnDragEnd={this.handleOnDragEnd}
+                      registerNode={this.registerNode}
+                      generateTree={this.generateTree}
+                    />
+                  );
+                }
+              })}
             </div>
-
-            <div className="columnRight SearchInfoView">
-              <div className="rowL2">
-                  <div className='infoblock columnLeftL2'>
-                    {selectedNode &&
-                      <Info
-                        selectedNode={selectedNode}
-                        selectedNodes={this.context.selectedNodes}
-                        clearSelect={this.clearSelect}
-                      />}
-                      {this.context.selectedNodes.length > 1 && (
-                      <MultiInfo
-                        selectedNodes={this.context.selectedNodes}
-                        clearSelect={this.clearSelect}
-                      />
-                    )}
-                  </div>
-
-                  <div className='searchresults columnRightL2'>
-                    {this.state.search !== '' && (
-                      <Search
-                        flat={this.state.flat}
-                        search={this.state.search}
-                        searchFilter={this.state.searchFilter}
-                        hashedFlatBm={this.hashedFlatBm}
-                        registerNode={this.registerNode}
-                        generateTree={this.generateTree}
-                        handleSelect={this.handleSelect}
-                        handleOnDragStart={this.handleOnDragStart}
-                        handleOnDragEnd={this.handleOnDragEnd}
-                      />
-                    )}
-                  </div>
+            : 
+              <div className="BookmarkManagerMobile">
+                <Search
+                  flat={this.state.flat}
+                  search={this.state.search}
+                  searchFilter={this.state.searchFilter}
+                  hashedFlatBm={this.hashedFlatBm}
+                  registerNode={this.registerNode}
+                  generateTree={this.generateTree}
+                  handleSelect={this.handleSelect}
+                  handleOnDragStart={this.handleOnDragStart}
+                  handleOnDragEnd={this.handleOnDragEnd}
+                />
+              </div>
+            }
+            <div className="InfoMobile">
+              {selectedNode &&
+                <Info
+                  selectedNode={selectedNode}
+                  selectedNodes={this.context.selectedNodes}
+                  clearSelect={this.clearSelect}
+                />}
+                {this.context.selectedNodes.length > 1 && (
+                <MultiInfo
+                  selectedNodes={this.context.selectedNodes}
+                  clearSelect={this.clearSelect}
+                />
+              )}
+            </div>
+          </div>
+        </>
+      );
+    } else {
+      return (
+        <>
+          <Toolbar updateFinalSearch={this.updateFinalSearch} />
+          <div className="BookmarkManager">
+            <div className="row">
+              <div className="columnLeft BookmarkView">
+                {this.context.selectedNodes.length > 0 && (
+                  <DragDrop
+                    onDragStart={()=>{this.setState({moving:true})}}
+                    onDrag={this.handleOnDrag}
+                    onDragEnd={this.handleOnDragEnd}
+                    selectedItems={this.context.selectedNodes}
+                    moving={this.state.moving}
+                    deselect={this.clearSelect}
+                  />
+                )}
+                {this.state.moving && `Click a folder to move selected items`}
+  
+                {this.context.bookmarks &&
+                  this.context.bookmarks.map((bm, i) => {
+                    if (
+                      this.state.filter !== '' &&
+                      bm.type === this.state.filter
+                    ) {
+                      console.log('this.state.filter ===', this.state.filter);
+                      return (
+                        <Tree
+                          id={bm.id}
+                          key={bm.title}
+                          data={bm}
+                          handleSelect={this.handleSelect}
+                          order={i}
+                          path={[bm.id]}
+                          expanded={true}
+                          // expanded={this.context.expandedNodes.includes(bm.id)}
+                          handleOnDragStart={this.handleOnDragStart}
+                          handleOnDragEnd={this.handleOnDragEnd}
+                          registerNode={this.registerNode}
+                          generateTree={this.generateTree}
+                        />
+                      );
+                    }
+                    if (this.state.filter === '') {
+                      return (
+                        <Tree
+                          id={bm.id}
+                          key={bm.title}
+                          data={bm}
+                          handleSelect={this.handleSelect}
+                          order={i}
+                          path={[bm.id]}
+                          expanded={true}
+                          // expanded={this.context.expandedNodes.includes(bm.id)}
+                          handleOnDragStart={this.handleOnDragStart}
+                          handleOnDragEnd={this.handleOnDragEnd}
+                          registerNode={this.registerNode}
+                          generateTree={this.generateTree}
+                        />
+                      );
+                    }
+                  })}
+              </div>
+              <div className="columnRight SearchInfoView">
+                <div className="rowL2">
+                    <div className='infoblock columnLeftL2'>
+                      {selectedNode &&
+                        <Info
+                          selectedNode={selectedNode}
+                          selectedNodes={this.context.selectedNodes}
+                          clearSelect={this.clearSelect}
+                        />}
+                        {this.context.selectedNodes.length > 1 && (
+                        <MultiInfo
+                          selectedNodes={this.context.selectedNodes}
+                          clearSelect={this.clearSelect}
+                        />
+                      )}
+                    </div>
+  
+                    <div className='searchresults columnRightL2'>
+                      {this.state.search !== '' && (
+                        <Search
+                          flat={this.state.flat}
+                          search={this.state.search}
+                          searchFilter={this.state.searchFilter}
+                          hashedFlatBm={this.hashedFlatBm}
+                          registerNode={this.registerNode}
+                          generateTree={this.generateTree}
+                          handleSelect={this.handleSelect}
+                          handleOnDragStart={this.handleOnDragStart}
+                          handleOnDragEnd={this.handleOnDragEnd}
+                        />
+                      )}
+                    </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </>
-    );
+        </>
+      );  
+    }
   }
 }
