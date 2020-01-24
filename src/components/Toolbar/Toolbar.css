@@ -65,6 +65,12 @@
 	}
 }
 
+@media only screen and (max-width: 829px) {
+	.cancel {
+		margin-top: 4px;
+	}
+}
+
 @media only screen and (max-width: 499px) {
 	.searchBlock {
 		margin: 6px 0 3px;
