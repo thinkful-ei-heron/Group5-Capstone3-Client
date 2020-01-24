@@ -10,7 +10,7 @@ ReactDOM.render(
   <BrowserRouter>
     <UserProvider>
       <BookmarkContextProvider>
-        <Route path="/">
+        <Route path='/'>
           <App />
         </Route>
       </BookmarkContextProvider>

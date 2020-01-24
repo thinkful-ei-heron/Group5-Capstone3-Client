@@ -34,6 +34,7 @@ export default class Login extends React.Component {
 
   render() {
     const { error } = this.state
+    
     return (
       <form className='container' onSubmit={this.submitHandler}>
         <div role='alert'>

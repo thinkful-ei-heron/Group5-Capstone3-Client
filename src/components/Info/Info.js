@@ -74,11 +74,9 @@ export default class Info extends Component {
     title = title.value;
     url = url.value;
 
-    if (tags.length > 0) {
-      tags = tags.value.split(', ');
-    } else {
-      tags = [tags.value];
-    }
+    if (tags.length > 0) tags = tags.value.split(', ');
+    else tags = [tags.value];
+    
     this.context.updateNode(selectedNode.id, { title, url, tags });
     this.props.clearSelect()
   };

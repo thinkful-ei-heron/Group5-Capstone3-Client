@@ -2,7 +2,7 @@ import React from 'react';
 import Signup from '../../components/Signup/Signup'
 import './SignupRoute.css';
 
-class SignupRoute extends React.Component {
+export default class SignupRoute extends React.Component {
   static defaultProps = {
     history: {
       push: () => { },
@@ -26,6 +26,3 @@ class SignupRoute extends React.Component {
     );
   }
 };
-
-
-export default SignupRoute;

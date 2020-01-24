@@ -3,9 +3,9 @@ import React from 'react';
 import './Signup.css';
 import AuthApiService from '../../services/auth-api-service';
 
-class Signup extends React.Component {
+export default class Signup extends React.Component {
   static defaultProps = {
-    onRegistrationSuccess: ()=>{}
+    onRegistrationSuccess: () => { }
   }
 
   state = {
@@ -25,19 +25,20 @@ class Signup extends React.Component {
   }
 
   updateUsername(username) {
-    this.setState({username: {value: username, touched: true}})
+    this.setState({ username: { value: username, touched: true } })
   }
 
   updateEmail(email) {
-    this.setState({email: {value: email, touched: true}})
+    this.setState({ email: { value: email, touched: true } })
   }
 
   updatePassword(password) {
-    this.setState({password: {value: password, touched: true}})
+    this.setState({ password: { value: password, touched: true } })
   }
 
   validatePassword() {
     const password = this.state.password.value.trim();
+
     if (password.length === 0) {
       return 'Password is required.';
     } else if (password.length < 8 || password.length > 72) {
@@ -46,12 +47,9 @@ class Signup extends React.Component {
       return 'Password must contain at least one number.';
     } else if (!password.match(/[-!$%^&*()_+|~=`{}\[\]:";'<>?,.\/]/)) {
       return 'Password must contain at least one symbol.';
-    } else {
-      return 'Password meets length, number, and symbol criteria.'
     }
+    return 'Password meets length, number, and symbol criteria.'
   }
-
-  firstInput = React.createRef()
 
   handleSubmit = ev => {
     ev.preventDefault()
@@ -72,12 +70,9 @@ class Signup extends React.Component {
       })
   }
 
-  componentDidMount() {
-    this.firstInput.current.focus()
-  }
-
   render() {
     const { error } = this.state
+
     return (
       <form
         onSubmit={this.handleSubmit}
@@ -118,12 +113,17 @@ class Signup extends React.Component {
         />
         {this.state.password.touched && <p>{this.validatePassword()}</p>}
         <br />
-        <input type='submit' value='Submit' className='btn btnPrimary' />
-        <input type='reset' value='Reset' className='btn' />
+        <input
+          type='submit'
+          value='Submit'
+          className='btn btnPrimary'
+        />
+        <input
+          type='reset'
+          value='Reset'
+          className='btn'
+        />
       </form>
     );
   }
-
 }
-
-export default Signup;
