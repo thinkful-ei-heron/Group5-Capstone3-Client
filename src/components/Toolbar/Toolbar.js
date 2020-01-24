@@ -217,7 +217,7 @@ export default class Toolbar extends Component {
         <div className="filterRow mobileHiddenFilter">
           <form className="filterBlock">
             <select
-              className="selectInput btnPrimary"
+              className="selectInput"
               onChange={e => this.updateFilter(e.target.value)}
             >
               <option value="">No filter</option>
