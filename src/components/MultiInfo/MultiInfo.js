@@ -54,6 +54,7 @@ export default class MultiInfo extends Component {
       }
     }
     this.context.setBookmarks(nodes);
+    this.props.clearSelect();
   }
 
   render() {

@@ -35,26 +35,29 @@ export default class Search extends Component {
 
   render() {
     if (this.props.filter !==''){
-      this.arrHashedFlatBm = this.arrHashedFlatBm.filter(node => node.data.type === this.props.filter);
+      this.filteredArrHashedFlatBm = this.arrHashedFlatBm.filter(node => node.data.type === this.props.filter);
+    } else {
+      this.filteredArrHashedFlatBm = this.arrHashedFlatBm;
     }
+
     return (
       <>
         <h2>Search Results</h2>
         <div>
-          {(this.arrHashedFlatBm && this.props.searchFilter === 'title') &&
-            this.arrHashedFlatBm.filter(bm => !!bm.data.title && bm.data.title.toLowerCase().indexOf(this.props.search) !== -1).map(bm => {
+          {(this.filteredArrHashedFlatBm && this.props.searchFilter === 'title') &&
+            this.filteredArrHashedFlatBm.filter(bm => !!bm.data.title && bm.data.title.toLowerCase().indexOf(this.props.search) !== -1).map(bm => {
               return this.renderTree(bm);
             })}
-          {(this.arrHashedFlatBm && this.props.searchFilter === 'url') &&
-            this.arrHashedFlatBm.filter(bm => (!!bm.data.url && bm.data.url.toLowerCase().indexOf(this.props.search) !== -1)).map(bm => {
+          {(this.filteredArrHashedFlatBm && this.props.searchFilter === 'url') &&
+            this.filteredArrHashedFlatBm.filter(bm => (!!bm.data.url && bm.data.url.toLowerCase().indexOf(this.props.search) !== -1)).map(bm => {
               return this.renderTree(bm);
             })}
-          {(this.arrHashedFlatBm && this.props.searchFilter === 'tag') &&
-            this.arrHashedFlatBm.filter(bm => (!!bm.data.tags && bm.data.tags.join(', ').toLowerCase().indexOf(this.props.search) !== -1)).map(bm => {
+          {(this.filteredArrHashedFlatBm && this.props.searchFilter === 'tag') &&
+            this.filteredArrHashedFlatBm.filter(bm => (!!bm.data.tags && bm.data.tags.join(', ').toLowerCase().indexOf(this.props.search) !== -1)).map(bm => {
               return this.renderTree(bm);
             })}
-          {(this.arrHashedFlatBm && this.props.searchFilter === 'any') &&
-            this.arrHashedFlatBm.filter(bm => ((!!bm.data.tags && bm.data.tags.join(', ').toLowerCase().indexOf(this.props.search) !== -1) || (!!bm.data.url && bm.data.url.toLowerCase().indexOf(this.props.search) !== -1)) || (!!bm.data.title && bm.data.title.toLowerCase().indexOf(this.props.search) !== -1)).map(bm => {
+          {(this.filteredArrHashedFlatBm && this.props.searchFilter === 'any') &&
+            this.filteredArrHashedFlatBm.filter(bm => ((!!bm.data.tags && bm.data.tags.join(', ').toLowerCase().indexOf(this.props.search) !== -1) || (!!bm.data.url && bm.data.url.toLowerCase().indexOf(this.props.search) !== -1)) || (!!bm.data.title && bm.data.title.toLowerCase().indexOf(this.props.search) !== -1)).map(bm => {
               return this.renderTree(bm);
             })}
         </div>
