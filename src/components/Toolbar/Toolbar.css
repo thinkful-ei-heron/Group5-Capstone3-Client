@@ -59,6 +59,10 @@
 	max-width: 65px;
 }
 
+.hiddenLabel {
+	display: none;
+}
+
 @media only screen and (min-width: 830px) {
 	.toolbar {
 		flex-direction: row;

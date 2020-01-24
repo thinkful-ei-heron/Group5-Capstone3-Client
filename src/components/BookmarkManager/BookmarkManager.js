@@ -3,6 +3,7 @@ import uuid from 'uuid';
 import BookmarkContext from '../../contexts/BookmarkContext';
 import './BookmarkManager.css';
 import UserService from '../../services/user-service';
+import TokenService from '../../services/token-service';
 import Tree from '../Tree/Tree';
 import DragDrop from '../DragDrop/DragDrop';
 import Toolbar from '../Toolbar/Toolbar';
@@ -43,7 +44,8 @@ export default class BookmarkManager extends Component {
 
   componentDidMount() {
     this.setState({ flat: this.hashedFlatBm });
-    UserService.getUserSettings().then(settings => this.setState({settings: settings[0]}))
+    //need to check if logged in first-- how?
+    if (TokenService.hasAuthToken()) UserService.getUserSettings().then(settings => this.setState({settings: settings[0]}))
   }
 
   handleOnDrag = e => {
@@ -260,7 +262,7 @@ export default class BookmarkManager extends Component {
                   ) {
                     return this.renderTree(bm, i);
                   }
-                  if (this.state.filter === '') return this.renderTree(bm, i);
+                  return this.renderTree(bm, i);
                 })}
             </div>
             :
@@ -312,7 +314,7 @@ export default class BookmarkManager extends Component {
                 if (this.state.filter !== '' && bm.type === this.state.filter) {
                   return this.renderTree(bm, i);
                 }
-                if (this.state.filter === '') return this.renderTree(bm, i);
+                return this.renderTree(bm, i);
               })}
             </div>
             <div className='columnRight SearchInfoView'>

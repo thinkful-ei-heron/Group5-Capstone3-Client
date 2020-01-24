@@ -11,7 +11,7 @@ export default class ViewRoute extends Component {
       settings: this.context.settings
   }
 
-  componentWillMount() {
+  componentDidMount() {
     window.addEventListener('resize', this.handleWindowSizeChange);
   }
 

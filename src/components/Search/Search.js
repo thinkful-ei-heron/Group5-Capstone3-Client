@@ -50,7 +50,7 @@ export default class Search extends Component {
   render() {
     return (
       <>
-        <h3>Search Results</h3>
+        <h2>Search Results</h2>
         <div>
           {(this.arrHashedFlatBm && this.props.searchFilter === 'title') &&
             this.arrHashedFlatBm.filter(bm => !!bm.data.title && bm.data.title.toLowerCase().indexOf(this.props.search) !== -1).map(bm => {
