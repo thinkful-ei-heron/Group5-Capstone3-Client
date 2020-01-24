@@ -9,6 +9,10 @@ export default class RemoteListChooser extends Component {
   };
   static contextType = BookmarkContext;
 
+  componentDidMount() {
+    this.getLists();
+  }
+
   getLists() {
     PersistApiService.getLists().then(lists => {
       const names = {};
@@ -23,19 +27,18 @@ export default class RemoteListChooser extends Component {
       this.setState({ lists });
     });
   }
-  componentDidMount() {
-    this.getLists();
-  }
+
   getList(id) {
     PersistApiService.getList(id).then(list => {
       this.context.setBookmarks(list);
       this.props.done();
     });
   }
+
   displayList(list) {
     return (
       <button
-        className="btn list"
+        className='btn list'
         onClick={() => this.getList(list.id)}
         key={list.id}
       >
@@ -43,7 +46,12 @@ export default class RemoteListChooser extends Component {
       </button>
     );
   }
+
   render() {
-    return <div>{this.state.lists.map(list => this.displayList(list))}</div>;
+    return (
+      <div>
+        {this.state.lists.map(list => this.displayList(list))}
+      </div>
+    )
   }
 }

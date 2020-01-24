@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import BookmarksContext from '../../contexts/BookmarkContext';
 
-export class NodeDeleter extends Component {
+export default class NodeDeleter extends Component {
   static contextType = BookmarksContext;
 
   handleDelete = () => {
@@ -21,13 +21,13 @@ export class NodeDeleter extends Component {
 
   render() {
     return (
-      <div>
-        <button type="button" onClick={this.handleDelete} className="btn">
-          Delete
-        </button>
-      </div>
+      <button
+        type="button"
+        onClick={this.handleDelete}
+        className="btn"
+      >
+        Delete
+      </button>
     );
   }
 }
-
-export default NodeDeleter;

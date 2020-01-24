@@ -9,6 +9,7 @@ import ImportBookmarks from '../ImportBookmarks/ImportBookmarks';
 
 export default class Toolbar extends Component {
   static contextType = BookmarkContext;
+
   constructor(props, context) {
     super(props, context);
     this.state = {
@@ -36,9 +37,7 @@ export default class Toolbar extends Component {
   saveList = () => {
     if (!this.state.listName) {
       this.setState({ renderListNamer: true });
-    } else {
-      this.save(this.context.listId);
-    }
+    } else this.save(this.context.listId);
   };
 
   saveAs = event => {
@@ -50,6 +49,7 @@ export default class Toolbar extends Component {
 
   loadList = () => {
     this.setState({ renderListLoader: true });
+    this.props.clearSelect();
   };
 
   doneLoading = () => {
@@ -72,6 +72,7 @@ export default class Toolbar extends Component {
   };
 
   importFile = ev => {
+    this.props.clearSelect();
     let reader = new FileReader();
     reader.onload = ev => {
       bmParser(reader.result, (err, res) => {
@@ -115,13 +116,17 @@ export default class Toolbar extends Component {
         <RemoteListChooser done={this.doneLoading} />
         <button className='btn btnPrimary cancel' onClick={this.doneLoading}>
           Cancel
-          </button>
+        </button>
       </div>
     );
 
     if (this.state.renderExporter) return (
       <div className='toolbar'>
-        <ImportBookmarks import={false} done={this.doneExporting} />
+        <ImportBookmarks
+          import={false}
+          done={this.doneExporting}
+          clearSelect={this.props.clearSelect}
+        />
       </div>
     );
 
@@ -134,16 +139,20 @@ export default class Toolbar extends Component {
             value={this.state.listName}
             onChange={this.handleNameChange}
           />
-          <button type='submit' className="btn btnPrimary" disabled={!this.state.listName}>
+          <button
+            type='submit'
+            className='btn btnPrimary'
+            disabled={!this.state.listName}
+          >
             Save
-            </button>
+          </button>
           <button
             className='btn'
             type='button'
             onClick={() => this.setState({ renderListNamer: false })}
           >
             Cancel
-            </button>
+          </button>
         </form>
       </div>
     );
@@ -151,13 +160,13 @@ export default class Toolbar extends Component {
     return (
       <div className='toolbar'>
         <div className='btnBlock toolbarRow'>
-          {this.props.loggedIn && 
+          {this.props.loggedIn &&
             <>
               <button className='btn btnPrimary' onClick={this.saveList}>
                 Save
               </button>
               <button className='btn' onClick={this.beginSaveAs}>
-                Save as
+                Save as...
               </button>
               <button className='btn' onClick={this.loadList}>
                 Load...
@@ -184,9 +193,9 @@ export default class Toolbar extends Component {
           </button>
         </div>
 
-        <div className="searchRow">
+        <div className='searchRow'>
           <form
-            className="searchBlock"
+            className='searchBlock'
             onSubmit={e =>
               this.props.updateFinalSearch(
                 e,
@@ -196,40 +205,47 @@ export default class Toolbar extends Component {
               )
             }
           >
-            <label htmlFor="search" id="searchInput" className="hiddenLabel"></label>
+            <label
+              htmlFor='search'
+              className='hiddenLabel'
+            />
             <input
-              type="text"
-              className="searchInput"
-              name="search"
-              placeholder="Type search..."
+              type='text'
+              className='searchInput'
+              name='search' id='search'
+              placeholder='Type search...'
               onChange={e => this.updateSearch(e.target.value)}
             />
-            <label className="hiddenLabel" id="searchSubmit"></label>
-            <input className="btn btnPrimary" id="searchSubmit" type="submit" value="Search"></input>
+            <label className='hiddenLabel' htmlFor='searchSubmit' />
+            <input
+              className='btn btnPrimary'
+              id='searchSubmit'
+              type='submit'
+              value='Search'
+            />
           </form>
-          <form className="searchFilterBlock">
-            
+          <form className='searchFilterBlock'>
             <select
-              className="selectInput btn"
+              className='selectInput btn'
               onChange={e => this.updateSearchFilter(e.target.value)}
             >
-              <option value="any">Any</option>
-              <option value="title">Name</option>
-              <option value="url">URL</option>
-              <option value="tag">Tag</option>
+              <option value='any'>Any</option>
+              <option value='title'>Name</option>
+              <option value='url'>URL</option>
+              <option value='tag'>Tag</option>
             </select>
           </form>
         </div>
 
-        <div className="filterRow mobileHiddenFilter">
-          <form className="filterBlock">
+        <div className='filterRow mobileHiddenFilter'>
+          <form className='filterBlock'>
             <select
-              className="selectInput"
+              className='selectInput'
               onChange={e => this.updateFilter(e.target.value)}
             >
-              <option value="">No filter</option>
-              <option value="bookmark">Only Bookmarks</option>
-              <option value="folder">Only Folders</option>
+              <option value=''>No filter</option>
+              <option value='bookmark'>Only Bookmarks</option>
+              <option value='folder'>Only Folders</option>
             </select>
           </form>
         </div>

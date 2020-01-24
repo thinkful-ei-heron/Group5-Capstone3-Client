@@ -7,7 +7,7 @@ import LandingRoute from '../../routes/LandingRoute/LandingRoute';
 import LoginRoute from '../../routes/LoginRoute/LoginRoute';
 import SignupRoute from '../../routes/SignupRoute/SignupRoute';
 import ViewRoute from '../../routes/ViewRoute/ViewRoute';
-import DashboardRoute from '../../routes/DashboardRoute/DashboardRoute';
+import SettingsRoute from '../../routes/SettingsRoute/SettingsRoute';
 import PublicOnlyRoute from '../../routes/PublicOnlyRoute/PublicOnlyRoute';
 import PrivateOnlyRoute from '../../routes/PrivateOnlyRoute/PrivateOnlyRoute';
 import NotFoundRoute from '../../routes/NotFoundRoute/NotFoundRoute';
@@ -39,7 +39,7 @@ class App extends React.Component {
             <Route path={'/list'} component={ViewRoute} />
             <PublicOnlyRoute path={'/login'} component={LoginRoute} />
             <PublicOnlyRoute path={'/signup'} component={SignupRoute} />
-            <PrivateOnlyRoute path={'/settings'} component={DashboardRoute} />
+            <PrivateOnlyRoute path={'/settings'} component={SettingsRoute} />
             <Route component={NotFoundRoute} />
           </Switch>
         </main>

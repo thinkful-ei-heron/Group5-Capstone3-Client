@@ -1,8 +1,8 @@
 import React from 'react';
 import UserService from '../../services/user-service';
-import './Dashboard.css';
+import './Settings.css';
 
-export default class Dashboard extends React.Component {
+export default class Settings extends React.Component {
   _isMounted = false;
 
   static defaultProps = {
@@ -58,27 +58,26 @@ export default class Dashboard extends React.Component {
   handlePreview = ev => {
     const target = ev.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
-    this.setState({ preview: Boolean(value) })
+    this.setState({ preview: Boolean(value) });
   }
 
   handleExtra = ev => {
     const target = ev.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
-    this.setState({ extra: Boolean(value) })
+    this.setState({ extra: Boolean(value) });
   }
 
   handleAutosave = ev => {
     const target = ev.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
-    this.setState({ autosave: Boolean(value) })
+    this.setState({ autosave: Boolean(value) });
   }
 
   handleColor = ev => {
     const color = ev.target.value;
     const root = document.documentElement;
     root.style.setProperty('--color-user', color);
-
-    this.setState({ color })
+    this.setState({ color });
   }
 
   handleSubmit = ev => {
@@ -92,9 +91,7 @@ export default class Dashboard extends React.Component {
       autosave: autosave.checked,
       color: colorUI.value
     })
-      .then( () => {
-        this.props.onPatchSettingsSuccess()
-      })
+      .then(() => this.props.onPatchSettingsSuccess())
       .catch(res => {
         this.setState({
           error: res.error,
@@ -104,35 +101,36 @@ export default class Dashboard extends React.Component {
 
   render() {
     const classes = this.state.submitted ? 'save' : 'save hide';
+
     return (
-      <div>
+      <section className='container'>
         <form onSubmit={this.handleSubmit}>
-          <div className="flex">
-            <label className="dash-label" htmlFor='previewImg'>Preview Images:</label>
+          <div className='flex'>
+            <label className='dash-label' htmlFor='previewImg'>Preview Images:</label>
             <input
               type='checkbox'
               name='previewImg' id='previewImg'
               checked={this.state.preview}
               onChange={this.handlePreview}
-              className="dash-input"
+              className='dash-input'
             />
           </div>
           <br />
-          <div className="flex">
-            <label className="dash-label" htmlFor='autosave'>Autosave:</label>
+          <div className='flex'>
+            <label className='dash-label' htmlFor='autosave'>Autosave:</label>
             <input
               type='checkbox'
               name='autosave' id='autosave'
               checked={this.state.autosave}
               onChange={this.handleAutosave}
-              className="dash-input"
+              className='dash-input'
             />
           </div>
-            <br />
-          <div className="flex">
-            <label className="dash-label" htmlFor='colorUI'>Interface Color:</label>
+          <br />
+          <div className='flex'>
+            <label className='dash-label' htmlFor='colorUI'>Interface Color:</label>
             <input
-              className="dash-color"
+              className='dash-color'
               type='color'
               name='colorUI' id='colorUI'
               value={this.state.color}
@@ -147,7 +145,7 @@ export default class Dashboard extends React.Component {
           />
         </form>
         <p className={classes}>Settings saved!</p>
-      </div>
+      </section>
     );
   }
 }

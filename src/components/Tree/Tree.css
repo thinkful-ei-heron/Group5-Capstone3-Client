@@ -69,7 +69,7 @@
   width: 215px;
   height: 20px;
   overflow: hidden;
-  color: rgb(90, 90, 90);
+  color: var(--color-border);
 }
 
 .folderIcon {

@@ -3,7 +3,7 @@ import './LandingRoute.css';
 
 import LandingPage from '../../components/LandingPage/LandingPage';
 
-function LandingRoute() {
+export default function LandingRoute() {
   return (
     <div>
       <h2 className='heroText'>Powerful tools for arranging each bookmark exactly as you want</h2>
@@ -11,5 +11,3 @@ function LandingRoute() {
     </div>
   );
 }
-
-export default LandingRoute;

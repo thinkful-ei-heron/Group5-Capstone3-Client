@@ -65,7 +65,7 @@
 
 <a href="https://github.com/keisukeisobe" target="_blank"> **Keisuke Isobe**</a>: Product Manager
 
-<a href="https://github.com/zkhin" target="_blank"> **Zayar Khin**</a>: Backend/Serverside Lead
+<a href="https://github.com/zkhin" target="_blank"> **Zayar Khin**</a>: Frontend structure, UX, and Testing
 
 <a href="https://github.com/zacharialutz" target="_blank"> **Zacharia Lutz**</a>: Frontend/Design Lead
 
