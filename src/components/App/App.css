@@ -1,6 +1,7 @@
 :root {
-  --color-user: rgb(92, 92, 255);
+  --color-user: rgb(70, 70, 255);
   --color-text: black;
+  --color-hoverText: white;
   --color-background: rgb(240, 240, 240);
   --color-border: rgb(110, 110, 110);
   --btn-corners: 2.5px;
@@ -42,6 +43,7 @@ main {
 }
 
 .btn:hover {
+  color: var(--color-hoverText);
   background-color: var(--color-user);
 }
 
