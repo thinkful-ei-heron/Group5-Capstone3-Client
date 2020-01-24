@@ -58,44 +58,44 @@ export class NodeAdder extends Component {
   };
   render() {
     return (
-      <form onSubmit={this.handleSubmit} className="add-form">
+      <form onSubmit={this.handleSubmit} className='add-form'>
         <fieldset>
           <select value={this.state.type} onChange={this.handleTypeChange}>
-            <option value="folder">Folder</option>
-            <option value="bookmark">Bookmark</option>
+            <option value='folder'>Folder</option>
+            <option value='bookmark'>Bookmark</option>
           </select>
           <br></br>
-          <label htmlFor="title">Title: </label>
-          <input className="infoInput" 
-            type="text"
+          <label htmlFor='title'>Title:</label>
+          <input className='infoInput' 
+            type='text'
             value={this.state.title}
             onChange={this.handleTitleChange}
-            name="title"
+            name='title'
           />
           <br></br>
-          {this.state.type === 'bookmark' && (
+          {this.state.type === 'bookmark' &&
             <>
-              <label htmlFor="url">URL: </label>
-              <input className="infoInput" 
-                type="text"
+              <label htmlFor='url'>URL:</label>
+              <input className='infoInput' 
+                type='text'
                 value={this.state.url}
                 onChange={this.handleUrlChange}
-                name="url"
+                name='url'
               />
-              <br></br>
+              <br />
             </>
-          )}
+          }
           
-          <label htmlFor="tags">Tags: </label>
-          <input className="infoInput" 
-            type="text"
+          <label htmlFor='tags'>Tags:</label>
+          <input className='infoInput' 
+            type='text'
             value={this.state.tagString}
-            placeholder="tag1, tag2, ..."
+            placeholder='tag1, tag2, ...'
             onChange={this.handleTagChange}
-            name="tags"
+            name='tags'
           />
-          <br></br>
-          <button type="submit" className="btn">
+          <br />
+          <button type='submit' className='btn btnPrimary'>
             Add
           </button>
         </fieldset>
