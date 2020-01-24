@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import './DragDrop.css'
 
 export default class DragDrop extends Component {
-
   constructor(props) {
     super(props)
     this.state = {
@@ -19,9 +18,9 @@ export default class DragDrop extends Component {
     isMobile: false,
   }
 
-  mousePos = {x: null, y: null}
+  mousePos = { x: null, y: null }
 
-  handleMoveStart = (e) => {
+  handleMoveStart = e => {
     this.setState({
       moving: true,
       fade: false,
@@ -29,7 +28,6 @@ export default class DragDrop extends Component {
   }
 
   handleMoving = (e, node) => {
-
     if (this.state.moving) {
       this.mousePos = {
         x: e.clientX,
@@ -38,18 +36,15 @@ export default class DragDrop extends Component {
     }
   }
 
-  componentDidMount() {
-
-  }
-
   render() {
     return (
       <div
         draggable
+        tabIndex='0'
         onDragStart={this.props.onDragStart}
         onDrag={this.props.onDrag}
         onDragEnd={this.props.onDragEnd}
-        className="DragDrop"
+        className='DragDrop'
         style={{
           position: this.props.moving ? 'fixed' : 'fixed',
           zIndex: this.props.moving ? '1' : '2',
@@ -58,24 +53,23 @@ export default class DragDrop extends Component {
           bottom: '10px',
         }}
       >
-        <div className="top">
+        <div className='top'>
           Selected Bookmarks:
           <button
             onClick={this.props.deselect}
-            className="deselect">
+            className='deselect'>
             x
           </button>
         </div>
-        <div className="selected-list">
+        <div className='selected-list'>
           <ul>
-            {this.props.selectedItems &&
-              this.props.selectedItems.map(item => {
-                return (
-                  <li key={item.props.id}>
-                    {item.props.data.title}
-                  </li>
-                )
-              })
+            {this.props.selectedItems && this.props.selectedItems.map(item => {
+              return (
+                <li key={item.props.id}>
+                  {item.props.data.title}
+                </li>
+              )
+            })
             }
           </ul>
         </div>

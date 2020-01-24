@@ -2,13 +2,13 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 import { BrowserRouter } from 'react-router-dom';
-import Dashboard from './Dashboard'
+import PrivateOnlyRoute from './PrivateOnlyRoute'
 
 it('renders without crashing', () => {
   const div = document.createElement('div')
   ReactDOM.render(
     <BrowserRouter>
-      <Dashboard />
+      <PrivateOnlyRoute />
     </BrowserRouter>,
     div)
   ReactDOM.unmountComponentAtNode(div)

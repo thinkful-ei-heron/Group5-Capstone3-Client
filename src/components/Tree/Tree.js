@@ -18,7 +18,7 @@ export default class Tree extends Component {
   static defaultProps = {
     id: null,
     parentId: null,
-    data: {id: null},
+    data: { id: null },
     path: [],
     level: null,
     order: null,
@@ -46,7 +46,6 @@ export default class Tree extends Component {
         this.context.setExpandedNodes(this.context.expandedNodes);
       }
     });
-
   };
 
   toggleSelect = () => {
@@ -65,15 +64,14 @@ export default class Tree extends Component {
 
   render() {
     let contents = this.props.data.contents;
-
     if (this.props.sortByFunc) {
       contents = this.props.sortByFunc(contents);
     }
 
     return (
       <div
-        className="Tree"
-        style={{ left: `${contents ? (this.props.level=== null ? '0' : '10') : '45'}px`}}
+        className='Tree'
+        style={{ left: `${contents ? (this.props.level === null ? '0' : '10') : '45'}px` }}
       >
         <div className='itemRow'>
           {contents &&
@@ -93,18 +91,23 @@ export default class Tree extends Component {
             onDragOver={(e) => { e.preventDefault() }}
           >
             {
-              this.props.data.icon &&
-              this.props.data.icon !== 'undefined' &&
-              this.props.data.type &&
-              this.props.data.type !== 'folder' &&
-              <img className='Tree-icon' src={this.props.data.icon} alt='icon' />}
+              this.props.data.icon && this.props.data.icon !== 'undefined' &&
+              this.props.data.type && this.props.data.type !== 'folder' &&
+              <img
+                className='Tree-icon'
+                src={this.props.data.icon}
+                alt='icon'
+              />
+            }
 
-            <div className="Tree-detail">
+            <div className='Tree-detail'>
               {this.props.data.title &&
                 <div className='Tree-title'>
                   {this.props.data.contents
                     ? <>
-                      <span className='folderIcon'><i className={`far ${this.state.expanded ? 'fa-folder-open' : 'fa-folder'}`} /></span>
+                      <span className='folderIcon'>
+                        <i className={`far ${this.state.expanded ? 'fa-folder-open' : 'fa-folder'}`} />
+                      </span>
                       {' '}
                       <span className='folderText'>{this.props.data.title}</span>
                     </>
@@ -119,26 +122,25 @@ export default class Tree extends Component {
 
         {contents && this.state.expanded &&
           contents.map((data, i) => {
-              return (
-                <Tree
-                  id={data.id}
-                  parentId={this.props.data.id}
-                  key={data.id}
-                  data={data}
-                  level={this.props.level + 1}
-                  order={i}
-                  path={[...this.props.path, this.props.id]}
-                  expanded={true}
-                  // expanded={this.context.expandedNodes.includes(data.id)}
-                  registerNode={this.props.registerNode}
-                  sortByFunc={this.props.sortByFunc}
-                  handleSelect={this.props.handleSelect}
-                  handleOnDragStart={this.props.handleOnDragStart}
-                  handleOnDragEnd={this.props.handleOnDragEnd}
-                />
-              )
-            }
-        )}
+            return (
+              <Tree
+                id={data.id}
+                parentId={this.props.data.id}
+                key={data.id}
+                data={data}
+                level={this.props.level + 1}
+                order={i}
+                path={[...this.props.path, this.props.id]}
+                expanded={true}
+                registerNode={this.props.registerNode}
+                sortByFunc={this.props.sortByFunc}
+                handleSelect={this.props.handleSelect}
+                handleOnDragStart={this.props.handleOnDragStart}
+                handleOnDragEnd={this.props.handleOnDragEnd}
+              />
+            )
+          }
+          )}
       </div>
     );
   }

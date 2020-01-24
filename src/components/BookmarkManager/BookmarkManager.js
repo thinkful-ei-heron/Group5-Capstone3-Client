@@ -13,6 +13,7 @@ import Search from '../Search/Search';
 
 export default class BookmarkManager extends Component {
   static contextType = BookmarkContext;
+
   state = {
     error: null,
     levels: null,
@@ -29,7 +30,6 @@ export default class BookmarkManager extends Component {
   };
 
   hashedFlatBm = {};
-
   orderedTreeBm = [];
 
   handleOnDragStart = (e, node) => {
@@ -46,14 +46,14 @@ export default class BookmarkManager extends Component {
   componentDidMount() {
     this.setState({ flat: this.hashedFlatBm });
     //need to check if logged in first-- how?
-    if (TokenService.hasAuthToken()) UserService.getUserSettings().then(settings => this.setState({settings: settings[0]}))
+    if (TokenService.hasAuthToken()) UserService.getUserSettings().then(settings => this.setState({ settings: settings[0] }))
   }
 
   handleOnDrag = e => {
     e.preventDefault();
   };
 
-  handleExpand = (node) => {
+  handleExpand = node => {
     this.context.setExpandedNodes([...this.context.expandedNodes, node])
   }
 
@@ -252,12 +252,12 @@ export default class BookmarkManager extends Component {
           {this.context.selectedNodes.length > 0 &&
             this.props.isMobile &&
             (
-            <button className="btn move" onClick={() => { this.setState({ moving: !this.state.moving }) }}>
-              {!this.state.moving ? 'Move to' : 'Cancel'}
-            </button>
+              <button className="btn move" onClick={() => { this.setState({ moving: !this.state.moving }) }}>
+                {!this.state.moving ? 'Move to' : 'Cancel'}
+              </button>
             )}
-          {this.state.search === '' ?
-            <div className='BookmarkManagerMobile'>
+          {this.state.search === ''
+            ? <section className='BookmarkManagerMobile'>
               {this.context.bookmarks &&
                 this.context.bookmarks.map((bm, i) => {
                   if (
@@ -268,14 +268,13 @@ export default class BookmarkManager extends Component {
                   }
                   return this.renderTree(bm, i);
                 })}
-            </div>
-            :
-            <div className='BookmarkManagerMobile'>
+            </section>
+            : <div className='BookmarkManagerMobile'>
               {this.renderSearch()}
             </div>
           }
           {!!this.context.selectedNodes && this.context.selectedNodes.length > 0 &&
-            <div className='InfoMobile'>
+            <section className='InfoMobile'>
               {selectedNode &&
                 <Info
                   selectedNode={selectedNode}
@@ -284,13 +283,13 @@ export default class BookmarkManager extends Component {
                   settings={this.state.settings}
                   loggedIn={this.state.loggedIn}
                 />}
-              {this.context.selectedNodes.length > 1 && (
+              {this.context.selectedNodes.length > 1 &&
                 <MultiInfo
                   selectedNodes={this.context.selectedNodes}
                   clearSelect={this.clearSelect}
                 />
-              )}
-            </div>
+              }
+            </section>
           }
         </div>
       </>
@@ -304,10 +303,8 @@ export default class BookmarkManager extends Component {
         />
         <div className='BookmarkManager'>
           <div className='row'>
-            <div className='columnLeft BookmarkView'>
-              {this.context.selectedNodes.length > 0 &&
-                !this.props.isMobile &&
-              (
+            <section className='columnLeft BookmarkView'>
+              {this.context.selectedNodes.length > 0 && !this.props.isMobile &&
                 <DragDrop
                   onDragStart={() => { this.setState({ moving: true }) }}
                   onDrag={this.handleOnDrag}
@@ -317,18 +314,17 @@ export default class BookmarkManager extends Component {
                   deselect={this.clearSelect}
                   isMobile={this.props.isMobile}
                 />
-              )}
-
+              }
               {this.context.bookmarks && this.context.bookmarks.map((bm, i) => {
                 if (this.state.filter !== '' && bm.type === this.state.filter) {
                   return this.renderTree(bm, i);
                 }
                 return this.renderTree(bm, i);
               })}
-            </div>
+            </section>
             <div className='columnRight SearchInfoView'>
               <div className='rowL2'>
-                <div className='infoblock columnLeftL2'>
+                <section className='infoblock columnLeftL2'>
                   {selectedNode &&
                     <Info
                       isMobile={this.props.isMobile}
@@ -346,10 +342,10 @@ export default class BookmarkManager extends Component {
                       clearSelect={this.clearSelect}
                     />
                   }
-                </div>
-                <div className='searchresults columnRightL2'>
+                </section>
+                <section className='searchresults columnRightL2'>
                   {this.state.search !== '' && this.renderSearch()}
-                </div>
+                </section>
               </div>
             </div>
           </div>

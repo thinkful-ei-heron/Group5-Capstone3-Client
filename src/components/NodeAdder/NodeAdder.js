@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import BookmarksContext from '../../contexts/BookmarkContext';
 import uuid from 'uuid/v4';
+import BookmarksContext from '../../contexts/BookmarkContext';
 import './NodeAdder.css'
 
-export class NodeAdder extends Component {
+export default class NodeAdder extends Component {
   static contextType = BookmarksContext;
 
   state = {
@@ -29,14 +29,14 @@ export class NodeAdder extends Component {
     const { title, type, url } = this.state;
     const id = uuid();
     const newNode = { id, title, type };
+
     if (type === 'folder') newNode.contents = [];
     if (type === 'bookmark') newNode.url = url;
     if (this.state.tagString.length > 0) {
       const tags = this.state.tagString.split(', ');
       newNode.tags = tags;
-    } else {
-      newNode.tags = '';
-    }
+    } else newNode.tags = '';
+
     this.addChild(newNode);
     this.props.toggleAdd();
   };
@@ -64,19 +64,19 @@ export class NodeAdder extends Component {
             <option value='folder'>Folder</option>
             <option value='bookmark'>Bookmark</option>
           </select>
-          <br></br>
+          <br />
           <label htmlFor='title'>Title:</label>
-          <input className='infoInput' 
+          <input className='infoInput'
             type='text'
             value={this.state.title}
             onChange={this.handleTitleChange}
             name='title'
           />
-          <br></br>
+          <br />
           {this.state.type === 'bookmark' &&
             <>
               <label htmlFor='url'>URL:</label>
-              <input className='infoInput' 
+              <input className='infoInput'
                 type='text'
                 value={this.state.url}
                 onChange={this.handleUrlChange}
@@ -85,9 +85,9 @@ export class NodeAdder extends Component {
               <br />
             </>
           }
-          
+
           <label htmlFor='tags'>Tags:</label>
-          <input className='infoInput' 
+          <input className='infoInput'
             type='text'
             value={this.state.tagString}
             placeholder='tag1, tag2, ...'
@@ -103,5 +103,3 @@ export class NodeAdder extends Component {
     );
   }
 }
-
-export default NodeAdder;

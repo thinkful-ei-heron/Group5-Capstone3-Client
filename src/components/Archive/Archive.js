@@ -126,40 +126,34 @@ export default class Archive extends Component {
     const date = this.state.favoredArchiveDate;
     return (
       <form onSubmit={this.editFavoredArchive}>
-        <label htmlFor="fav-archive-url">Archive URL: </label>
+        <label htmlFor="fav-archive-url">Archive URL:</label>
         <input
-
           type="text"
           id="fav-archive-url"
           className="infoInput"
           defaultValue={this.state.favoredArchiveUrl}
           placeholder="https://web.archive.org/web/20000229040250/http://www.google.com/"
         />
-        <br></br>
-        <label htmlFor="fav-archive=date">Archive Date: </label>
+        <br />
+        <label htmlFor="fav-archive=date">Archive Date:</label>
         <input
           type="date"
           id="fav-archive-date"
           className="infoInput"
           defaultValue={date ? this.formatDate(date) : null}
         />
-        <br></br>
+        <br />
         <button
-
           type="button"
           className="btn clearBtn"
-
-          onClick={() =>
-            (document.getElementById('fav-archive-date').value = null)
-          }
+          onClick={() => document.getElementById('fav-archive-date').value = null}
         >
           Clear Date
         </button>
-        <br></br>
+        <br />
         <button className="btn btnPrimary" type="submit">
           Save
         </button>
-
       </form>
     );
   };
@@ -168,37 +162,32 @@ export default class Archive extends Component {
     const date = new Date(timestamp);
     return `${date.getFullYear()}-${
       date.getMonth() >= 9 ? '' : '0'
-    }${date.getMonth() + 1}-${
+      }${date.getMonth() + 1}-${
       date.getDate() >= 10 ? '' : '0'
-    }${date.getDate()}`;
+      }${date.getDate()}`;
   }
 
   renderArchiveManager() {
     const { favoredArchiveUrl, favoredArchiveDate } = this.state;
     return (
       <>
-        {!!favoredArchiveUrl ? (
-          <>
-            <p>
-              You have saved an archive link for this bookmark.{' '}
-              <a
-                href={favoredArchiveUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Visit this archive{' '}
-                {favoredArchiveDate &&
-                  `(snapshot date: ${this.formatDate(favoredArchiveDate)})`}
-              </a>
-            </p>
-          </>
-        ) : (
-          <p>You have not saved an archive link for this bookmark.</p>
-        )}
-        {this.state.editFavoredArchive ? (
-          this.favoredArchiveEditor()
-        ) : (
-          <button
+        {!!favoredArchiveUrl
+          ? <p>
+            You have saved an archive link for this bookmark.{' '}
+            <a
+              href={favoredArchiveUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Visit this archive{' '}
+              {favoredArchiveDate && `(snapshot date: ${this.formatDate(favoredArchiveDate)})`}
+            </a>
+          </p>
+          : <p>You have not saved an archive link for this bookmark.</p>
+        }
+        {this.state.editFavoredArchive
+          ? this.favoredArchiveEditor()
+          : <button
             type="button"
             className="btn"
             onClick={() => this.setState({ editFavoredArchive: true })}
@@ -207,7 +196,7 @@ export default class Archive extends Component {
               ? 'Edit saved archive link'
               : 'Save an archive link '}
           </button>
-        )}
+        }
       </>
     );
   }
@@ -217,13 +206,9 @@ export default class Archive extends Component {
       return (
         <div>
           <button
-
             type="button"
             className="btn"
-
-            onClick={() => {
-              this.setState({ showAll: false });
-            }}
+            onClick={() => this.setState({ showAll: false })}
           >
             Hide archive list
           </button>

@@ -1,8 +1,9 @@
 import React from 'react';
-import './DashboardRoute.css';
-import Dashboard from '../../components/Dashboard/Dashboard';
+import './SettingsRoute.css';
 
-class DashboardRoute extends React.Component {
+import Settings from '../../components/Settings/Settings';
+
+export default class SettingsRoute extends React.Component {
   static defaultProps = {
     history: {
       push: () => { },
@@ -18,10 +19,8 @@ class DashboardRoute extends React.Component {
     return (
       <div className='marginTop'>
         <h2>Settings</h2>
-        <Dashboard onPatchSettingsSuccess={this.handlePatchSettingsSuccess}/>
+        <Settings onPatchSettingsSuccess={this.handlePatchSettingsSuccess}/>
       </div>
     );
   }
 }
-
-export default DashboardRoute;

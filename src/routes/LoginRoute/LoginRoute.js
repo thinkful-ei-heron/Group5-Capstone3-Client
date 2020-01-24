@@ -3,7 +3,7 @@ import './LoginRoute.css';
 
 import Login from '../../components/Login/Login';
 
-class LoginRoute extends React.Component {
+export default class LoginRoute extends React.Component {
   static defaultProps = {
     location: {},
     history: {
@@ -21,12 +21,8 @@ class LoginRoute extends React.Component {
     return (
       <section className='login marginTop'>
         <h2>Login</h2>
-        <Login
-          onLoginSuccess={this.handleLoginSuccess}
-        />
+        <Login onLoginSuccess={this.handleLoginSuccess} />
       </section>
     );
   };
 };
-
-export default LoginRoute;

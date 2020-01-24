@@ -8,7 +8,7 @@ export default class ImportBookmarks extends Component {
   static contextType = BookmarkContext;
 
   static defaultProps = {
-    storeBookmarks: () => {},
+    storeBookmarks: () => { },
     import: true
   };
 
@@ -21,9 +21,8 @@ export default class ImportBookmarks extends Component {
     let reader = new FileReader();
     reader.onload = ev => {
       bmParser(reader.result, (err, res) => {
-        if (err) {
-          throw new Error(err);
-        }
+        if (err) throw new Error(err);
+
         this.setState(
           {
             bookmarks: res.bookmarks,
@@ -55,50 +54,52 @@ export default class ImportBookmarks extends Component {
 
   cancelButton = () => {
     return (
-      <input className="btn" type="button" value="Cancel" onClick={this.props.done}>
-      </input>
+      <input
+        className='btn'
+        type='button'
+        value='Cancel'
+        onClick={this.props.done}
+      />
     );
   };
 
   render() {
     if (this.props.import) {
       return (
-        <div className="Import">
-          {!this.state.imported && (
-            <form id="importform" className="ImportForm">
+        <div className='Import'>
+          {!this.state.imported &&
+            <form id='importform' className='ImportForm'>
               <fieldset>
-                <label htmlFor="bookmarkfile">
+                <label htmlFor='bookmarkfile'>
                   Upload your bookmarks HTML file:
                 </label>
                 <input
-                  type="file"
-                  name="bookmarkfile"
-                  id="bookmarkfile"
+                  type='file'
+                  name='bookmarkfile'
+                  id='bookmarkfile'
                   onChange={this.handleImport}
                 />
               </fieldset>
               {this.cancelButton()}
             </form>
-          )}
+          }
         </div>
       );
-    } else {
-      return (
-        <div>
-          <select className="btn" id="browserSelect">
-            <option value="chrome">Chrome</option>
-            <option value="firefox">Firefox</option>
-            <option value="safari">Safari</option>
-          </select>
-          <button
-            className="btn"
-            onClick={() => this.exportHandler()}
-          >
-            Export...
+    } else return (
+      <div>
+        <select className='btn' id='browserSelect'>
+          <option value='chrome'>Chrome</option>
+          <option value='firefox'>Firefox</option>
+          <option value='safari'>Safari</option>
+        </select>
+        <button
+          className='btn'
+          onClick={() => this.exportHandler()}
+        >
+          Export...
           </button>
-          {this.cancelButton()}
-        </div>
-      );
-    }
+        {this.cancelButton()}
+      </div>
+    );
   }
 }
