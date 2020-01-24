@@ -33,7 +33,6 @@ export default class Archive extends Component {
   getWayback = async () => {
     const url = this.props.node.url;
     const availResponse = await ProxyService.getWayback(url);
-    console.log(availResponse);
     const newestSnapshot = availResponse.archived_snapshots.closest;
     if (!newestSnapshot) {
       this.setState({ waybackOk: false });
@@ -45,7 +44,6 @@ export default class Archive extends Component {
   getArchiveList = async () => {
     let url = this.props.node.url;
     const memento = await ProxyService.getMemento(url);
-    console.log(memento);
     const archives = memento.memento_info.map(service => service.timegate_uri);
     this.setState({ archives, mementoStatus: true });
   };

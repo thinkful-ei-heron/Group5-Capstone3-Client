@@ -48,8 +48,6 @@ export default class Search extends Component {
   }
 
   render() {
-    // console.log(this.arrHashedFlatBm.length);
-    // console.log(this.arrHashedFlatBm);
     return (
       <>
         <h3>Search Results</h3>

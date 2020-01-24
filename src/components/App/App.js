@@ -20,7 +20,6 @@ class App extends React.Component {
   };
 
   componentDidMount = () => {
-    console.log(this.props);
     if (TokenService.hasAuthToken()) {
       let { exp } = TokenService.parseAuthToken();
       exp *= 1000; //s to ms;

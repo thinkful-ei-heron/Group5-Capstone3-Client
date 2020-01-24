@@ -2,13 +2,13 @@ import React, {Component} from 'react';
 import './ViewRoute.css';
 import BookmarkManager from '../../components/BookmarkManager/BookmarkManager'
 import { BrowserRouter } from 'react-router-dom'
+import UserContext from '../../contexts/UserContext';
 
 export default class ViewRoute extends Component {
-  constructor(){
-    super();
-    this.state = {
-      width: window.innerWidth
-    }
+  static contextType = UserContext;
+  state = {
+      width: window.innerWidth,
+      settings: this.context.settings
   }
 
   componentWillMount() {
@@ -27,7 +27,6 @@ export default class ViewRoute extends Component {
     const {width} = this.state;
     const isMobile = width <= 700 
     if (isMobile) {
-      console.log('isMobile');
       return (
         <div className="ManagerView">
           <BrowserRouter>
