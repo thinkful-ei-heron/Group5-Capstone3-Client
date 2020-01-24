@@ -73,7 +73,7 @@ export default class Tree extends Component {
     return (
       <div
         className="Tree"
-        style={{ left: `${contents && this.props.level === null ? '0' : '40'}px` }}
+        style={{ left: `${contents ? (this.props.level=== null ? '0' : '10') : '45'}px`}}
       >
         <div className='itemRow'>
           {contents &&
