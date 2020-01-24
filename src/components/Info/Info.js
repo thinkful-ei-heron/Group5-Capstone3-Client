@@ -161,7 +161,7 @@ export default class Info extends Component {
             />
           }
         </div>
-        {this.state.selectedNode.type === 'bookmark' && <Archive node={this.state.selectedNode} />}
+        {this.state.selectedNode.type === 'bookmark' && this.props.loggedIn && <Archive node={this.state.selectedNode} />}
       </>
     );
   }

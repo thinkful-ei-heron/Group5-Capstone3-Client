@@ -151,22 +151,26 @@ export default class Toolbar extends Component {
     return (
       <div className='toolbar'>
         <div className='btnBlock toolbarRow'>
-          <button className='btn btnPrimary' onClick={this.saveList}>
-            Save
-            </button>
-          <button className='btn' onClick={this.beginSaveAs}>
-            Save as
-            </button>
-          <button className='btn' onClick={this.loadList}>
-            Load...
-            </button>
+          {this.props.loggedIn && 
+            <>
+              <button className='btn btnPrimary' onClick={this.saveList}>
+                Save
+              </button>
+              <button className='btn' onClick={this.beginSaveAs}>
+                Save as
+              </button>
+              <button className='btn' onClick={this.loadList}>
+                Load...
+              </button>
+            </>
+          }
           <label
             className='btn inputFileLabel'
             htmlFor='bookmarkFile'
             tabIndex='0'
           >
             Import...
-            </label>
+          </label>
           <input
             type='file'
             className='inputFile'
@@ -177,7 +181,7 @@ export default class Toolbar extends Component {
           />
           <button className='btn' onClick={this.exportFile}>
             Export...
-            </button>
+          </button>
         </div>
 
         <div className="searchRow">

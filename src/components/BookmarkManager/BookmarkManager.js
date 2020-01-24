@@ -24,7 +24,8 @@ export default class BookmarkManager extends Component {
     searchFilter: 'any',
     search: '',
     finalSearch: '',
-    settings: {}
+    settings: {},
+    loggedIn: TokenService.hasAuthToken()
   };
 
   hashedFlatBm = {};
@@ -56,7 +57,7 @@ export default class BookmarkManager extends Component {
     this.context.setExpandedNodes([...this.context.expandedNodes, node])
   }
 
-  handleOnDragEnd = e => {
+  handleOnDragEnd = () => {
     this.setState({ moving: false });
   };
 
@@ -211,7 +212,6 @@ export default class BookmarkManager extends Component {
         order={i}
         path={[bm.id]}
         expanded={true}
-        // expanded={this.context.expandedNodes.includes(bm.id)}
         handleOnDragStart={this.handleOnDragStart}
         handleOnDragEnd={this.handleOnDragEnd}
         registerNode={this.registerNode}
@@ -243,7 +243,7 @@ export default class BookmarkManager extends Component {
         : null;
     if (this.props.isMobile) return (
       <>
-        <Toolbar updateFinalSearch={this.updateFinalSearch} />
+        <Toolbar loggedIn={this.state.loggedIn} updateFinalSearch={this.updateFinalSearch} />
         <div className='MobileContainer'>
           {this.context.selectedNodes.length > 0 &&
             this.props.isMobile &&
@@ -278,6 +278,7 @@ export default class BookmarkManager extends Component {
                   selectedNodes={this.context.selectedNodes}
                   clearSelect={this.clearSelect}
                   settings={this.state.settings}
+                  loggedIn={this.state.loggedIn}
                 />}
               {this.context.selectedNodes.length > 1 && (
                 <MultiInfo
@@ -292,7 +293,7 @@ export default class BookmarkManager extends Component {
     );
     return (
       <>
-        <Toolbar updateFinalSearch={this.updateFinalSearch} />
+        <Toolbar loggedIn={this.state.loggedIn} updateFinalSearch={this.updateFinalSearch} />
         <div className='BookmarkManager'>
           <div className='row'>
             <div className='columnLeft BookmarkView'>
@@ -327,6 +328,7 @@ export default class BookmarkManager extends Component {
                       selectedNodes={this.context.selectedNodes}
                       clearSelect={this.clearSelect}
                       settings={this.state.settings}
+                      loggedIn={this.state.loggedIn}
                     />
                   }
                   {this.context.selectedNodes.length > 1 &&

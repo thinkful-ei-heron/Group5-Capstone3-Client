@@ -1,0 +1,17 @@
+.clearBtn {
+  margin: 4px;
+}
+
+.saveBtn {
+  margin: 10px 0px;
+}
+
+.archiveLink {
+  color: blue;
+  text-decoration: underline;
+}
+
+.archiveList {
+  text-align: left;
+  margin-left: 20px;
+}
