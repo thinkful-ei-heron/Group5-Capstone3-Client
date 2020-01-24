@@ -80,6 +80,7 @@ export default class Info extends Component {
       tags = [tags.value];
     }
     this.context.updateNode(selectedNode.id, { title, url, tags });
+    this.props.clearSelect()
   };
 
   render() {
