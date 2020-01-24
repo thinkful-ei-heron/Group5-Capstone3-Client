@@ -110,123 +110,123 @@ export default class Toolbar extends Component {
   };
 
   render() {
-    if (this.state.renderListLoader) {
-      return (
-        <div className='toolbar'>
-          <RemoteListChooser done={this.doneLoading} />
-          <button className='btn btnPrimary cancel' onClick={this.doneLoading}>
-            Cancel
+    if (this.state.renderListLoader) return (
+      <div className='toolbar'>
+        <RemoteListChooser done={this.doneLoading} />
+        <button className='btn btnPrimary cancel' onClick={this.doneLoading}>
+          Cancel
           </button>
+      </div>
+    );
+
+    if (this.state.renderExporter) return (
+      <div className='toolbar'>
+        <ImportBookmarks import={false} done={this.doneExporting} />
+      </div>
+    );
+
+    if (this.state.renderListNamer) return (
+      <div className='toolbar'>
+        <form onSubmit={this.saveAs}>
+          <input
+            type='text'
+            id='list-name-input'
+            value={this.state.listName}
+            onChange={this.handleNameChange}
+          />
+          <button type='submit' className="btn btnPrimary" disabled={!this.state.listName}>
+            Save
+            </button>
+          <button
+            className='btn'
+            type='button'
+            onClick={() => this.setState({ renderListNamer: false })}
+          >
+            Cancel
+            </button>
+        </form>
+      </div>
+    );
+
+    return (
+      <div className='toolbar'>
+        <div className='btnBlock toolbarRow'>
+          <button className='btn btnPrimary' onClick={this.saveList}>
+            Save
+            </button>
+          <button className='btn' onClick={this.beginSaveAs}>
+            Save as
+            </button>
+          <button className='btn' onClick={this.loadList}>
+            Load...
+            </button>
+          <label
+            className='btn inputFileLabel'
+            htmlFor='bookmarkFile'
+            tabIndex='0'
+          >
+            Import...
+            </label>
+          <input
+            type='file'
+            className='inputFile'
+            tabIndex='-1'
+            name='bookmarkFile'
+            id='bookmarkFile'
+            onChange={this.importFile}
+          />
+          <button className='btn' onClick={this.exportFile}>
+            Export...
+            </button>
         </div>
-      );
-    } else if (this.state.renderExporter) {
-      return (
-        <div className='toolbar'>
-          <ImportBookmarks import={false} done={this.doneExporting} />
-        </div>
-      );
-    } else if (this.state.renderListNamer) {
-      return (
-        <div className='toolbar'>
-          <form onSubmit={this.saveAs}>
+
+        <div className="searchRow">
+          <form
+            className="searchBlock"
+            onSubmit={e =>
+              this.props.updateFinalSearch(
+                e,
+                this.state.search,
+                this.state.searchFilter,
+                this.state.filter
+              )
+            }
+          >
             <input
-              type='text'
-              id='list-name-input'
-              value={this.state.listName}
-              onChange={this.handleNameChange}
+              type="text"
+              className="searchInput"
+              name="search"
+              placeholder="Type search..."
+              onChange={e => this.updateSearch(e.target.value)}
             />
-            <button type='submit' className="btn btnPrimary" disabled={!this.state.listName}>
-              Save
-            </button>
-            <button
-              className='btn'
-              type='button'
-              onClick={() => this.setState({ renderListNamer: false })}
+            <input className="btn btnPrimary" type="submit" value="Search"></input>
+          </form>
+          <form className="searchFilterBlock">
+            <select
+              className="selectInput btn"
+              onChange={e => this.updateSearchFilter(e.target.value)}
             >
-              Cancel
-            </button>
+              <option value="any">Any</option>
+              <option value="title">Name</option>
+              <option value="url">URL</option>
+              <option value="tag">Tag</option>
+            </select>
           </form>
         </div>
-      );
-    } else {
-      return (
-        <div className='toolbar'>
-          <div className='btnBlock toolbarRow'>
-            <button className='btn btnPrimary' onClick={this.saveList}>
-              Save
-            </button>
-            <button className='btn' onClick={this.beginSaveAs}>
-              Save as
-            </button>
-            <button className='btn' onClick={this.loadList}>
-              Load...
-            </button>
-            <label
-              className='btn inputFileLabel'
-              htmlFor='bookmarkFile'
-              tabIndex='0'
+
+        <div className="filterRow mobileHiddenFilter">
+          <form className="filterBlock">
+            <select
+              className="selectInput btnPrimary"
+              onChange={e => this.updateFilter(e.target.value)}
             >
-              Import...
-            </label>
-            <input
-              type='file'
-              className='inputFile'
-              tabIndex='-1'
-              name='bookmarkFile'
-              id='bookmarkFile'
-              onChange={this.importFile}
-            />
-            <button className='btn' onClick={this.exportFile}>
-              Export...
-            </button>
-          </div>
-          <div className="searchRow">
-            <form className="searchFilterBlock">
-              <select
-                className="selectInput btn"
-                onChange={e => this.updateSearchFilter(e.target.value)}
-              >
-                <option value="any">Any</option>
-                <option value="title">Name</option>
-                <option value="url">URL</option>
-                <option value="tag">Tag</option>
-              </select>
-            </form>
-            <form
-              className="searchBlock"
-              onSubmit={e =>
-                this.props.updateFinalSearch(
-                  e,
-                  this.state.search,
-                  this.state.searchFilter,
-                  this.state.filter
-                )
-              }
-            >
-              <input
-                type="text"
-                className="searchInput"
-                name="search"
-                placeholder="Type search..."
-                onChange={e => this.updateSearch(e.target.value)}
-              />
-              <input className="btn btnPrimary" type="submit" value="Search"></input>
-            </form>
-          </div>
-          <div className="filterRow mobileHiddenFilter">
-            <form className="filterBlock">
-              <select
-                className="selectInput btnPrimary"
-                onChange={e => this.updateFilter(e.target.value)}
-              >
-                <option value="">No filter</option>
-                <option value="bookmark">Only Bookmarks</option>
-                <option value="folder">Only Folders</option>
-              </select>
-            </form>
-          </div>
+              <option value="">No filter</option>
+              <option value="bookmark">Only Bookmarks</option>
+              <option value="folder">Only Folders</option>
+            </select>
+          </form>
         </div>
-      );
-    }
+      </div>
+    );
   }
 }
