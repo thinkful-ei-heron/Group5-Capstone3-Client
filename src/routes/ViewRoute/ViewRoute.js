@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { BrowserRouter } from 'react-router-dom'
 import UserContext from '../../contexts/UserContext';
 import './ViewRoute.css';
 
