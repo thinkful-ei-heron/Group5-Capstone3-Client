@@ -193,14 +193,17 @@ export default class BookmarkManager extends Component {
     }
   };
 
-  updateFinalSearch = (ev, search, searchFilter, filter) => {
+  updateFinalSearch = (ev, search, searchFilter) => {
     ev.preventDefault();
     this.setState({
       search,
       searchFilter,
-      filter
     });
   };
+
+  updateFilter = filter => {
+    this.setState({filter});
+  }
 
   renderTree = (bm, i) => {
     return (
@@ -300,6 +303,7 @@ export default class BookmarkManager extends Component {
           loggedIn={this.state.loggedIn}
           updateFinalSearch={this.updateFinalSearch}
           clearSelect={this.clearSelect}
+          updateFilter={this.updateFilter}
         />
         <div className='BookmarkManager'>
           <div className='row'>
@@ -317,9 +321,12 @@ export default class BookmarkManager extends Component {
               }
               {this.context.bookmarks && this.context.bookmarks.map((bm, i) => {
                 if (this.state.filter !== '' && bm.type === this.state.filter) {
+                  console.log('filter match')
+                  return this.renderTree(bm, i);
+                } else if (this.state.filter === ''){
                   return this.renderTree(bm, i);
                 }
-                return this.renderTree(bm, i);
+                
               })}
             </section>
             <div className='columnRight SearchInfoView'>
