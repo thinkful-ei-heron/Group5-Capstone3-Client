@@ -226,6 +226,7 @@ export default class BookmarkManager extends Component {
   renderSearch = () => {
     return (
       <Search
+        filter={this.state.filter}
         flat={this.state.flat}
         search={this.state.search}
         searchFilter={this.state.searchFilter}
@@ -263,12 +264,6 @@ export default class BookmarkManager extends Component {
             ? <section className='BookmarkManagerMobile'>
               {this.context.bookmarks &&
                 this.context.bookmarks.map((bm, i) => {
-                  if (
-                    this.state.filter !== '' &&
-                    bm.type === this.state.filter
-                  ) {
-                    return this.renderTree(bm, i);
-                  }
                   return this.renderTree(bm, i);
                 })}
             </section>
@@ -320,13 +315,7 @@ export default class BookmarkManager extends Component {
                 />
               }
               {this.context.bookmarks && this.context.bookmarks.map((bm, i) => {
-                if (this.state.filter !== '' && bm.type === this.state.filter) {
-                  console.log('filter match')
-                  return this.renderTree(bm, i);
-                } else if (this.state.filter === ''){
-                  return this.renderTree(bm, i);
-                }
-                
+                return this.renderTree(bm, i);                
               })}
             </section>
             <div className='columnRight SearchInfoView'>

@@ -12,8 +12,8 @@ export default class Search extends Component {
 
   hashedFlatBm = this.props.hashedFlatBm;
   arrHashedFlatBm = this.hashedFlatBm ? Object.values(this.hashedFlatBm) : [];
-
   orderedTreeBm = [];
+  filteredArrHashedFlatBm = [];
 
   renderTree = bm => {
     return (
@@ -34,6 +34,9 @@ export default class Search extends Component {
   }
 
   render() {
+    if (this.props.filter !==''){
+      this.arrHashedFlatBm = this.arrHashedFlatBm.filter(node => node.data.type === this.props.filter);
+    }
     return (
       <>
         <h2>Search Results</h2>
