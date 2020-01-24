@@ -73,10 +73,33 @@ export default class Settings extends React.Component {
     this.setState({ autosave: Boolean(value) });
   }
 
+  _colorCheck = color => {
+    let r, g, b, hsp = null;
+
+    color = +("0x" + color.slice(1).replace(color.length < 5 && /./g, '$&$&'));
+
+    r = color >> 16;
+    g = (color >> 8) & 255;
+    b = color & 255;
+
+    hsp = Math.sqrt(
+      0.299 * (r * r) +
+      0.587 * (g * g) +
+      0.114 * (b * b)
+    );
+
+    if (hsp < 150) return true;
+    else return false;
+  }
+
   handleColor = ev => {
     const color = ev.target.value;
     const root = document.documentElement;
+
     root.style.setProperty('--color-user', color);
+    if (this._colorCheck(color)) root.style.setProperty('--color-hoverText', 'white');
+    else root.style.setProperty('--color-hoverText', 'black');
+
     this.setState({ color });
   }
 
