@@ -11,7 +11,7 @@ export default withRouter(class Nav extends React.Component {
 
   handleLogoutClick = () => {
     const root = document.documentElement;
-    root.style.setProperty('--color-user', 'rgb(92, 92, 255)');
+    root.style.setProperty('--color-user', 'rgb(70, 70, 255)');
     this.context.processLogout();
   }
 
