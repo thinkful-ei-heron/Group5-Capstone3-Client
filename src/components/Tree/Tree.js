@@ -93,6 +93,7 @@ export default class Tree extends Component {
             onDragOver={(e) => { e.preventDefault() }}
           >
             {this.props.data.icon !== 'undefined' &&
+              this.props.data.type &&
               this.props.data.type !== 'folder' &&
               <img className='Tree-icon' src={this.props.data.icon} alt='icon' />}
 
