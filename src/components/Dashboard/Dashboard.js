@@ -43,10 +43,6 @@ export default class Dashboard extends React.Component {
     this._isMounted = false;
   }
 
-  handleLoad = () => {
-
-  }
-
   handleDelete = () => {
     this.setState({ deleting: true })
   }
@@ -96,7 +92,7 @@ export default class Dashboard extends React.Component {
       autosave: autosave.checked,
       color: colorUI.value
     })
-      .then(settings => {
+      .then( () => {
         this.props.onPatchSettingsSuccess()
       })
       .catch(res => {

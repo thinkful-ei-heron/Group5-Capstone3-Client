@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ProxyService from '../../services/proxy-api-service';
 import BookmarkContext from '../../contexts/BookmarkContext';
+import './Archive.css'
 
 /**
  * Required props:
@@ -51,8 +52,8 @@ export default class Archive extends Component {
   displayArchive = url => {
     const host = url.split('/')[2];
     return (
-      <li key={url}>
-        <a href={url} target='_blank' rel='noopener noreferrer'>
+      <li className="archiveList" key={url}>
+        <a className="archiveLink" href={url} target='_blank' rel='noopener noreferrer'>
           {host}
         </a>
       </li>
@@ -65,13 +66,13 @@ export default class Archive extends Component {
     } else if (this.state.waybackOk) {
       return (
         <div>
-          Visit{' '}
           <a
+            className="archiveLink"
             href={this.state.waybackUrl}
             target='_blank'
             rel='noopener noreferrer'
           >
-            archive on the Wayback Machine
+            Visit archive on the Wayback Machine
           </a>
         </div>
       );
@@ -127,25 +128,31 @@ export default class Archive extends Component {
       <form onSubmit={this.editFavoredArchive}>
         <label htmlFor='fav-archive-url'>Archive URL: </label>
         <input
+          className="infoInput"
           type='text'
           id='fav-archive-url'
           defaultValue={this.state.favoredArchiveUrl}
           placeholder='https://web.archive.org/web/20000229040250/http://www.google.com/'
         />
-        <label htmlFor="fav-archive=date">Archive date: </label>
+        <br></br>
+        <label htmlFor="fav-archive=date">Archive Date: </label>
         <input
+          className="infoInput"
           type='date'
           id='fav-archive-date'
           defaultValue={date ? this.formatDate(date) : null}
         />
+        <br></br>
         <button
           type='button'
+          className='btn clearBtn'
           onClick={() =>
             (document.getElementById('fav-archive-date').value = null)
           }
         >
-          clear date
+          Clear Date
         </button>
+        <br></br>
         <button className='btn btnPrimary' type='submit'>Save</button>
       </form>
     );
@@ -167,6 +174,7 @@ export default class Archive extends Component {
       return (
         <div>
           <button
+            className="btn"
             type='button'
             onClick={() => {
               this.setState({ showAll: false });
@@ -192,6 +200,7 @@ export default class Archive extends Component {
             <p>
               You have saved an archive link for this bookmark.{' '}
               <a
+                className="archiveLink"
                 href={favoredArchiveUrl}
                 target='_blank'
                 rel='noopener noreferrer'
@@ -210,7 +219,7 @@ export default class Archive extends Component {
         ) : (
             <button
               type='button'
-              className='btn'
+              className='btn saveBtn'
               onClick={() => this.setState({ editFavoredArchive: true })}
             >
               {!!favoredArchiveUrl
