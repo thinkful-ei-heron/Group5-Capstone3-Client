@@ -1,7 +1,7 @@
 .toolbar {
 	background-color: rgb(222, 222, 222);
 	padding: 5px 2px;
-	border-bottom: 1px solid black;
+	border-bottom: 1px solid var(--color-border);;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-evenly;
@@ -9,52 +9,69 @@
 	top: 46px;
 	width: 100vw;
 	z-index: 5;
+	align-items: center;
 }
 
 .toolbarRow {
+	margin: 0;
+	padding: 0;
 	display: flex;
 	flex-direction: row;
+	justify-content: center;
+}
+
+.searchRow {
+	display: flex;
+	justify-content: center
+}
+
+.filterRow {
 	justify-content: space-evenly;
+	height: 32px;
 }
 
 .searchInput {
 	width: 150px;
-}
-
-.selectInput {
-	/* THIS IS FOR THE SELECT DROP DOWN STYLING */
-	font-size: 16px;
-	padding: 4px;
-	margin: 0 4px;
-
-}
-
-.filterBlock {
-	margin: 3px 0 3px 26px;
+	padding: 6px;
 }
 
 .searchBlock, .filterBlock {
 	vertical-align: middle;
 }
 
-.inputfile {
-	width: 0.1px;
-	height: 0.1px;
+.inputFile {
 	opacity: 0;
 	overflow: hidden;
 	position: absolute;
 	z-index: -1;
 }
 
-.inputfilelabel {
-	font-family: Arial, Helvetica, sans-serif;
+.inputFileLabel {
 	display: flex;
 	align-items: center;
+	padding: 1px 6px;
+	height: 28px;
+	font-family: Arial, sans-serif;
+	margin: 0 2px;
 }
 
-@media only screen and (min-width: 500px) {
+.cancel {
+	max-width: 65px;
+}
+
+.hiddenLabel {
+	display: none;
+}
+
+@media only screen and (min-width: 830px) {
 	.toolbar {
 		flex-direction: row;
+	}
+}
+
+@media only screen and (max-width: 829px) {
+	.cancel {
+		margin-top: 4px;
 	}
 }
 
@@ -63,3 +80,4 @@
 		margin: 6px 0 3px;
 	}
 }
+

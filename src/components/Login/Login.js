@@ -45,6 +45,7 @@ export default class Login extends React.Component {
           type='text'
           name='username' id='username'
           className='unloggedInput'
+          placeholder='username'
           required
           autoFocus
         />
@@ -53,12 +54,14 @@ export default class Login extends React.Component {
         <br />
         <input
           type='password'
-          name='password' id='password'
+          name='password' 
+          id='password'
+          placeholder='current-password'
           className='unloggedInput'
           required
         />
         <br />
-        <input type='submit' value='Submit' className='btn' />
+        <input type='submit' value='Submit' className='btn btnPrimary' />
         <input type='reset' value='Reset' className='btn' />
       </form>
     );

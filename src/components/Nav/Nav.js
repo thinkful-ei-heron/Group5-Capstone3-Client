@@ -11,8 +11,7 @@ export default withRouter(class Nav extends React.Component {
 
   handleLogoutClick = () => {
     const root = document.documentElement;
-    root.style.setProperty('--color-user', '#7F7F7F');
-
+    root.style.setProperty('--color-user', '#rgb(92, 92, 255)');
     this.context.processLogout();
   }
 
@@ -20,11 +19,11 @@ export default withRouter(class Nav extends React.Component {
     return (
       <>
         <Link
-          to={'/dashboard'}
-          className={this.props.location.pathname === '/dashboard' ? 'tab activeTab' : 'tab'}
+          to={'/settings'}
+          className={this.props.location.pathname === '/settings' ? 'tab activeTab' : 'tab'}
           id={'tab-dash'}
         >
-          Dashboard
+          Settings
         </Link>
         <Link
           to={'/'}
@@ -64,7 +63,7 @@ export default withRouter(class Nav extends React.Component {
       <nav>
         <Link
           to={'/list'}
-          className={this.props.location.pathname === '/list' ? 'tab activeTab' : 'tab'}
+          className={this.props.location.pathname === '/list' ? 'tab tabList activeTab' : 'tab tabList'}
           id={'tab-list'}
         >
           List

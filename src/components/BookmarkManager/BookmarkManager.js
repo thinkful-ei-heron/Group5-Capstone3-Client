@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import uuid from 'uuid';
 import BookmarkContext from '../../contexts/BookmarkContext';
 import './BookmarkManager.css';
-
+import UserService from '../../services/user-service';
+import TokenService from '../../services/token-service';
 import Tree from '../Tree/Tree';
-// import ImportBookmarks from '../ImportBookmarks/ImportBookmarks';
 import DragDrop from '../DragDrop/DragDrop';
 import Toolbar from '../Toolbar/Toolbar';
 import Info from '../Info/Info';
@@ -23,7 +23,9 @@ export default class BookmarkManager extends Component {
     filter: '',
     searchFilter: 'any',
     search: '',
-    finalSearch: ''
+    finalSearch: '',
+    settings: {},
+    loggedIn: TokenService.hasAuthToken()
   };
 
   hashedFlatBm = {};
@@ -43,6 +45,8 @@ export default class BookmarkManager extends Component {
 
   componentDidMount() {
     this.setState({ flat: this.hashedFlatBm });
+    //need to check if logged in first-- how?
+    if (TokenService.hasAuthToken()) UserService.getUserSettings().then(settings => this.setState({settings: settings[0]}))
   }
 
   handleOnDrag = e => {
@@ -53,7 +57,7 @@ export default class BookmarkManager extends Component {
     this.context.setExpandedNodes([...this.context.expandedNodes, node])
   }
 
-  handleOnDragEnd = e => {
+  handleOnDragEnd = () => {
     this.setState({ moving: false });
   };
 
@@ -198,106 +202,147 @@ export default class BookmarkManager extends Component {
     });
   };
 
+  renderTree = (bm, i) => {
+    return (
+      <Tree
+        id={bm.id}
+        key={bm.title}
+        data={bm}
+        handleSelect={this.handleSelect}
+        order={i}
+        path={[bm.id]}
+        expanded={true}
+        handleOnDragStart={this.handleOnDragStart}
+        handleOnDragEnd={this.handleOnDragEnd}
+        registerNode={this.registerNode}
+        generateTree={this.generateTree}
+      />
+    )
+  }
+
+  renderSearch = () => {
+    return (
+      <Search
+        flat={this.state.flat}
+        search={this.state.search}
+        searchFilter={this.state.searchFilter}
+        hashedFlatBm={this.hashedFlatBm}
+        registerNode={this.registerNode}
+        generateTree={this.generateTree}
+        handleSelect={this.handleSelect}
+        handleOnDragStart={this.handleOnDragStart}
+        handleOnDragEnd={this.handleOnDragEnd}
+      />
+    )
+  }
+
   render() {
     const selectedNode =
       this.context.selectedNodes.length === 1
         ? this.context.selectedNodes[0].state.data
         : null;
-    return (
+    if (this.props.isMobile) return (
       <>
-        <Toolbar updateFinalSearch={this.updateFinalSearch} />
-        {/* <ImportBookmarks /> */}
-        <div className="BookmarkManager">
-          <div className="row">
-            <div className="columnLeft BookmarkView">
-              {this.context.selectedNodes.length > 0 && (
-                <DragDrop
-                  onDragStart={()=>{this.setState({moving:true})}}
-                  onDrag={this.handleOnDrag}
-                  onDragEnd={this.handleOnDragEnd}
-                  selectedItems={this.context.selectedNodes}
-                  moving={this.state.moving}
-                />
-              )}
-              {this.state.moving && `Click a folder to move selected items`}
-
+        <Toolbar loggedIn={this.state.loggedIn} updateFinalSearch={this.updateFinalSearch} />
+        <div className='MobileContainer'>
+          {this.context.selectedNodes.length > 0 &&
+            this.props.isMobile &&
+            (
+            <button className="btn move" onClick={() => { this.setState({ moving: !this.state.moving }) }}>
+              {!this.state.moving ? 'Move to' : 'Cancel'}
+            </button>
+            )}
+          {this.state.search === '' ?
+            <div className='BookmarkManagerMobile'>
               {this.context.bookmarks &&
                 this.context.bookmarks.map((bm, i) => {
                   if (
                     this.state.filter !== '' &&
                     bm.type === this.state.filter
                   ) {
-                    console.log('this.state.filter ===', this.state.filter);
-                    return (
-                      <Tree
-                        id={bm.id}
-                        key={bm.title}
-                        data={bm}
-                        handleSelect={this.handleSelect}
-                        order={i}
-                        path={[bm.id]}
-                        expanded={true}
-                        // expanded={this.context.expandedNodes.includes(bm.id)}
-                        handleOnDragStart={this.handleOnDragStart}
-                        handleOnDragEnd={this.handleOnDragEnd}
-                        registerNode={this.registerNode}
-                        generateTree={this.generateTree}
-                      />
-                    );
+                    return this.renderTree(bm, i);
                   }
-                  if (this.state.filter === '') {
-                    return (
-                      <Tree
-                        id={bm.id}
-                        key={bm.title}
-                        data={bm}
-                        handleSelect={this.handleSelect}
-                        order={i}
-                        path={[bm.id]}
-                        expanded={true}
-                        // expanded={this.context.expandedNodes.includes(bm.id)}
-                        handleOnDragStart={this.handleOnDragStart}
-                        handleOnDragEnd={this.handleOnDragEnd}
-                        registerNode={this.registerNode}
-                        generateTree={this.generateTree}
-                      />
-                    );
-                  }
+                  return this.renderTree(bm, i);
                 })}
-
             </div>
-
-            <div className="columnRight SearchInfoView">
-              {selectedNode && (
-                <div className='infoblock'>
-                  <Info
-                    selectedNode={selectedNode}
-                    selectedNodes={this.context.selectedNodes}
-                    clearSelect={this.clearSelect}
-                  />
-                </div>
-              )}
+            :
+            <div className='BookmarkManagerMobile'>
+              {this.renderSearch()}
+            </div>
+          }
+          {!!this.context.selectedNodes && this.context.selectedNodes.length > 0 && 
+            <div className='InfoMobile'>
+              {selectedNode &&
+                <Info
+                  selectedNode={selectedNode}
+                  selectedNodes={this.context.selectedNodes}
+                  clearSelect={this.clearSelect}
+                  settings={this.state.settings}
+                  loggedIn={this.state.loggedIn}
+                />}
               {this.context.selectedNodes.length > 1 && (
-                <div className='infoblock'>
-                  <MultiInfo
-                    selectedNodes={this.context.selectedNodes}
-                    clearSelect={this.clearSelect}
-                  />
-                </div>
+                <MultiInfo
+                  selectedNodes={this.context.selectedNodes}
+                  clearSelect={this.clearSelect}
+                />
               )}
-              {this.state.search !== '' && (
-                <div className='searchresults'>
-                  <Search
-                    flat={this.state.flat}
-                    search={this.state.search}
-                    searchFilter={this.state.searchFilter}
-                    hashedFlatBm={this.hashedFlatBm}
-                    registerNode={this.registerNode}
-                    generateTree={this.generateTree}
-                    handleSelect={this.handleSelect}
-                  />
-                </div>
+            </div>
+          }  
+        </div>
+      </>
+    );
+    return (
+      <>
+        <Toolbar loggedIn={this.state.loggedIn} updateFinalSearch={this.updateFinalSearch} />
+        <div className='BookmarkManager'>
+          <div className='row'>
+            <div className='columnLeft BookmarkView'>
+              {this.context.selectedNodes.length > 0 &&
+                !this.props.isMobile &&
+              (
+                <DragDrop
+                  onDragStart={() => { this.setState({ moving: true }) }}
+                  onDrag={this.handleOnDrag}
+                  onDragEnd={this.handleOnDragEnd}
+                  selectedItems={this.context.selectedNodes}
+                  moving={this.state.moving}
+                  deselect={this.clearSelect}
+                  isMobile={this.props.isMobile}
+                />
               )}
+
+              {this.context.bookmarks && this.context.bookmarks.map((bm, i) => {
+                if (this.state.filter !== '' && bm.type === this.state.filter) {
+                  return this.renderTree(bm, i);
+                }
+                return this.renderTree(bm, i);
+              })}
+            </div>
+            <div className='columnRight SearchInfoView'>
+              <div className='rowL2'>
+                <div className='infoblock columnLeftL2'>
+                  {selectedNode &&
+                    <Info
+                      isMobile={this.props.isMobile}
+                      selectedNode={selectedNode}
+                      selectedNodes={this.context.selectedNodes}
+                      clearSelect={this.clearSelect}
+                      settings={this.state.settings}
+                      loggedIn={this.state.loggedIn}
+                    />
+                  }
+                  {this.context.selectedNodes.length > 1 &&
+                    <MultiInfo
+                      isMobile={this.props.isMobile}
+                      selectedNodes={this.context.selectedNodes}
+                      clearSelect={this.clearSelect}
+                    />
+                  }
+                </div>
+                <div className='searchresults columnRightL2'>
+                  {this.state.search !== '' && this.renderSearch()}
+                </div>
+              </div>
             </div>
           </div>
         </div>

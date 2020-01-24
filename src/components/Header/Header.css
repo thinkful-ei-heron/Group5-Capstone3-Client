@@ -3,7 +3,7 @@ header {
 	display: flex;
 	justify-content: space-evenly;
 	padding: 6px;
-	border-bottom: 1px solid black;
+	border-bottom: 1px solid var(--color-border);;
 	position: fixed;
 	top: 0;
 	width: 100vw;
@@ -11,6 +11,17 @@ header {
 }
 
 h1 {
-	font-size:24px;
+	font-size: 24px;
 	margin: 0;
+}
+
+a {
+	text-decoration: none;
+	color: var(--color-text);
+}
+
+@media only screen and (max-width: 830px) {
+	header {
+		height: 33px;
+	}
 }

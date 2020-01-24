@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import BookmarkContext from '../../contexts/BookmarkContext';
-import bmParser from '../../helpers/bookmarks-parser';
-import './Toolbar.css';
 import PersistApiService from '../../services/persist-api-service';
+import bmParser from '../../helpers/bookmarks-parser';
+import BookmarkContext from '../../contexts/BookmarkContext';
+import './Toolbar.css';
+
 import RemoteListChooser from '../RemoteListChooser/RemoteListChooser';
 import ImportBookmarks from '../ImportBookmarks/ImportBookmarks';
+
 export default class Toolbar extends Component {
   static contextType = BookmarkContext;
   constructor(props, context) {
@@ -21,7 +23,6 @@ export default class Toolbar extends Component {
       listName: this.context.listName || ''
     };
   }
-
 
   save = listId => {
     const { bookmarks } = this.context;
@@ -57,11 +58,6 @@ export default class Toolbar extends Component {
       listName: this.context.listName || ''
     });
   };
-
-  // will get refactored into context
-  // exportHandler = () => {
-  //   exportHTML(this.context.bookmarks);
-  // };
 
   updateSearchFilter = searchFilter => {
     this.setState({ searchFilter });
@@ -114,79 +110,81 @@ export default class Toolbar extends Component {
   };
 
   render() {
-    if (this.state.renderListLoader) {
-      return (
-        <div className="toolbar">
-          <RemoteListChooser done={this.doneLoading} />
-          <button className="btn cancel" onClick={this.doneLoading}>
+    if (this.state.renderListLoader) return (
+      <div className='toolbar'>
+        <RemoteListChooser done={this.doneLoading} />
+        <button className='btn btnPrimary cancel' onClick={this.doneLoading}>
+          Cancel
+          </button>
+      </div>
+    );
+
+    if (this.state.renderExporter) return (
+      <div className='toolbar'>
+        <ImportBookmarks import={false} done={this.doneExporting} />
+      </div>
+    );
+
+    if (this.state.renderListNamer) return (
+      <div className='toolbar'>
+        <form onSubmit={this.saveAs}>
+          <input
+            type='text'
+            id='list-name-input'
+            value={this.state.listName}
+            onChange={this.handleNameChange}
+          />
+          <button type='submit' className="btn btnPrimary" disabled={!this.state.listName}>
+            Save
+            </button>
+          <button
+            className='btn'
+            type='button'
+            onClick={() => this.setState({ renderListNamer: false })}
+          >
             Cancel
+            </button>
+        </form>
+      </div>
+    );
+
+    return (
+      <div className='toolbar'>
+        <div className='btnBlock toolbarRow'>
+          {this.props.loggedIn && 
+            <>
+              <button className='btn btnPrimary' onClick={this.saveList}>
+                Save
+              </button>
+              <button className='btn' onClick={this.beginSaveAs}>
+                Save as
+              </button>
+              <button className='btn' onClick={this.loadList}>
+                Load...
+              </button>
+            </>
+          }
+          <label
+            className='btn inputFileLabel'
+            htmlFor='bookmarkFile'
+            tabIndex='0'
+          >
+            Import...
+          </label>
+          <input
+            type='file'
+            className='inputFile'
+            tabIndex='-1'
+            name='bookmarkFile'
+            id='bookmarkFile'
+            onChange={this.importFile}
+          />
+          <button className='btn' onClick={this.exportFile}>
+            Export...
           </button>
         </div>
-      );
-    } else if (this.state.renderExporter) {
-      return (
-        <div className="toolbar">
-          <ImportBookmarks import={false} done={this.doneExporting} />
-        </div>
-      );
-    } else if (this.state.renderListNamer) {
-      return (
-        <div className="toolbar">
-          <form onSubmit={this.saveAs}>
-            <input
-              type="text"
-              id="list-name-input"
-              value={this.state.listName}
-              onChange={this.handleNameChange}
-            />
-            <button type="submit" disabled={!this.state.listName}>
-              Save
-            </button>
-            <button
-              type="button"
-              onClick={() => this.setState({ renderListNamer: false })}
-            >
-              Cancel
-            </button>
-          </form>
-        </div>
-      );
-    } else {
-      return (
-        <div className="toolbar">
-          <div className="btnBlock toolbarRow">
-            <button className="btn" onClick={this.saveList}>
-              Save
-            </button>
-            <button className="btn" onClick={this.beginSaveAs}>
-              Save as
-            </button>
-            <button className="btn" onClick={this.loadList}>
-              Load...
-            </button>
-            <label className="btn inputfilelabel" htmlFor="bookmarkfile">Import...</label>
-            <input 
-              type="file" 
-              className="btn inputfile" 
-              name="bookmarkfile" 
-              id="bookmarkfile" 
-              onChange={this.importFile}>
-            </input>
-            <button className="btn" onClick={this.exportFile}>
-              Export...
-            </button>
-          </div>
-          <form className="filterBlock">
-            <select
-              className="selectInput"
-              onChange={e => this.updateSearchFilter(e.target.value)}
-            >
-              <option value="any">Any</option>
-              <option value="title">Name</option>
-              <option value="url">URL</option>
-              <option value="tag">Tag</option>
-            </select>
-          </form>
+
+        <div className="searchRow">
           <form
             className="searchBlock"
             onSubmit={e =>
@@ -198,6 +196,7 @@ export default class Toolbar extends Component {
               )
             }
           >
+            <label htmlFor="search" id="searchInput" className="hiddenLabel"></label>
             <input
               type="text"
               className="searchInput"
@@ -205,9 +204,24 @@ export default class Toolbar extends Component {
               placeholder="Type search..."
               onChange={e => this.updateSearch(e.target.value)}
             />
-            <input className="btn" type="submit" value="Search"></input>
+            <label className="hiddenLabel" id="searchSubmit"></label>
+            <input className="btn btnPrimary" id="searchSubmit" type="submit" value="Search"></input>
           </form>
+          <form className="searchFilterBlock">
+            
+            <select
+              className="selectInput btn"
+              onChange={e => this.updateSearchFilter(e.target.value)}
+            >
+              <option value="any">Any</option>
+              <option value="title">Name</option>
+              <option value="url">URL</option>
+              <option value="tag">Tag</option>
+            </select>
+          </form>
+        </div>
 
+        <div className="filterRow mobileHiddenFilter">
           <form className="filterBlock">
             <select
               className="selectInput"
@@ -219,7 +233,7 @@ export default class Toolbar extends Component {
             </select>
           </form>
         </div>
-      );
-    }
+      </div>
+    );
   }
 }

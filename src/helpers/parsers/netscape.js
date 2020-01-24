@@ -24,11 +24,8 @@ export function canParse(html, callback) {
 }
 
 export function parse(html, callback) {
-  var rootFoldersRegEx = /^Menu|Unsorted|Toolbar$/i;
   try{
     const { window } = new JSDOM(html)
-    var result = [];
-
     // node is a DT element
     function _getNodeData( node ){
 
@@ -36,8 +33,8 @@ export function parse(html, callback) {
         id: uuid()
       };
 
-      for( var i = 0; i != node.childNodes.length; i++ ){
-        if( node.childNodes[i].tagName == "A" ){
+      for( var i = 0; i !== node.childNodes.length; i++ ){
+        if( node.childNodes[i].tagName === "A" ){
           // is bookmark
           data.type = "bookmark";
           data.url = node.childNodes[i].getAttribute("href");
@@ -53,12 +50,12 @@ export function parse(html, callback) {
             data.icon = icon;
           }
         }
-        else if( node.childNodes[i].tagName == "H3" ){
+        else if( node.childNodes[i].tagName === "H3" ){
           // is folder
           data.type = "folder";
           data.title = node.childNodes[i].textContent;
 
-          var add_date = node.childNodes[i].getAttribute("add_date");
+          add_date = node.childNodes[i].getAttribute("add_date");
           var last_modified = node.childNodes[i].getAttribute("last_modified");
 
           if( add_date ) {
@@ -76,7 +73,7 @@ export function parse(html, callback) {
             data.ns_root = 'unsorted'
           }
         }
-        else if( node.childNodes[i].tagName == "DL" ){
+        else if( node.childNodes[i].tagName === "DL" ){
           // store DL element reference for further processing the child nodes
           data.__dir_dl = node.childNodes[i];
         }
@@ -102,12 +99,12 @@ export function parse(html, callback) {
 
       var items = [];
 
-      for( var i = 0; i != contents.length; i++ ){
+      for( var i = 0; i !== contents.length; i++ ){
         var child = contents[i];
         if(!child.tagName) {
           continue;
         }
-        if( child.tagName != "DT" ){
+        if( child.tagName !== "DT" ){
           continue;
         }
         var itemData = _getNodeData( child );
@@ -123,14 +120,14 @@ export function parse(html, callback) {
                 id: uuid(),
               };
             }
-            if( itemData.type == "folder" && itemData.__dir_dl ){
+            if( itemData.type === "folder" && itemData.__dir_dl ){
               itemData.contents = processDir( itemData.__dir_dl, level + 1 );
               delete itemData.__dir_dl;
             }
             menuRoot.contents.push(itemData);
           }
           else {
-            if( itemData.type == "folder" && itemData.__dir_dl ){
+            if( itemData.type === "folder" && itemData.__dir_dl ){
               itemData.contents = processDir( itemData.__dir_dl, level + 1 );
               delete itemData.__dir_dl;
             }

@@ -18,7 +18,7 @@ export default class Tree extends Component {
   static defaultProps = {
     id: null,
     parentId: null,
-    data: null,
+    data: {id: null},
     path: [],
     level: null,
     order: null,
@@ -27,6 +27,8 @@ export default class Tree extends Component {
     registerNode: () => { },
     generateTree: () => { },
     handleSelect: () => { },
+    handleOnDragStart: () => { },
+    handleOnDragEnd: () => { },
     sortByFunc: null,
   }
 
@@ -71,7 +73,7 @@ export default class Tree extends Component {
     return (
       <div
         className="Tree"
-        style={{ left: `${contents ? '28' : '46'}px` }}
+        style={{ left: `${contents && this.props.level === null ? '0' : '40'}px` }}
       >
         <div className='itemRow'>
           {contents &&
@@ -81,7 +83,8 @@ export default class Tree extends Component {
           }
 
           <div
-            className={`Tree-info ${this.state.selected && ` selected`}`}
+            className={`Tree-info ${this.context.selectedNodes.includes(this) && ` selected`}`}
+            tabIndex='0'
             draggable
             onDragStart={this.onDragStart}
             onDragEnd={this.props.handleOnDragEnd}
@@ -92,7 +95,6 @@ export default class Tree extends Component {
             {this.props.data.icon && <img className='Tree-icon' src={this.props.data.icon} alt='icon' />}
 
             <div className="Tree-detail">
-              {/* <NodeManager node={this.props.data} /> */}
               {this.props.data.title &&
                 <div className='Tree-title'>
                   {this.props.data.contents

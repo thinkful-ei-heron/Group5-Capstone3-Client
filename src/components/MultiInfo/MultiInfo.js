@@ -2,7 +2,10 @@ import React, { Component } from 'react'
 import BookmarkContext from '../../contexts/BookmarkContext'
 
 export default class MultiInfo extends Component {
-    static contextType = BookmarkContext
+  static contextType = BookmarkContext
+  static defaultProps = {
+    selectedNodes: [],
+  }
     state = {
         multitags: {
             value: '',
@@ -28,7 +31,7 @@ export default class MultiInfo extends Component {
         }
       }
     }
-     
+
     handleSubmit = ev => {
         ev.preventDefault()
         let { multitags } = this.state;
@@ -40,13 +43,12 @@ export default class MultiInfo extends Component {
               if (!bm) {
                 throw new Error('Could not find matching node');
               } else {
-                console.log(bm.title)
                 if (bm.tags === undefined){
                   bm.tags = multitags.value
                 } else {
                   bm.tags = bm.tags.concat(multitags.value)
                 }
-              }      
+              }
             }
         }
         this.context.setBookmarks(nodes);
@@ -55,10 +57,13 @@ export default class MultiInfo extends Component {
     render() {
         return (
             <>
+              <div className="right">
+                <button className="close" onClick={this.props.clearSelect}></button>
+              </div>
                 <h2>Apply Tags</h2>
                 <form onSubmit={this.handleSubmit}>
-                  <label htmlFor="multi-tags">Add Tags:</label>
-                  <input type="text" name="multi-tags" defaultValue='' onChange={e => this.updateMultiTags(e.target.value)}></input>
+                  <label htmlFor="multi-tags">Add Tags: </label>
+                  <input type="text" className="infoInput" name="multi-tags" defaultValue='' onChange={e => this.updateMultiTags(e.target.value)}></input>
                   <br></br>
                   <input type='submit' value='Save' className='btn' />
                 </form>

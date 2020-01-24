@@ -1,3 +1,63 @@
 .hidden {
   display: none
 }
+
+.infoInput {
+  margin: 6px;
+  width: 55%;
+}
+
+.infoForm {
+  display: flex;
+  flex-direction: column;
+}
+
+.previewImg {
+  margin: 16px auto;
+  width: 98%; 
+}
+
+.infoBtnRow {
+  width: 50%;
+  margin: 10px auto 16px;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.AddNodeForm {
+  width: 70%;
+  margin: 10px auto;
+  margin-top: .625em;
+}
+
+.add {
+  border: 1px solid grey;
+}
+
+.thumbnail {
+  width: inherit;
+  max-width: 100%;
+  height: auto;
+}
+
+.right {
+  text-align: right;
+}
+
+.close {
+  color: black;
+  font: 14px/100% arial, sans-serif;
+  text-decoration: none;
+  text-shadow: 0 1px 0 #fff;
+  top: 5px;
+}
+
+.close:after {
+  content: 'X';
+}
+
+.bookmarkLink {
+  color: blue;
+  text-decoration: underline;
+  padding: 12px auto;
+}

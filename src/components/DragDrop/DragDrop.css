@@ -1,19 +1,46 @@
 .DragDrop {
+  position: relative;
   transition: all 0.2;
   background-color: aliceblue;
   transform: translate(50%, 0);
-  max-width: 120px;
+  width: 200px;
   z-index: 2;
   font-size: small;
   margin: 0;
   padding: 0;
+  border: 1px solid blue;
 
 }
 
 .DragDrop .selected-list {
+  max-height: 400px;
+  overflow-y: scroll;
+}
+
+.DragDrop ul {
   display: flex;
   flex-direction: column;
   list-style: none;
   padding: none;
   overflow-x: hidden;
+  padding: 0;
+  margin: 0;
+}
+
+.DragDrop li {
+  overflow-x: hidden;
+  padding: .5em;
+  text-align: left;
+  margin-left: 0;
+  width: 190px;
+}
+
+.DragDrop .top {
+  background-color: blue;
+  color: white;
+}
+
+.DragDrop .deselect {
+  position: absolute;
+  right: 0;
 }

@@ -11,14 +11,11 @@ export default class Dashboard extends React.Component {
 
   state = {
     error: null,
-
-    activeList: 'List',
-
+    activeList: '',
     preview: false,
     autosave: false,
     extra: false,
     color: '#7F7F7F',
-
     submitted: false,
     deleting: false
   }
@@ -44,10 +41,6 @@ export default class Dashboard extends React.Component {
 
   componentWillUnmount() {
     this._isMounted = false;
-  }
-
-  handleLoad = () => {
-
   }
 
   handleDelete = () => {
@@ -99,8 +92,7 @@ export default class Dashboard extends React.Component {
       autosave: autosave.checked,
       color: colorUI.value
     })
-      .then(settings => {
-
+      .then( () => {
         this.props.onPatchSettingsSuccess()
       })
       .catch(res => {
@@ -112,75 +104,50 @@ export default class Dashboard extends React.Component {
 
   render() {
     const classes = this.state.submitted ? 'save' : 'save hide';
-    const list = this.state.activeList;
-
     return (
-      <section className='container'>
-        <div className='listManager'>
-          <p>Currently loaded list: {list}</p>
-          {!this.state.deleting
-            ? <div>
-              <label htmlFor='userLists'>Your saved lists:</label><br />
-              <select id='userLists'>
-                <option>List 1</option>
-                <option>List 2</option>
-                <option>List 3</option>
-              </select>
-              <button className='btn' onClick={this.handleLoad}>Load</button>
-              <button className='btn' onClick={this.handleDelete}>Delete</button><br />
-            </div>
-            : <div className='deleteConfirm'>
-              <p>Are you sure you want to delete {list}?</p>
-              <button className='btn' onClick={this.confirmDelete}>Delete</button>
-              <button className='btn' onClick={this.cancelDelete}>Cancel</button><br />
-            </div>
-          }
-        </div>
-
-        <div className='userSettings'>
-          <form onSubmit={this.handleSubmit}>
-            <label htmlFor='previewImg'>Preview Images:</label>
+      <div>
+        <form onSubmit={this.handleSubmit}>
+          <div className="flex">
+            <label className="dash-label" htmlFor='previewImg'>Preview Images:</label>
             <input
               type='checkbox'
               name='previewImg' id='previewImg'
               checked={this.state.preview}
               onChange={this.handlePreview}
+              className="dash-input"
             />
-            <br />
-            {/* <label htmlFor='extraPanel'>Extra Panel:</label>
-            <input
-              type='checkbox'
-              name='extraPanel' id='extraPanel'
-              checked={this.state.extra}
-              onChange={this.handleExtra}
-            />
-            <br /> */}
-            <label htmlFor='autosave'>Autosave:</label>
+          </div>
+          <br />
+          <div className="flex">
+            <label className="dash-label" htmlFor='autosave'>Autosave:</label>
             <input
               type='checkbox'
               name='autosave' id='autosave'
               checked={this.state.autosave}
               onChange={this.handleAutosave}
+              className="dash-input"
             />
+          </div>
             <br />
-            <label htmlFor='colorUI'>Interface Color:</label>
+          <div className="flex">
+            <label className="dash-label" htmlFor='colorUI'>Interface Color:</label>
             <input
+              className="dash-color"
               type='color'
               name='colorUI' id='colorUI'
               value={this.state.color}
               onChange={this.handleColor}
             />
-            <br />
-            <input
-              type='submit'
-              value='Save Changes'
-              className='btn'
-            />
-          </form>
-
-          <p className={classes}>Settings saved!</p>
-        </div>
-      </section>
+          </div>
+          <br />
+          <input
+            type='submit'
+            value='Save Changes'
+            className='btn savebtn'
+          />
+        </form>
+        <p className={classes}>Settings saved!</p>
+      </div>
     );
   }
 }
