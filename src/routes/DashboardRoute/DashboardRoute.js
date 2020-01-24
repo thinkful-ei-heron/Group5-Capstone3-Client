@@ -16,7 +16,7 @@ class DashboardRoute extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className='marginTop'>
         <h2>Settings</h2>
         <Dashboard onPatchSettingsSuccess={this.handlePatchSettingsSuccess}/>
       </div>

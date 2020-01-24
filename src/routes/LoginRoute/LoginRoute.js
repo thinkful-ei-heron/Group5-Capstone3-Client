@@ -19,7 +19,7 @@ class LoginRoute extends React.Component {
 
   render() {
     return (
-      <section className='login'>
+      <section className='login marginTop'>
         <h2>Login</h2>
         <Login
           onLoginSuccess={this.handleLoginSuccess}

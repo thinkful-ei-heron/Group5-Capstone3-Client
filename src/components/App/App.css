@@ -23,6 +23,10 @@ main {
   width: 100vw;
 }
 
+.marginTop {
+  margin-top: 22px;
+}
+
 .btn, select {
   font-size: 14px;
   height: 32px;
