@@ -49,6 +49,7 @@ export default class Toolbar extends Component {
 
   loadList = () => {
     this.setState({ renderListLoader: true });
+    this.props.clearSelect();
   };
 
   doneLoading = () => {
@@ -71,6 +72,7 @@ export default class Toolbar extends Component {
   };
 
   importFile = ev => {
+    this.props.clearSelect();
     let reader = new FileReader();
     reader.onload = ev => {
       bmParser(reader.result, (err, res) => {
@@ -120,7 +122,11 @@ export default class Toolbar extends Component {
 
     if (this.state.renderExporter) return (
       <div className='toolbar'>
-        <ImportBookmarks import={false} done={this.doneExporting} />
+        <ImportBookmarks
+          import={false}
+          done={this.doneExporting}
+          clearSelect={this.props.clearSelect}
+        />
       </div>
     );
 
