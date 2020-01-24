@@ -1,6 +1,8 @@
 import React from 'react';
 import { Route, Switch, withRouter } from 'react-router-dom';
+import TokenService from '../../services/token-service';
 import './App.css';
+
 import LandingRoute from '../../routes/LandingRoute/LandingRoute';
 import LoginRoute from '../../routes/LoginRoute/LoginRoute';
 import SignupRoute from '../../routes/SignupRoute/SignupRoute';
@@ -10,8 +12,6 @@ import PublicOnlyRoute from '../../routes/PublicOnlyRoute/PublicOnlyRoute';
 import PrivateOnlyRoute from '../../routes/PrivateOnlyRoute/PrivateOnlyRoute';
 import NotFoundRoute from '../../routes/NotFoundRoute/NotFoundRoute';
 import Header from '../Header/Header';
-import Footer from '../Footer/Footer';
-import TokenService from '../../services/token-service';
 
 class App extends React.Component {
   state = {
@@ -20,7 +20,6 @@ class App extends React.Component {
   };
 
   componentDidMount = () => {
-    console.log(this.props);
     if (TokenService.hasAuthToken()) {
       let { exp } = TokenService.parseAuthToken();
       exp *= 1000; //s to ms;
@@ -40,11 +39,10 @@ class App extends React.Component {
             <Route path={'/list'} component={ViewRoute} />
             <PublicOnlyRoute path={'/login'} component={LoginRoute} />
             <PublicOnlyRoute path={'/signup'} component={SignupRoute} />
-            <PrivateOnlyRoute path={'/dashboard'} component={DashboardRoute} />
+            <PrivateOnlyRoute path={'/settings'} component={DashboardRoute} />
             <Route component={NotFoundRoute} />
           </Switch>
         </main>
-        <Footer />
       </div>
     );
   }

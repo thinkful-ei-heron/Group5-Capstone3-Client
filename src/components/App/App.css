@@ -23,6 +23,10 @@ main {
   width: 100vw;
 }
 
+.marginTop {
+  margin-top: 22px;
+}
+
 .btn, select {
   font-size: 14px;
   height: 32px;
@@ -41,7 +45,7 @@ main {
   background-color: var(--color-user);
 }
 
-h3 {
+h2 {
   margin: 6px auto;
 }
 
@@ -75,11 +79,6 @@ input {
   	padding: 6px;
   	margin: 0 4px;
   }
-
-  /* .BookmarkManager {
-    position: relative;
-    top: 35px;
-  } */
 }
 
 @media only screen and (max-width: 830px) {
@@ -87,7 +86,7 @@ input {
 		display: none;
   }
 
-  h3 {
+  h2 {
     font-size: 16px;
     margin-bottom: 0
   }

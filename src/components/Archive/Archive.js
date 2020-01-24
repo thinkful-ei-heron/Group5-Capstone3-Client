@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ProxyService from '../../services/proxy-api-service';
 import BookmarkContext from '../../contexts/BookmarkContext';
+import './Archive.css'
 
 /**
  * Required props:
@@ -33,7 +34,6 @@ export default class Archive extends Component {
   getWayback = async () => {
     const url = this.props.node.url;
     const availResponse = await ProxyService.getWayback(url);
-    console.log(availResponse);
     const newestSnapshot = availResponse.archived_snapshots.closest;
     if (!newestSnapshot) {
       this.setState({ waybackOk: false });
@@ -45,7 +45,6 @@ export default class Archive extends Component {
   getArchiveList = async () => {
     let url = this.props.node.url;
     const memento = await ProxyService.getMemento(url);
-    console.log(memento);
     const archives = memento.memento_info.map(service => service.timegate_uri);
     this.setState({ archives, mementoStatus: true });
   };
@@ -53,8 +52,8 @@ export default class Archive extends Component {
   displayArchive = url => {
     const host = url.split('/')[2];
     return (
-      <li key={url}>
-        <a href={url} target="_blank" rel="noopener noreferrer">
+      <li className="archiveList" key={url}>
+        <a className="archiveLink" href={url} target='_blank' rel='noopener noreferrer'>
           {host}
         </a>
       </li>
@@ -67,13 +66,13 @@ export default class Archive extends Component {
     } else if (this.state.waybackOk) {
       return (
         <div>
-          Visit{' '}
           <a
+            className="archiveLink"
             href={this.state.waybackUrl}
             target="_blank"
             rel="noopener noreferrer"
           >
-            archive on the Wayback Machine
+            Visit archive on the Wayback Machine
           </a>
         </div>
       );
@@ -129,28 +128,38 @@ export default class Archive extends Component {
       <form onSubmit={this.editFavoredArchive}>
         <label htmlFor="fav-archive-url">Archive URL: </label>
         <input
+
           type="text"
           id="fav-archive-url"
+          className="infoInput"
           defaultValue={this.state.favoredArchiveUrl}
           placeholder="https://web.archive.org/web/20000229040250/http://www.google.com/"
         />
-        <label htmlFor="fav-archive=date">Archive date: </label>
+        <br></br>
+        <label htmlFor="fav-archive=date">Archive Date: </label>
         <input
           type="date"
           id="fav-archive-date"
+          className="infoInput"
           defaultValue={date ? this.formatDate(date) : null}
         />
+        <br></br>
         <button
+
           type="button"
+          className="btn clearBtn"
+
           onClick={() =>
             (document.getElementById('fav-archive-date').value = null)
           }
         >
-          clear date
+          Clear Date
         </button>
+        <br></br>
         <button className="btn btnPrimary" type="submit">
           Save
         </button>
+
       </form>
     );
   };
@@ -208,7 +217,10 @@ export default class Archive extends Component {
       return (
         <div>
           <button
+
             type="button"
+            className="btn"
+
             onClick={() => {
               this.setState({ showAll: false });
             }}

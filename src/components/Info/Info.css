@@ -12,12 +12,6 @@
   flex-direction: column;
 }
 
-/* .infoRow {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-} */
-
 .previewImg {
   margin: 16px auto;
   width: 98%; 

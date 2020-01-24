@@ -19,11 +19,11 @@ export default withRouter(class Nav extends React.Component {
     return (
       <>
         <Link
-          to={'/dashboard'}
-          className={this.props.location.pathname === '/dashboard' ? 'tab activeTab' : 'tab'}
+          to={'/settings'}
+          className={this.props.location.pathname === '/settings' ? 'tab activeTab' : 'tab'}
           id={'tab-dash'}
         >
-          Dashboard
+          Settings
         </Link>
         <Link
           to={'/'}

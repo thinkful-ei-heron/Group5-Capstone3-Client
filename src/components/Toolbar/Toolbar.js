@@ -151,22 +151,26 @@ export default class Toolbar extends Component {
     return (
       <div className='toolbar'>
         <div className='btnBlock toolbarRow'>
-          <button className='btn btnPrimary' onClick={this.saveList}>
-            Save
-            </button>
-          <button className='btn' onClick={this.beginSaveAs}>
-            Save as
-            </button>
-          <button className='btn' onClick={this.loadList}>
-            Load...
-            </button>
+          {this.props.loggedIn && 
+            <>
+              <button className='btn btnPrimary' onClick={this.saveList}>
+                Save
+              </button>
+              <button className='btn' onClick={this.beginSaveAs}>
+                Save as
+              </button>
+              <button className='btn' onClick={this.loadList}>
+                Load...
+              </button>
+            </>
+          }
           <label
             className='btn inputFileLabel'
             htmlFor='bookmarkFile'
             tabIndex='0'
           >
             Import...
-            </label>
+          </label>
           <input
             type='file'
             className='inputFile'
@@ -177,7 +181,7 @@ export default class Toolbar extends Component {
           />
           <button className='btn' onClick={this.exportFile}>
             Export...
-            </button>
+          </button>
         </div>
 
         <div className="searchRow">
@@ -192,6 +196,7 @@ export default class Toolbar extends Component {
               )
             }
           >
+            <label htmlFor="search" id="searchInput" className="hiddenLabel"></label>
             <input
               type="text"
               className="searchInput"
@@ -199,9 +204,11 @@ export default class Toolbar extends Component {
               placeholder="Type search..."
               onChange={e => this.updateSearch(e.target.value)}
             />
-            <input className="btn btnPrimary" type="submit" value="Search"></input>
+            <label className="hiddenLabel" id="searchSubmit"></label>
+            <input className="btn btnPrimary" id="searchSubmit" type="submit" value="Search"></input>
           </form>
           <form className="searchFilterBlock">
+            
             <select
               className="selectInput btn"
               onChange={e => this.updateSearchFilter(e.target.value)}
@@ -217,7 +224,7 @@ export default class Toolbar extends Component {
         <div className="filterRow mobileHiddenFilter">
           <form className="filterBlock">
             <select
-              className="selectInput btnPrimary"
+              className="selectInput"
               onChange={e => this.updateFilter(e.target.value)}
             >
               <option value="">No filter</option>
