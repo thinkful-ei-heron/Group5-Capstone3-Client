@@ -20,7 +20,6 @@ class App extends React.Component {
   };
 
   componentDidMount = () => {
-    console.log(this.props);
     if (TokenService.hasAuthToken()) {
       let { exp } = TokenService.parseAuthToken();
       exp *= 1000; //s to ms;
@@ -34,16 +33,14 @@ class App extends React.Component {
     return (
       <div className="App">
         <Header />
-        <main>
-          <Switch>
-            <Route exact path={'/'} component={LandingRoute} />
-            <Route path={'/list'} component={ViewRoute} />
-            <PublicOnlyRoute path={'/login'} component={LoginRoute} />
-            <PublicOnlyRoute path={'/signup'} component={SignupRoute} />
-            <PrivateOnlyRoute path={'/dashboard'} component={DashboardRoute} />
-            <Route component={NotFoundRoute} />
-          </Switch>
-        </main>
+        <Switch>
+          <Route exact path={'/'} component={LandingRoute} />
+          <Route path={'/list'} component={ViewRoute} />
+          <PublicOnlyRoute path={'/login'} component={LoginRoute} />
+          <PublicOnlyRoute path={'/signup'} component={SignupRoute} />
+          <PrivateOnlyRoute path={'/dashboard'} component={DashboardRoute} />
+          <Route component={NotFoundRoute} />
+        </Switch>
         <Footer />
       </div>
     );

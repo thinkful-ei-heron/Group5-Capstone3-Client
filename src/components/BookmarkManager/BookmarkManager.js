@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import uuid from 'uuid';
 import BookmarkContext from '../../contexts/BookmarkContext';
 import './BookmarkManager.css';
-
+import UserService from '../../services/user-service';
+import TokenService from '../../services/token-service';
 import Tree from '../Tree/Tree';
 import DragDrop from '../DragDrop/DragDrop';
 import Toolbar from '../Toolbar/Toolbar';
@@ -22,7 +23,8 @@ export default class BookmarkManager extends Component {
     filter: '',
     searchFilter: 'any',
     search: '',
-    finalSearch: ''
+    finalSearch: '',
+    settings: {}
   };
 
   hashedFlatBm = {};
@@ -42,6 +44,8 @@ export default class BookmarkManager extends Component {
 
   componentDidMount() {
     this.setState({ flat: this.hashedFlatBm });
+    //need to check if logged in first-- how?
+    if (TokenService.hasAuthToken()) UserService.getUserSettings().then(settings => this.setState({settings: settings[0]}))
   }
 
   handleOnDrag = e => {
@@ -256,10 +260,9 @@ export default class BookmarkManager extends Component {
                     this.state.filter !== '' &&
                     bm.type === this.state.filter
                   ) {
-                    console.log('this.state.filter ===', this.state.filter);
                     return this.renderTree(bm, i);
                   }
-                  if (this.state.filter === '') return this.renderTree(bm, i);
+                  return this.renderTree(bm, i);
                 })}
             </div>
             :
@@ -274,6 +277,7 @@ export default class BookmarkManager extends Component {
                   selectedNode={selectedNode}
                   selectedNodes={this.context.selectedNodes}
                   clearSelect={this.clearSelect}
+                  settings={this.state.settings}
                 />}
               {this.context.selectedNodes.length > 1 && (
                 <MultiInfo
@@ -308,10 +312,9 @@ export default class BookmarkManager extends Component {
 
               {this.context.bookmarks && this.context.bookmarks.map((bm, i) => {
                 if (this.state.filter !== '' && bm.type === this.state.filter) {
-                  // console.log('this.state.filter ===', this.state.filter);
                   return this.renderTree(bm, i);
                 }
-                if (this.state.filter === '') return this.renderTree(bm, i);
+                return this.renderTree(bm, i);
               })}
             </div>
             <div className='columnRight SearchInfoView'>
@@ -323,6 +326,7 @@ export default class BookmarkManager extends Component {
                       selectedNode={selectedNode}
                       selectedNodes={this.context.selectedNodes}
                       clearSelect={this.clearSelect}
+                      settings={this.state.settings}
                     />
                   }
                   {this.context.selectedNodes.length > 1 &&

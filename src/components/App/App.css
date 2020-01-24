@@ -41,7 +41,7 @@ main {
   background-color: var(--color-user);
 }
 
-h3 {
+h2 {
   margin: 6px auto;
 }
 
@@ -87,7 +87,7 @@ input {
 		display: none;
   }
 
-  h3 {
+  h2 {
     font-size: 16px;
     margin-bottom: 0
   }

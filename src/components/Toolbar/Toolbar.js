@@ -192,6 +192,7 @@ export default class Toolbar extends Component {
               )
             }
           >
+            <label htmlFor="search" id="searchInput" className="hiddenLabel"></label>
             <input
               type="text"
               className="searchInput"
@@ -199,9 +200,11 @@ export default class Toolbar extends Component {
               placeholder="Type search..."
               onChange={e => this.updateSearch(e.target.value)}
             />
-            <input className="btn btnPrimary" type="submit" value="Search"></input>
+            <label className="hiddenLabel" id="searchSubmit"></label>
+            <input className="btn btnPrimary" id="searchSubmit" type="submit" value="Search"></input>
           </form>
           <form className="searchFilterBlock">
+            
             <select
               className="selectInput btn"
               onChange={e => this.updateSearchFilter(e.target.value)}
@@ -217,7 +220,7 @@ export default class Toolbar extends Component {
         <div className="filterRow mobileHiddenFilter">
           <form className="filterBlock">
             <select
-              className="selectInput btnPrimary"
+              className="selectInput"
               onChange={e => this.updateFilter(e.target.value)}
             >
               <option value="">No filter</option>

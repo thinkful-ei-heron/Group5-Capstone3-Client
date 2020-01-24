@@ -37,11 +37,9 @@ export class UserProvider extends React.Component {
   }
 
   componentDidMount() {
-    console.log('mount');
     if (TokenService.hasAuthToken()) {
       let { exp } = TokenService.parseAuthToken();
       exp *= 1000; //s to ms
-      console.log(exp);
       if (exp > new Date()) {
         TokenService.queueCallbackBeforeExpiry(() => {
           this.fetchRefreshToken();

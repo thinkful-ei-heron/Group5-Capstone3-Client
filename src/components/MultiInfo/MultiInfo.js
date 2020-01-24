@@ -43,7 +43,6 @@ export default class MultiInfo extends Component {
               if (!bm) {
                 throw new Error('Could not find matching node');
               } else {
-                console.log(bm.title)
                 if (bm.tags === undefined){
                   bm.tags = multitags.value
                 } else {

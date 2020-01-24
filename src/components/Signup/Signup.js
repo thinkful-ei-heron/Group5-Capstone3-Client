@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 import React from 'react';
 import './Signup.css';
 import AuthApiService from '../../services/auth-api-service';

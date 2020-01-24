@@ -59,9 +59,19 @@
 	max-width: 65px;
 }
 
+.hiddenLabel {
+	display: none;
+}
+
 @media only screen and (min-width: 830px) {
 	.toolbar {
 		flex-direction: row;
+	}
+}
+
+@media only screen and (max-width: 829px) {
+	.cancel {
+		margin-top: 4px;
 	}
 }
 

@@ -59,7 +59,6 @@ export class BookmarkContextProvider extends React.Component {
 
   findNodeById = id => {
     const nodes = this.state.bookmarks;
-    console.log('find by id: ', id, ',', nodes);
     return this._recursiveFind(this._makeIdPredicate(id), nodes);
   };
 
@@ -80,7 +79,6 @@ export class BookmarkContextProvider extends React.Component {
 
   _recursiveFind(predicate, nodes) {
     for (const node of nodes) {
-      console.log(node);
       if (predicate(node)) {
         return node;
       }

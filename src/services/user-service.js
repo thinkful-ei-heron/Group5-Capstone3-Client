@@ -18,7 +18,6 @@ const UserService = {
         )
   },
   getUserSettings() {
-    console.log('get User Settings')
     return fetch(`${config.API_ENDPOINT}/user/settings`, {
       headers: {
         'content-type': 'application/json',
