@@ -97,7 +97,6 @@ export default class Dashboard extends React.Component {
       color: colorUI.value
     })
       .then(settings => {
-
         this.props.onPatchSettingsSuccess()
       })
       .catch(res => {
