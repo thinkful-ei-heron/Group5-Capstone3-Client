@@ -88,8 +88,8 @@ export default class Info extends Component {
         <div className='right'>
           <button className='close' onClick={this.props.clearSelect} />
         </div>
-        {!!this.props.selectedNode
-          ? <a
+        {!!this.props.selectedNode && this.props.selectedNode.type==='bookmark' &&
+          <a
             className='bookmarkLink'
             href={this.props.selectedNode.url}
             target='_blank'
@@ -97,7 +97,10 @@ export default class Info extends Component {
           >
             Visit Bookmark
           </a>
-          : <h2>Edit Tags</h2>}
+        }
+        {!!this.props.selectedNode && this.props.selectedNode.type !== 'bookmark' &&
+          <h2>Edit Info</h2>
+        }
 
         <form className='infoForm' onSubmit={this.handleSubmit}>
           <div className='infoRow'>
