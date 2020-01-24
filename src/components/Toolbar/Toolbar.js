@@ -50,6 +50,7 @@ export default class Toolbar extends Component {
 
   loadList = () => {
     this.setState({ renderListLoader: true });
+    this.props.clearSelect();
   };
 
   doneLoading = () => {
@@ -72,6 +73,7 @@ export default class Toolbar extends Component {
   };
 
   importFile = ev => {
+    this.props.clearSelect();
     let reader = new FileReader();
     reader.onload = ev => {
       bmParser(reader.result, (err, res) => {
@@ -121,7 +123,11 @@ export default class Toolbar extends Component {
 
     if (this.state.renderExporter) return (
       <div className='toolbar'>
-        <ImportBookmarks import={false} done={this.doneExporting} />
+        <ImportBookmarks
+          import={false}
+          done={this.doneExporting}
+          clearSelect={this.props.clearSelect}
+        />
       </div>
     );
 
@@ -151,7 +157,7 @@ export default class Toolbar extends Component {
     return (
       <div className='toolbar'>
         <div className='btnBlock toolbarRow'>
-          {this.props.loggedIn && 
+          {this.props.loggedIn &&
             <>
               <button className='btn btnPrimary' onClick={this.saveList}>
                 Save
@@ -208,7 +214,7 @@ export default class Toolbar extends Component {
             <input className="btn btnPrimary" id="searchSubmit" type="submit" value="Search"></input>
           </form>
           <form className="searchFilterBlock">
-            
+
             <select
               className="selectInput btn"
               onChange={e => this.updateSearchFilter(e.target.value)}

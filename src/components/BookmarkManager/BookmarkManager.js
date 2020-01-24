@@ -243,7 +243,11 @@ export default class BookmarkManager extends Component {
         : null;
     if (this.props.isMobile) return (
       <>
-        <Toolbar loggedIn={this.state.loggedIn} updateFinalSearch={this.updateFinalSearch} />
+        <Toolbar
+          loggedIn={this.state.loggedIn}
+          updateFinalSearch={this.updateFinalSearch}
+          clearSelect={this.clearSelect}
+        />
         <div className='MobileContainer'>
           {this.context.selectedNodes.length > 0 &&
             this.props.isMobile &&
@@ -270,7 +274,7 @@ export default class BookmarkManager extends Component {
               {this.renderSearch()}
             </div>
           }
-          {!!this.context.selectedNodes && this.context.selectedNodes.length > 0 && 
+          {!!this.context.selectedNodes && this.context.selectedNodes.length > 0 &&
             <div className='InfoMobile'>
               {selectedNode &&
                 <Info
@@ -287,13 +291,17 @@ export default class BookmarkManager extends Component {
                 />
               )}
             </div>
-          }  
+          }
         </div>
       </>
     );
     return (
       <>
-        <Toolbar loggedIn={this.state.loggedIn} updateFinalSearch={this.updateFinalSearch} />
+        <Toolbar
+          loggedIn={this.state.loggedIn}
+          updateFinalSearch={this.updateFinalSearch}
+          clearSelect={this.clearSelect}
+        />
         <div className='BookmarkManager'>
           <div className='row'>
             <div className='columnLeft BookmarkView'>

@@ -24,7 +24,7 @@ export default class ImportBookmarks extends Component {
         if (err) {
           throw new Error(err);
         }
-        return this.setState(
+        this.setState(
           {
             bookmarks: res.bookmarks,
             parser: res.parser,
@@ -33,6 +33,7 @@ export default class ImportBookmarks extends Component {
           () => {
             this.context.setBookmarks(res.bookmarks);
             this.props.done();
+            this.props.clearSelect();
           }
         );
       });
