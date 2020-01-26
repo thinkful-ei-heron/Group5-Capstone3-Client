@@ -45,7 +45,7 @@ export default class Signup extends React.Component {
       return 'Password must be between 8 and 72 characters long.';
     } else if (!password.match(/[0-9]/)) {
       return 'Password must contain at least one number.';
-    } else if (!password.match(/[-!$%^&*()_+|~=`{}\[\]:";'<>?,.\/]/)) {
+    } else if (!password.match(/[-#@!$%^&*()_+|~=`{}\[\]:";'<>?,.\/]/)) {
       return 'Password must contain at least one symbol.';
     }
     return 'Password meets length, number, and symbol criteria.'
@@ -59,7 +59,7 @@ export default class Signup extends React.Component {
       email: email.value,
       password: password.value,
     })
-      .then(user => {
+      .then( () => {
         username.value = ''
         email.value = ''
         password.value = ''
@@ -72,7 +72,7 @@ export default class Signup extends React.Component {
 
   render() {
     const { error } = this.state
-
+    console.log(this.validatePassword() === 'Password meets length, number, and symbol criteria.');
     return (
       <form
         onSubmit={this.handleSubmit}
@@ -88,12 +88,13 @@ export default class Signup extends React.Component {
           type='text'
           name='username' id='username'
           className='unloggedInput'
+          autoComplete='username'
           required
           autoFocus
           onChange={e => this.updateUsername(e.target.value)}
         />
         <br />
-        <label htmlFor='email'>Would you like to give an email?</label>
+        <label htmlFor='email'>Provide an email (optional):</label>
         <br />
         <input
           type='email'
@@ -108,6 +109,7 @@ export default class Signup extends React.Component {
           type='password'
           name='password' id='password'
           className='unloggedInput'
+          autoComplete='new-password'
           required
           onChange={e => this.updatePassword(e.target.value)}
         />
@@ -116,7 +118,7 @@ export default class Signup extends React.Component {
         <input
           type='submit'
           value='Submit'
-          className='btn btnPrimary'
+          className={this.validatePassword() === 'Password meets length, number, and symbol criteria.' ? 'btn btnPrimary': 'btn btnPrimary noHover'}
         />
         <input
           type='reset'

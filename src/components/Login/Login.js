@@ -59,6 +59,7 @@ export default class Login extends React.Component {
           id='password'
           autoComplete='current-password'
           className='unloggedInput'
+          autoCapitalize='username'
           required
         />
         <br />
