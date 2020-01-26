@@ -201,7 +201,6 @@ export default class Toolbar extends Component {
                 e,
                 this.state.search,
                 this.state.searchFilter,
-                this.state.filter
               )
             }
           >
@@ -241,7 +240,7 @@ export default class Toolbar extends Component {
           <form className='filterBlock'>
             <select
               className='selectInput'
-              onChange={e => this.updateFilter(e.target.value)}
+              onChange={e => this.props.updateFilter(e.target.value)}
             >
               <option value=''>No filter</option>
               <option value='bookmark'>Only Bookmarks</option>

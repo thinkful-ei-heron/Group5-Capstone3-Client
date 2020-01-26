@@ -193,14 +193,17 @@ export default class BookmarkManager extends Component {
     }
   };
 
-  updateFinalSearch = (ev, search, searchFilter, filter) => {
+  updateFinalSearch = (ev, search, searchFilter) => {
     ev.preventDefault();
     this.setState({
       search,
       searchFilter,
-      filter
     });
   };
+
+  updateFilter = filter => {
+    this.setState({filter});
+  }
 
   renderTree = (bm, i) => {
     return (
@@ -223,6 +226,7 @@ export default class BookmarkManager extends Component {
   renderSearch = () => {
     return (
       <Search
+        filter={this.state.filter}
         flat={this.state.flat}
         search={this.state.search}
         searchFilter={this.state.searchFilter}
@@ -260,12 +264,6 @@ export default class BookmarkManager extends Component {
             ? <section className='BookmarkManagerMobile'>
               {this.context.bookmarks &&
                 this.context.bookmarks.map((bm, i) => {
-                  if (
-                    this.state.filter !== '' &&
-                    bm.type === this.state.filter
-                  ) {
-                    return this.renderTree(bm, i);
-                  }
                   return this.renderTree(bm, i);
                 })}
             </section>
@@ -300,6 +298,7 @@ export default class BookmarkManager extends Component {
           loggedIn={this.state.loggedIn}
           updateFinalSearch={this.updateFinalSearch}
           clearSelect={this.clearSelect}
+          updateFilter={this.updateFilter}
         />
         <div className='BookmarkManager'>
           <div className='row'>
@@ -316,10 +315,7 @@ export default class BookmarkManager extends Component {
                 />
               }
               {this.context.bookmarks && this.context.bookmarks.map((bm, i) => {
-                if (this.state.filter !== '' && bm.type === this.state.filter) {
-                  return this.renderTree(bm, i);
-                }
-                return this.renderTree(bm, i);
+                return this.renderTree(bm, i);                
               })}
             </section>
             <div className='columnRight SearchInfoView'>
