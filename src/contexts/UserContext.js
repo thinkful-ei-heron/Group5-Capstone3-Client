@@ -100,6 +100,7 @@ export class UserProvider extends React.Component {
     TokenService.clearAuthToken();
     TokenService.clearCallbackBeforeExpiry();
     this.setUser({});
+    this.setSettings({});
   };
 
   logoutBecauseIdle = () => {
