@@ -46,7 +46,7 @@ export default class Login extends React.Component {
           type='text'
           name='username' id='username'
           className='unloggedInput'
-          placeholder='username'
+          autoComplete='username'
           required
           autoFocus
         />
@@ -57,7 +57,7 @@ export default class Login extends React.Component {
           type='password'
           name='password' 
           id='password'
-          placeholder='current-password'
+          autoComplete='current-password'
           className='unloggedInput'
           required
         />
