@@ -72,7 +72,6 @@ export default class Signup extends React.Component {
 
   render() {
     const { error } = this.state
-    console.log(this.validatePassword() === 'Password meets length, number, and symbol criteria.');
     return (
       <form
         onSubmit={this.handleSubmit}
