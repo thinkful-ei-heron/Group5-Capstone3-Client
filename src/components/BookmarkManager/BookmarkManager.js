@@ -234,6 +234,7 @@ export default class BookmarkManager extends Component {
         flat={this.state.flat}
         search={this.state.search}
         searchFilter={this.state.searchFilter}
+        filter={this.state.filter}
         hashedFlatBm={this.hashedFlatBm}
         registerNode={this.registerNode}
         generateTree={this.generateTree}
@@ -256,6 +257,7 @@ export default class BookmarkManager extends Component {
             loggedIn={this.state.loggedIn}
             updateFinalSearch={this.updateFinalSearch}
             clearSelect={this.clearSelect}
+            updateFilter={this.updateFilter}
           />
           <div className="MobileContainer">
             {this.context.selectedNodes.length > 0 && this.props.isMobile && (
@@ -313,6 +315,7 @@ export default class BookmarkManager extends Component {
           loggedIn={this.state.loggedIn}
           updateFinalSearch={this.updateFinalSearch}
           clearSelect={this.clearSelect}
+          updateFilter={this.updateFilter}
         />
         <div className="BookmarkManager">
           <div className="row">
