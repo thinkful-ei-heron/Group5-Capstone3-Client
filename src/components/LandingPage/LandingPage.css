@@ -1,7 +1,16 @@
 .landingText {
-	font-size: 18px;
+  font-size: 17px;
 }
 
 .callToAction {
-	margin: 20px;
+  margin: 20px;
+}
+
+.helpLink {
+  text-decoration: underline;
+}
+
+.LandingPage {
+  height: 60vh;
+  overflow-y: scroll;
 }

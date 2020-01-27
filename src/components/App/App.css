@@ -28,7 +28,8 @@ main {
   margin-top: 22px;
 }
 
-.btn, select {
+.btn,
+select {
   font-size: 14px;
   height: 32px;
   margin: 0 2px;
@@ -62,12 +63,23 @@ input {
 }
 
 .container {
-  border: 1px solid var(--color-border);;
+  border: 1px solid var(--color-border);
   background-color: white;
   border-radius: 3px;
-  margin: 0 auto;
   padding: 16px;
   max-width: 80%;
+}
+
+@media only screen and (max-width: 700px) {
+  .container {
+    margin: 0 10%;
+  }
+}
+
+@media only screen and (min-width: 701px) {
+  .container {
+    margin: 0 30%;
+  }
 }
 
 @media only screen and (max-width: 499px) {
@@ -77,26 +89,26 @@ input {
 }
 
 @media only screen and (min-width: 500px) {
-	.btn {
-		font-size: 16px;
-  	padding: 6px;
-  	margin: 0 4px;
+  .btn {
+    font-size: 16px;
+    padding: 6px;
+    margin: 0 4px;
   }
 }
 
 @media only screen and (max-width: 830px) {
-	.mobileHiddenFilter {
-		display: none;
+  .mobileHiddenFilter {
+    display: none;
   }
 
   h2 {
     font-size: 16px;
-    margin-bottom: 0
+    margin-bottom: 0;
   }
 }
 
 @media only screen and (max-width: 499px) {
-	.headerTitle {
+  .headerTitle {
     display: none;
   }
 }

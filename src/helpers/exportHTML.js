@@ -114,7 +114,7 @@ export default function exportHTML(data, browser) {
 
 	const msg = generateHTML(data, browser);
 	const output = new Blob([msg], { type: 'text/html' });
-	const filename = 'test-export';
+	const filename = 'bookmarks-export';
 
 	const download = document.createElement('a');
 	download.download = filename;

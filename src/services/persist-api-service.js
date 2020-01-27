@@ -20,6 +20,16 @@ const PersistApiService = {
       !res.ok ? res.json().then(e => Promise.reject(e)) : res.json()
     );
   },
+  deleteList(listId) {
+    return fetch(`${config.API_ENDPOINT}/list/${listId}`, {
+      method: 'DELETE',
+      headers: {
+        authorization: `bearer ${TokenService.getAuthToken()}`
+      }
+    }).then(res =>
+      !res.ok && res.json().then(e => Promise.reject(e))
+    );  
+  },
   submitList(list, listName = null, listId = null) {
     //TODO the below is a temporary measure:
     //this outer object should already be in place when list is returned from server
@@ -28,10 +38,10 @@ const PersistApiService = {
     if (Array.isArray(list)) {
       list = {
         contents: list,
-        name: listName
+        name: listName,
+        id: listId
       };
     }
-    console.log('Submit ', listId);
     if (listId) {
       return fetch(`${config.API_ENDPOINT}/list/${listId}`, {
         method: 'PUT',
