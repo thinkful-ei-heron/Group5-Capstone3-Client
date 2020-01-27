@@ -9,3 +9,8 @@
 .helpLink {
   text-decoration: underline;
 }
+
+.LandingPage {
+  height: 60vh;
+  overflow-y: scroll;
+}

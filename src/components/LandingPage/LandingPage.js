@@ -12,7 +12,7 @@ export default class LandingPage extends React.Component {
   };
   render() {
     return (
-      <section className="container">
+      <section className="container LandingPage">
         <p>Export your bookmarks file from your browser:</p>
         <p>
           <a
