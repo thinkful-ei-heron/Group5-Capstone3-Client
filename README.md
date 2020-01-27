@@ -30,7 +30,7 @@
 <img src='./src/img/Desktop_List.png' alt='Desktop List View' width='900px'/>
 
 ### Mobile Settings, Mobile List View
-<img src='./src/img/Mobile_List_Settings.png' alt='Mobile Settings and Mobile List View' width='900'/>
+<img src='./src/img/Mobile_List_Settings.png' alt='Mobile Settings and Mobile List View' width='600'/>
 
 ## Tech Specs: 
 **Front-end:**
