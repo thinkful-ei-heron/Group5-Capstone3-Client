@@ -41,18 +41,11 @@ export default class Login extends React.Component {
         <label htmlFor="username">Username:</label>
         <br />
         <input
-<<<<<<< HEAD
           type="text"
           name="username"
           id="username"
           className="unloggedInput"
-          placeholder="username"
-=======
-          type='text'
-          name='username' id='username'
-          className='unloggedInput'
-          autoComplete='username'
->>>>>>> origin/kei-review
+          autoComplete="username"
           required
           autoFocus
         />
@@ -60,20 +53,12 @@ export default class Login extends React.Component {
         <label htmlFor="password">Password:</label>
         <br />
         <input
-<<<<<<< HEAD
           type="password"
           name="password"
           id="password"
-          placeholder="current-password"
+          autoComplete="current-password"
           className="unloggedInput"
-=======
-          type='password'
-          name='password' 
-          id='password'
-          autoComplete='current-password'
-          className='unloggedInput'
-          autoCapitalize='username'
->>>>>>> origin/kei-review
+          autoCapitalize="username"
           required
         />
         <br />

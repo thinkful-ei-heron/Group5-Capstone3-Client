@@ -141,15 +141,15 @@ export default class Info extends Component {
 
           <div className="infoBtnRow">
             <input
-<<<<<<< HEAD
               type="submit"
-              value="Save"
-              className="btn btnPrimary infoSubmit"
-=======
-              type='submit'
-              value='Update'
-              className={this.state.title.touched || this.state.url.touched || this.state.tags.touched ? 'btn btnPrimary infoSubmit' : 'btn btnPrimary infoSubmit noHover'}
->>>>>>> origin/kei-review
+              value="Update"
+              className={
+                this.state.title.touched ||
+                this.state.url.touched ||
+                this.state.tags.touched
+                  ? "btn btnPrimary infoSubmit"
+                  : "btn btnPrimary infoSubmit noHover"
+              }
             />
 
             {this.props.selectedNodes &&
@@ -182,7 +182,8 @@ export default class Info extends Component {
           className={this.state.selectedNode.type === "folder" ? "hidden" : ""}
         >
           {this.state.selectedNode.type === "bookmark" &&
-            !!this.props.settings && this.props.settings.preview && (
+            !!this.props.settings &&
+            this.props.settings.preview && (
               <img
                 className="thumbnail"
                 src={`https://image.thum.io/get/auth/7215-bookmarks/crop/768/${this.state.url.value}`}
