@@ -16,6 +16,7 @@ export default class LandingPage extends React.Component {
         <p>Export your bookmarks file from your browser:</p>
         <p>
           <a
+            className="helpLink"
             href="https://support.mozilla.org/en-US/kb/export-firefox-bookmarks-to-backup-or-transfer"
             alt="Export from Firefox"
           >
@@ -24,6 +25,7 @@ export default class LandingPage extends React.Component {
         </p>
         <p>
           <a
+            className="helpLink"
             href="https://support.google.com/chrome/answer/96816?hl=en"
             alt="Export from Chrome"
           >
@@ -32,6 +34,7 @@ export default class LandingPage extends React.Component {
         </p>
         <p>
           <a
+            className="helpLink"
             href="https://support.apple.com/guide/safari/import-bookmarks-and-history-ibrw1015/mac"
             alt="Export from Safari"
           >
@@ -40,6 +43,7 @@ export default class LandingPage extends React.Component {
         </p>
         <p>
           <a
+            className="helpLink"
             href="https://support.microsoft.com/en-us/help/211089/how-to-import-and-export-the-internet-explorer-favorites-folder-to-a-3"
             alt="Export from IE"
           >
@@ -47,7 +51,12 @@ export default class LandingPage extends React.Component {
           </a>
         </p>
         <p>
-          <a onClick={this.handleSample} href="#" alt="Sample Bookmarks">
+          <a
+            className="helpLink"
+            onClick={this.handleSample}
+            href="#"
+            alt="Sample Bookmarks"
+          >
             Download a sample
           </a>
         </p>

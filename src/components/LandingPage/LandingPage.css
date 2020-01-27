@@ -1,7 +1,11 @@
 .landingText {
-	font-size: 18px;
+  font-size: 18px;
 }
 
 .callToAction {
-	margin: 20px;
+  margin: 20px;
+}
+
+.helpLink {
+  text-decoration: underline;
 }
