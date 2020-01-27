@@ -26,14 +26,14 @@
 
 ## Bookmark Organizer in action
 
-### Onboarding
-<img src='' alt='Onboarding Screenshot' width=''/>
+### Desktop List View
+<img src='./src/img/Desktop_List.png' alt='Desktop List View' width='900px'/>
 
-### Desktop
-<img src='' alt='Onboarding Screenshot' width=''/>
+### Mobile List View
+<img src='./src/img/Mobile_List.png' alt='Desktop List View'/>
 
-### Mobile
-<img src='' alt='Onboarding Screenshot' width=''/>
+### Mobile Settings
+<img src='./src/img/Mobile_Settings.png' alt='Desktop List View' width='900px'/>
 
 ## Tech Specs: 
 **Front-end:**
