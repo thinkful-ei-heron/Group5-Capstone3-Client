@@ -4,11 +4,15 @@ import SettingsRoute from "../SettingsRoute/SettingsRoute";
 import { BrowserRouter } from "react-router-dom";
 import PrivateOnlyRoute from "./PrivateOnlyRoute";
 
-it("renders without crashing", () => {
-  const div = document.createElement("div");
+import { BrowserRouter } from 'react-router-dom';
+import PrivateOnlyRoute from './PrivateOnlyRoute';
+import SettingsRoute from '../SettingsRoute/SettingsRoute';
+
+it('renders without crashing', () => {
+  const div = document.createElement('div')
   ReactDOM.render(
     <BrowserRouter>
-      <PrivateOnlyRoute path={"/settings"} component={SettingsRoute} />
+      <PrivateOnlyRoute path={'/settings'} component={SettingsRoute}/>
     </BrowserRouter>,
     div
   );
