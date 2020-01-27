@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import ProxyService from '../../services/proxy-api-service';
-import BookmarkContext from '../../contexts/BookmarkContext';
-import './Archive.css'
+import React, { Component } from "react";
+import ProxyService from "../../services/proxy-api-service";
+import BookmarkContext from "../../contexts/BookmarkContext";
+import "./Archive.css";
 
 /**
  * Required props:
@@ -50,10 +50,15 @@ export default class Archive extends Component {
   };
 
   displayArchive = url => {
-    const host = url.split('/')[2];
+    const host = url.split("/")[2];
     return (
       <li className="archiveList" key={url}>
-        <a className="archiveLink" href={url} target='_blank' rel='noopener noreferrer'>
+        <a
+          className="archiveLink"
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           {host}
         </a>
       </li>
@@ -101,13 +106,13 @@ export default class Archive extends Component {
 
   editFavoredArchive = ev => {
     ev.preventDefault();
-    const favoredArchiveUrl = document.getElementById('fav-archive-url').value;
-    const dateString = document.getElementById('fav-archive-date').value;
+    const favoredArchiveUrl = document.getElementById("fav-archive-url").value;
+    const dateString = document.getElementById("fav-archive-date").value;
 
     let favoredArchiveDate = null;
 
     if (dateString) {
-      const elements = dateString.split('-');
+      const elements = dateString.split("-");
       favoredArchiveDate = new Date(elements[0], elements[1] - 1, elements[2]);
     }
     this.setState({
@@ -146,7 +151,9 @@ export default class Archive extends Component {
         <button
           type="button"
           className="btn clearBtn"
-          onClick={() => document.getElementById('fav-archive-date').value = null}
+          onClick={() =>
+            (document.getElementById("fav-archive-date").value = null)
+          }
         >
           Clear Date
         </button>
@@ -161,42 +168,45 @@ export default class Archive extends Component {
   formatDate(timestamp) {
     const date = new Date(timestamp);
     return `${date.getFullYear()}-${
-      date.getMonth() >= 9 ? '' : '0'
-      }${date.getMonth() + 1}-${
-      date.getDate() >= 10 ? '' : '0'
-      }${date.getDate()}`;
+      date.getMonth() >= 9 ? "" : "0"
+    }${date.getMonth() + 1}-${
+      date.getDate() >= 10 ? "" : "0"
+    }${date.getDate()}`;
   }
 
   renderArchiveManager() {
     const { favoredArchiveUrl, favoredArchiveDate } = this.state;
     return (
       <>
-        {!!favoredArchiveUrl
-          ? <p>
-            You have saved an archive link for this bookmark.{' '}
+        {!!favoredArchiveUrl ? (
+          <p>
+            You have saved an archive link for this bookmark.{" "}
             <a
               href={favoredArchiveUrl}
               target="_blank"
               rel="noopener noreferrer"
             >
-              Visit this archive{' '}
-              {favoredArchiveDate && `(snapshot date: ${this.formatDate(favoredArchiveDate)})`}
+              Visit this archive{" "}
+              {favoredArchiveDate &&
+                `(snapshot date: ${this.formatDate(favoredArchiveDate)})`}
             </a>
           </p>
-          : <p>You have not saved an archive link for this bookmark.</p>
-        }
-        {this.state.editFavoredArchive
-          ? this.favoredArchiveEditor()
-          : <button
+        ) : (
+          <p>You have not saved an archive link for this bookmark.</p>
+        )}
+        {this.state.editFavoredArchive ? (
+          this.favoredArchiveEditor()
+        ) : (
+          <button
             type="button"
             className="btn"
             onClick={() => this.setState({ editFavoredArchive: true })}
           >
             {!!favoredArchiveUrl
-              ? 'Edit saved archive link'
-              : 'Save an archive link '}
+              ? "Edit saved archive link"
+              : "Save an archive link "}
           </button>
-        }
+        )}
       </>
     );
   }

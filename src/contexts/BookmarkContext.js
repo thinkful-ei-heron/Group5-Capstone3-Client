@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 const BookmarkContext = React.createContext();
 export default BookmarkContext;
@@ -50,7 +50,7 @@ export class BookmarkContextProvider extends React.Component {
   updateNode = (id, updateInfo) => {
     const bookmarks = [...this.state.bookmarks];
     const node = this.findNodeById(id, bookmarks);
-    if (!node) throw new Error('could not find matching node');
+    if (!node) throw new Error("could not find matching node");
     for (const key of Object.keys(updateInfo)) {
       node[key] = updateInfo[key];
     }
