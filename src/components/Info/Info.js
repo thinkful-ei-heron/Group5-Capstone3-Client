@@ -136,8 +136,8 @@ export default class Info extends Component {
           <div className='infoBtnRow'>
             <input
               type='submit'
-              value='Save'
-              className='btn btnPrimary infoSubmit'
+              value='Update'
+              className={this.state.title.touched || this.state.url.touched || this.state.tags.touched ? 'btn btnPrimary infoSubmit' : 'btn btnPrimary infoSubmit noHover'}
             />
 
             {this.props.selectedNodes && this.props.selectedNodes.length === 1 &&

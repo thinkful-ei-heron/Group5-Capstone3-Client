@@ -77,5 +77,5 @@
 [Deployed Client On Zeit](https://bookmark-organizer.now.sh/)
 
 ## Demo Info (Office Edition)
-- Account Username: dunder
-- Account Password: password
+- Account Username: testuser
+- Account Password: p4ssw0r|)

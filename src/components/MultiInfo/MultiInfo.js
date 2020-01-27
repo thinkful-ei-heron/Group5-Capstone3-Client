@@ -76,8 +76,8 @@ export default class MultiInfo extends Component {
           <br />
           <input
             type='submit'
-            value='Save'
-            className='btn'
+            value='Update'
+            className={this.state.multitags.touched ? 'btn btnPrimary' : 'btn btnPrimary noHover'}
           />
         </form>
       </>
