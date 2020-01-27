@@ -1,16 +1,17 @@
-import React from "react";
+import React from 'react';
+import emptyBookmarks from '../helpers/emptyBookmarks';
 
 const BookmarkContext = React.createContext();
 export default BookmarkContext;
 export class BookmarkContextProvider extends React.Component {
   state = {
-    bookmarks: null,
+    bookmarks: emptyBookmarks,
     flat: null,
     error: null,
     selectedNodes: [],
     expandedNodes: [],
     listId: null,
-    listName: null
+    listName: null,
   };
 
   setBookmarks = bm => {
@@ -23,7 +24,7 @@ export class BookmarkContextProvider extends React.Component {
       this.setListName(bm.name);
     }
     this.setState({
-      bookmarks
+      bookmarks,
     });
   };
 
@@ -50,7 +51,7 @@ export class BookmarkContextProvider extends React.Component {
   updateNode = (id, updateInfo) => {
     const bookmarks = [...this.state.bookmarks];
     const node = this.findNodeById(id, bookmarks);
-    if (!node) throw new Error("could not find matching node");
+    if (!node) throw new Error('could not find matching node');
     for (const key of Object.keys(updateInfo)) {
       node[key] = updateInfo[key];
     }
@@ -103,7 +104,7 @@ export class BookmarkContextProvider extends React.Component {
       setSelectedNodes: this.setSelectedNodes,
       expandedNodes: this.state.expandedNodes,
       setExpandedNodes: this.setExpandedNodes,
-      deleteNodeById: this.deleteNodeById
+      deleteNodeById: this.deleteNodeById,
     };
     return (
       <BookmarkContext.Provider value={value}>
