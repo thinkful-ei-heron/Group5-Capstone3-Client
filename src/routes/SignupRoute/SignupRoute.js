@@ -1,12 +1,12 @@
-import React from 'react';
-import Signup from '../../components/Signup/Signup'
-import './SignupRoute.css';
+import React from "react";
+import Signup from "../../components/Signup/Signup";
+import "./SignupRoute.css";
 
 export default class SignupRoute extends React.Component {
   static defaultProps = {
     history: {
-      push: () => { },
-    },
+      push: () => {}
+    }
   };
 
   handleRegistrationSuccess = () => {
@@ -16,13 +16,11 @@ export default class SignupRoute extends React.Component {
 
   render() {
     return (
-      <section className='registration marginTop'>
+      <section className="registration marginTop">
         <h2>Sign up</h2>
-        <p className='landingText'>Sign up to save and manage your bookmarks</p>
-        <Signup
-          onRegistrationSuccess={this.handleRegistrationSuccess}
-        />
+        <p className="landingText">Sign up to save and manage your bookmarks</p>
+        <Signup onRegistrationSuccess={this.handleRegistrationSuccess} />
       </section>
     );
   }
-};
+}

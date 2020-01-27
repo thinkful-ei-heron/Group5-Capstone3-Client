@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
-import uuid from 'uuid/v4';
-import BookmarksContext from '../../contexts/BookmarkContext';
-import './NodeAdder.css'
+import React, { Component } from "react";
+import uuid from "uuid/v4";
+import BookmarksContext from "../../contexts/BookmarkContext";
+import "./NodeAdder.css";
 
 export default class NodeAdder extends Component {
   static contextType = BookmarksContext;
 
   state = {
-    title: '',
-    type: 'folder',
-    url: '',
-    tagString: '',
+    title: "",
+    type: "folder",
+    url: "",
+    tagString: ""
   };
 
   addChild = newNode => {
@@ -18,7 +18,7 @@ export default class NodeAdder extends Component {
     const folder = this.context.findNodeById(id);
     const contents = folder.contents;
     if (!Array.isArray(contents)) {
-      throw new Error('Attempted to add child node to a bookmark');
+      throw new Error("Attempted to add child node to a bookmark");
     }
     contents.push(newNode);
     this.context.updateNode(id, { contents });
@@ -30,12 +30,12 @@ export default class NodeAdder extends Component {
     const id = uuid();
     const newNode = { id, title, type };
 
-    if (type === 'folder') newNode.contents = [];
-    if (type === 'bookmark') newNode.url = url;
+    if (type === "folder") newNode.contents = [];
+    if (type === "bookmark") newNode.url = url;
     if (this.state.tagString.length > 0) {
-      const tags = this.state.tagString.split(', ');
+      const tags = this.state.tagString.split(", ");
       newNode.tags = tags;
-    } else newNode.tags = '';
+    } else newNode.tags = "";
 
     this.addChild(newNode);
     this.props.toggleAdd();
@@ -58,44 +58,47 @@ export default class NodeAdder extends Component {
   };
   render() {
     return (
-      <form onSubmit={this.handleSubmit} className='add-form'>
+      <form onSubmit={this.handleSubmit} className="add-form">
         <fieldset>
           <select value={this.state.type} onChange={this.handleTypeChange}>
-            <option value='folder'>Folder</option>
-            <option value='bookmark'>Bookmark</option>
+            <option value="folder">Folder</option>
+            <option value="bookmark">Bookmark</option>
           </select>
           <br />
-          <label htmlFor='title'>Title:</label>
-          <input className='infoInput'
-            type='text'
+          <label htmlFor="title">Title:</label>
+          <input
+            className="infoInput"
+            type="text"
             value={this.state.title}
             onChange={this.handleTitleChange}
-            name='title'
+            name="title"
           />
           <br />
-          {this.state.type === 'bookmark' &&
+          {this.state.type === "bookmark" && (
             <>
-              <label htmlFor='url'>URL:</label>
-              <input className='infoInput'
-                type='text'
+              <label htmlFor="url">URL:</label>
+              <input
+                className="infoInput"
+                type="text"
                 value={this.state.url}
                 onChange={this.handleUrlChange}
-                name='url'
+                name="url"
               />
               <br />
             </>
-          }
+          )}
 
-          <label htmlFor='tags'>Tags:</label>
-          <input className='infoInput'
-            type='text'
+          <label htmlFor="tags">Tags:</label>
+          <input
+            className="infoInput"
+            type="text"
             value={this.state.tagString}
-            placeholder='tag1, tag2, ...'
+            placeholder="tag1, tag2, ..."
             onChange={this.handleTagChange}
-            name='tags'
+            name="tags"
           />
           <br />
-          <button type='submit' className='btn btnPrimary'>
+          <button type="submit" className="btn btnPrimary">
             Add
           </button>
         </fieldset>
