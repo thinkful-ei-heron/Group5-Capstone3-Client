@@ -1,18 +1,18 @@
-import React, { Component } from 'react'
-import BookmarkContext from '../../contexts/BookmarkContext'
+import React, { Component } from "react";
+import BookmarkContext from "../../contexts/BookmarkContext";
 
 export default class MultiInfo extends Component {
-  static contextType = BookmarkContext
+  static contextType = BookmarkContext;
   static defaultProps = {
-    selectedNodes: [],
-  }
+    selectedNodes: []
+  };
 
   state = {
     multitags: {
-      value: '',
+      value: "",
       touched: false
     }
-  }
+  };
 
   updateMultiTags(multitags) {
     this.setState({
@@ -20,7 +20,7 @@ export default class MultiInfo extends Component {
         value: multitags,
         touched: true
       }
-    })
+    });
   }
 
   recursiveFind(id, nodes) {
@@ -36,49 +36,45 @@ export default class MultiInfo extends Component {
   }
 
   handleSubmit = ev => {
-    ev.preventDefault()
+    ev.preventDefault();
     let { multitags } = this.state;
     const nodes = [...this.context.bookmarks];
     if (multitags.value.length > 0) {
-      multitags.value = multitags.value.split(',').map(tag => tag.trim());
+      multitags.value = multitags.value.split(",").map(tag => tag.trim());
       for (let node of this.props.selectedNodes) {
         const bm = this.recursiveFind(node.state.data.id, nodes);
-        if (!bm) throw new Error('Could not find matching node');
+        if (!bm) throw new Error("Could not find matching node");
         else {
           if (bm.tags === undefined) {
-            bm.tags = multitags.value
+            bm.tags = multitags.value;
           } else {
-            bm.tags = bm.tags.concat(multitags.value)
+            bm.tags = bm.tags.concat(multitags.value);
           }
         }
       }
     }
     this.context.setBookmarks(nodes);
     this.props.clearSelect();
-  }
+  };
 
   render() {
     return (
       <>
-        <div className='right'>
-          <button className='close' onClick={this.props.clearSelect} />
+        <div className="right">
+          <button className="close" onClick={this.props.clearSelect} />
         </div>
         <h2>Apply Tags</h2>
         <form onSubmit={this.handleSubmit}>
-          <label htmlFor='multi-tags'>Add Tags: </label>
+          <label htmlFor="multi-tags">Add Tags: </label>
           <input
-            type='text'
-            className='infoInput'
-            name='multi-tags'
-            defaultValue=''
+            type="text"
+            className="infoInput"
+            name="multi-tags"
+            defaultValue=""
             onChange={e => this.updateMultiTags(e.target.value)}
           />
           <br />
-          <input
-            type='submit'
-            value='Save'
-            className='btn'
-          />
+          <input type="submit" value="Save" className="btn" />
         </form>
       </>
     );

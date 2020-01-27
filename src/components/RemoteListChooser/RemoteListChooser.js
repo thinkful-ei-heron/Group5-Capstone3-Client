@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import './RemoteListChooser.css';
-import PersistApiService from '../../services/persist-api-service';
-import BookmarkContext from '../../contexts/BookmarkContext';
+import React, { Component } from "react";
+import "./RemoteListChooser.css";
+import PersistApiService from "../../services/persist-api-service";
+import BookmarkContext from "../../contexts/BookmarkContext";
 
 export default class RemoteListChooser extends Component {
   state = {
@@ -38,7 +38,7 @@ export default class RemoteListChooser extends Component {
   displayList(list) {
     return (
       <button
-        className='btn list'
+        className="btn list"
         onClick={() => this.getList(list.id)}
         key={list.id}
       >
@@ -48,10 +48,6 @@ export default class RemoteListChooser extends Component {
   }
 
   render() {
-    return (
-      <div>
-        {this.state.lists.map(list => this.displayList(list))}
-      </div>
-    )
+    return <div>{this.state.lists.map(list => this.displayList(list))}</div>;
   }
 }
