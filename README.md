@@ -29,11 +29,8 @@
 ### Desktop List View
 <img src='./src/img/Desktop_List.png' alt='Desktop List View' width='900px'/>
 
-### Mobile List View
-<img src='./src/img/Mobile_List.png' alt='Desktop List View' width='475'/>
-
-### Mobile Settings
-<img src='./src/img/Mobile_Settings.png' alt='Desktop List View' width='475'/>
+### Mobile Settings, Mobile List View
+<img src='./src/img/Mobile_List_Settings.png' alt='Mobile Settings and Mobile List View' width='900'/>
 
 ## Tech Specs: 
 **Front-end:**
