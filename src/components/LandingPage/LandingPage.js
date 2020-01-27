@@ -53,8 +53,8 @@ export default class LandingPage extends React.Component {
         <p>
           <a
             className="helpLink"
-            onClick={this.handleSample}
-            href="#"
+            href="/bookmarks-export.html"
+            download
             alt="Sample Bookmarks"
           >
             Download a sample bookmarks file
