@@ -52,6 +52,19 @@ export default class Toolbar extends Component {
     this.props.clearSelect();
   };
 
+  deleteList = () => {
+    const confirmDeleteList = window.confirm(
+      'This will delete the currently loaded list and all its contents from the server permanently!  Continue?'
+    );
+    if (confirmDeleteList){
+      PersistApiService.deleteList(this.context.listId);
+      this.context.setListId(null);
+      this.context.setListName(null);
+      this.context.setBookmarks([]);
+      this.props.clearSelect(); 
+    }
+  }
+
   doneLoading = () => {
     this.setState({
       renderListLoader: false,
@@ -169,10 +182,13 @@ export default class Toolbar extends Component {
                 Save
               </button>
               <button className="btn" onClick={this.beginSaveAs}>
-                Save as...
+                Save As
               </button>
               <button className="btn" onClick={this.loadList}>
-                Load...
+                Load
+              </button>
+              <button className={this.context.listId === null ? "btn noHover" : "btn"} onClick={this.deleteList} disabled={this.context.listId === null}>
+                Delete
               </button>
             </>
           )}
@@ -181,7 +197,7 @@ export default class Toolbar extends Component {
             htmlFor="bookmarkFile"
             tabIndex="0"
           >
-            Import...
+            Import
           </label>
           <input
             type="file"
@@ -192,7 +208,7 @@ export default class Toolbar extends Component {
             onChange={this.importFile}
           />
           <button className="btn" onClick={this.exportFile}>
-            Export...
+            Export
           </button>
         </div>
 
