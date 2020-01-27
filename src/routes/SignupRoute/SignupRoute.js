@@ -10,8 +10,13 @@ export default class SignupRoute extends React.Component {
   };
 
   handleRegistrationSuccess = () => {
+<<<<<<< HEAD
     const { history } = this.props;
     history.push("/dashboard");
+=======
+    const { history } = this.props
+    history.push('/settings')
+>>>>>>> origin/kei-review
   };
 
   render() {

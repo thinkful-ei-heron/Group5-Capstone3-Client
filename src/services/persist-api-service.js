@@ -31,7 +31,6 @@ const PersistApiService = {
         name: listName
       };
     }
-    console.log('Submit ', listId);
     if (listId) {
       return fetch(`${config.API_ENDPOINT}/list/${listId}`, {
         method: 'PUT',

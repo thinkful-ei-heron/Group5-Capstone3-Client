@@ -7,6 +7,7 @@ export default function PublicOnlyRoute({ component, ...props }) {
   return (
     <Route
       {...props}
+<<<<<<< HEAD
       render={componentProps =>
         TokenService.hasAuthToken() ? (
           <Redirect to={"/dashboard"} />
@@ -14,6 +15,13 @@ export default function PublicOnlyRoute({ component, ...props }) {
           <Component {...componentProps} />
         )
       }
+=======
+      render={componentProps => (
+        TokenService.hasAuthToken()
+          ? <Redirect to={'/settings'} />
+          : <Component {...componentProps} />
+      )}
+>>>>>>> origin/kei-review
     />
   );
 }
