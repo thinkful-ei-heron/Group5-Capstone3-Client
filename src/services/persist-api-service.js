@@ -28,7 +28,8 @@ const PersistApiService = {
     if (Array.isArray(list)) {
       list = {
         contents: list,
-        name: listName
+        name: listName,
+        id: listId
       };
     }
     if (listId) {

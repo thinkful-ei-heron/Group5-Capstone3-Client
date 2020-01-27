@@ -1,10 +1,10 @@
-import React from "react";
-import { withRouter } from "react-router-dom";
-import TokenService from "../../services/token-service.js";
-import UserContext from "../../contexts/UserContext";
-import "./Nav.css";
+import React from 'react';
+import { withRouter } from 'react-router-dom';
+import TokenService from '../../services/token-service.js';
+import UserContext from '../../contexts/UserContext';
+import './Nav.css';
 
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 export default withRouter(
   class Nav extends React.Component {
@@ -12,28 +12,29 @@ export default withRouter(
 
     handleLogoutClick = () => {
       const root = document.documentElement;
-      root.style.setProperty("--color-user", "rgb(70, 70, 255)");
+      root.style.setProperty('--color-user', 'rgb(70, 70, 255)');
       this.context.processLogout();
+      this.props.clearBookmarks();
     };
 
     renderLoggedInLinks() {
       return (
         <>
           <Link
-            to={"/settings"}
+            to={'/settings'}
             className={
-              this.props.location.pathname === "/settings"
-                ? "tab activeTab"
-                : "tab"
+              this.props.location.pathname === '/settings'
+                ? 'tab activeTab'
+                : 'tab'
             }
-            id={"tab-dash"}
+            id={'tab-dash'}
           >
             Settings
           </Link>
           <Link
-            to={"/"}
-            className={"tab"}
-            id={"tab-logout"}
+            to={'/'}
+            className={'tab'}
+            id={'tab-logout'}
             onClick={this.handleLogoutClick}
           >
             Log Out
@@ -46,24 +47,24 @@ export default withRouter(
       return (
         <>
           <Link
-            to={"/login"}
+            to={'/login'}
             className={
-              this.props.location.pathname === "/login"
-                ? "tab activeTab"
-                : "tab"
+              this.props.location.pathname === '/login'
+                ? 'tab activeTab'
+                : 'tab'
             }
-            id={"tab-login"}
+            id={'tab-login'}
           >
             Log In
           </Link>
           <Link
-            to={"/signup"}
+            to={'/signup'}
             className={
-              this.props.location.pathname === "/signup"
-                ? "tab activeTab"
-                : "tab"
+              this.props.location.pathname === '/signup'
+                ? 'tab activeTab'
+                : 'tab'
             }
-            id={"tab-signup"}
+            id={'tab-signup'}
           >
             Sign Up
           </Link>
@@ -75,13 +76,13 @@ export default withRouter(
       return (
         <nav>
           <Link
-            to={"/list"}
+            to={'/list'}
             className={
-              this.props.location.pathname === "/list"
-                ? "tab tabList activeTab"
-                : "tab tabList"
+              this.props.location.pathname === '/list'
+                ? 'tab tabList activeTab'
+                : 'tab tabList'
             }
-            id={"tab-list"}
+            id={'tab-list'}
           >
             List
           </Link>

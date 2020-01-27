@@ -1,16 +1,23 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import './Header.css';
 
 import { Link } from 'react-router-dom';
 import Nav from '../Nav/Nav';
+import BookmarkContext from '../../contexts/BookmarkContext';
 
 function Header() {
+  const ctx = useContext(BookmarkContext);
+
+  const clearBookmarks = () => {
+    ctx.setBookmarks([]);
+  };
+
   return (
     <header>
       <Link to={'/'}>
-        <h1 className='headerTitle'>Bookmark Organizer</h1>
+        <h1 className="headerTitle">Bookmark Organizer</h1>
       </Link>
-      <Nav />
+      <Nav clearBookmarks={clearBookmarks} />
     </header>
   );
 }

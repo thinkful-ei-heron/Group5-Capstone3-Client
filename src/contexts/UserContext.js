@@ -1,7 +1,7 @@
-import React from "react";
-import AuthApiService from "../services/auth-api-service";
-import TokenService from "../services/token-service";
-import UserService from "../services/user-service";
+import React from 'react';
+import AuthApiService from '../services/auth-api-service';
+import TokenService from '../services/token-service';
+import UserService from '../services/user-service';
 
 const UserContext = React.createContext({
   user: {},
@@ -11,7 +11,7 @@ const UserContext = React.createContext({
   setSettings: () => {},
   setUser: () => {},
   processLogin: () => {},
-  processLogout: () => {}
+  processLogout: () => {},
 });
 
 export default UserContext;
@@ -22,7 +22,7 @@ export class UserProvider extends React.Component {
     const state = {
       user: {},
       error: null,
-      settings: {}
+      settings: {},
     };
 
     const jwtPayload = TokenService.parseAuthToken();
@@ -31,7 +31,7 @@ export class UserProvider extends React.Component {
       state.user = {
         id: jwtPayload.user_id,
         name: jwtPayload.name,
-        username: jwtPayload.sub
+        username: jwtPayload.sub,
       };
     this.state = state;
   }
@@ -48,7 +48,7 @@ export class UserProvider extends React.Component {
           .then(settings => this.setSettings(settings[0]))
           .then(() => {
             const root = document.documentElement;
-            root.style.setProperty("--color-user", this.state.settings.color);
+            root.style.setProperty('--color-user', this.state.settings.color);
           });
       } else {
         this.processLogout(); //dead token, just log out to avoid trouble
@@ -61,7 +61,6 @@ export class UserProvider extends React.Component {
   }
 
   setError = error => {
-    console.error(error);
     this.setState({ error });
   };
 
@@ -83,13 +82,13 @@ export class UserProvider extends React.Component {
     this.setUser({
       id: jwtPayload.user_id,
       name: jwtPayload.name,
-      username: jwtPayload.sub
+      username: jwtPayload.sub,
     });
     UserService.getUserSettings()
       .then(settings => this.setSettings(settings[0]))
       .then(() => {
         const root = document.documentElement;
-        root.style.setProperty("--color-user", this.state.settings.color);
+        root.style.setProperty('--color-user', this.state.settings.color);
       });
     TokenService.queueCallbackBeforeExpiry(() => {
       this.fetchRefreshToken();
@@ -130,7 +129,7 @@ export class UserProvider extends React.Component {
       clearError: this.clearError,
       setUser: this.setUser,
       processLogin: this.processLogin,
-      processLogout: this.processLogout
+      processLogout: this.processLogout,
     };
     return (
       <UserContext.Provider value={value}>
