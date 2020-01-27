@@ -57,12 +57,11 @@ export default class LandingPage extends React.Component {
             href="#"
             alt="Sample Bookmarks"
           >
-            Download a sample
+            Download a sample bookmarks file
           </a>
         </p>
         <p>
-          You can choose to import this file into the app and begin organizing
-          :D
+          You import the above file into the app and begin organizing :D
         </p>
         <p>You can export it back into your browser when you are done.</p>
         <p>

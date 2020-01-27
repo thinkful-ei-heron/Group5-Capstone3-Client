@@ -41,7 +41,6 @@ export default class Search extends Component {
     } else {
       this.filteredArrHashedFlatBm = this.arrHashedFlatBm;
     }
-
     return (
       <>
         <h2>Search Results</h2>

@@ -219,7 +219,8 @@ export default class Toolbar extends Component {
               this.props.updateFinalSearch(
                 e,
                 this.state.search,
-                this.state.searchFilter
+                this.state.searchFilter,
+                this.state.filter
               )
             }
           >
