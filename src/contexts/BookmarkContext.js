@@ -1,10 +1,11 @@
 import React from "react";
+import defaultBookmarks from "../helpers/defaultBookmarks"
 
 const BookmarkContext = React.createContext();
 export default BookmarkContext;
 export class BookmarkContextProvider extends React.Component {
   state = {
-    bookmarks: null,
+    bookmarks: defaultBookmarks,
     flat: null,
     error: null,
     selectedNodes: [],
