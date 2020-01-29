@@ -17,7 +17,7 @@ body {
   overflow-y: hidden;
   background-color: var(--color-background);
   position: relative;
-  top: 32px;
+  top: 28px;
 }
 
 main {
@@ -109,6 +109,18 @@ input {
 
 @media only screen and (max-width: 499px) {
   .headerTitle {
-    display: none;
+    font-size: 20px;
+  }
+}
+
+@media only screen and (max-width: 399px) {
+  .headerTitle {
+    font-size: 18px;
+  }
+}
+
+@media only screen and (max-width: 375px) {
+  .headerTitle {
+    font-size: 14px;
   }
 }

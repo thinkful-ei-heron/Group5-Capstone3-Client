@@ -13,7 +13,7 @@ function Header() {
   };
 
   return (
-    <header>
+    <header className="header-section">
       <Link to={'/'}>
         <h1 className="headerTitle">Bookmark Organizer</h1>
       </Link>

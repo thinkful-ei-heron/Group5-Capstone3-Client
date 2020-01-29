@@ -2,12 +2,18 @@ header {
 	background-color: rgb(180, 180, 180);
 	display: flex;
 	justify-content: space-evenly;
-	padding: 6px;
+	padding: 4px;
 	border-bottom: 1px solid var(--color-border);;
 	position: fixed;
 	top: 0;
 	width: 100vw;
 	z-index: 5;
+	align-self: flex-end;
+}
+
+.header-section {
+	display:flex;
+	align-items: center;
 }
 
 h1 {
